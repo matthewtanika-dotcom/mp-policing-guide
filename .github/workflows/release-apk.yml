@@ -1,0 +1,63 @@
+name: Build and release APK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Copy web app into Capacitor project
+        run: |
+          mkdir -p capacitor-project/www
+          cp index.html manifest.json service-worker.js icon-192.png icon-512.png capacitor-project/www/
+
+      - name: Install Capacitor dependencies
+        working-directory: capacitor-project
+        run: npm install
+
+      - name: Add Android platform
+        working-directory: capacitor-project
+        run: npx cap add android
+
+      - name: Sync Capacitor
+        working-directory: capacitor-project
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: capacitor-project/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Rename APK for release
+        run: cp capacitor-project/android/app/build/outputs/apk/debug/app-debug.apk mp-policing-guide.apk
+
+      - name: Create GitHub Release with APK attached
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mp-policing-guide.apk
+          generate_release_notes: true
