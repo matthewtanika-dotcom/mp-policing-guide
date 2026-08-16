@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mp-policing-guide-v1';
+const CACHE_NAME = 'mp-policing-guide-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -9,9 +9,7 @@ const ASSETS = [
 
 self.addEventListener('install', function(event){
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache){
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then(function(cache){ return cache.addAll(ASSETS); })
   );
   self.skipWaiting();
 });
@@ -19,10 +17,7 @@ self.addEventListener('install', function(event){
 self.addEventListener('activate', function(event){
   event.waitUntil(
     caches.keys().then(function(names){
-      return Promise.all(
-        names.filter(function(n){ return n !== CACHE_NAME; })
-             .map(function(n){ return caches.delete(n); })
-      );
+      return Promise.all(names.filter(function(n){ return n !== CACHE_NAME; }).map(function(n){ return caches.delete(n); }));
     })
   );
   self.clients.claim();
@@ -34,14 +29,10 @@ self.addEventListener('fetch', function(event){
       if(cached) return cached;
       return fetch(event.request).then(function(response){
         return caches.open(CACHE_NAME).then(function(cache){
-          if(event.request.method === 'GET' && response.status === 200){
-            cache.put(event.request, response.clone());
-          }
+          if(event.request.method === 'GET' && response.status === 200){ cache.put(event.request, response.clone()); }
           return response;
         });
-      }).catch(function(){
-        return cached;
-      });
+      }).catch(function(){ return cached; });
     })
   );
 });

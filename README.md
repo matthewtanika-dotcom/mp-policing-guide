@@ -1,176 +1,122 @@
-# MP Policing Guide — by Majestiko
+# MP Policing Guide
 
-Service Police reference app: AFA 2006 offences, civilian offences,
-statement templates, SPCoP codes, safeguarding and MP Assistant
-search. Unofficial reference and training aid.
+Unofficial Service Police pocket reference and training aid: AFA 2006,
+civilian offences, Military Police powers, identification/VIPER,
+"I'm at a job" checklists, investigation, evidence, arrest & custody,
+checklists, safeguarding, and SPCoP/reference material. Not
+MOD-approved, not legal advice, not a replacement for current
+legislation, JSPs or SPCoP.
 
 This repo is set up so that:
-- **GitHub Pages** hosts the web app (installable to a phone home
-  screen, works offline).
-- **GitHub Actions** builds the actual Android **.apk** for you
-  automatically, on GitHub's own servers — no Android Studio needed
-  on your end unless you want to build locally too.
+- **GitHub Pages** hosts the web app (installable to a phone home screen, works offline).
+- **GitHub Actions** builds the actual Android **.apk** for you automatically, on GitHub's own servers.
 
-Everything below is copy-paste. Replace `YOUR-USERNAME` and
-`YOUR-REPO` with your actual GitHub username and the repo name you
-choose.
+Repository: https://github.com/matthewtanika-dotcom/mp-policing-guide
 
 ---
 
-## 1. Create the repository
+## 1. Upload these files to your repository
 
-On github.com, click **New repository**. Name it something like
-`mp-policing-guide`. Public or private both work (private repos can
-still use Pages and Actions on GitHub's free tier, though a private
-Pages site needs GitHub Pro/Enterprise — public is simplest if
-there's nothing sensitive in the app content).
-
-## 2. Push this project
-
-From inside this folder, in a terminal:
+Everything in this ZIP goes into the root of your existing repo,
+keeping the same folder structure:
 
 ```
-git init
-git add .
-git commit -m "Initial commit: MP Policing Guide"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO.git
-git push -u origin main
+mp-policing-guide/                 <- your repo root
+  index.html
+  manifest.json
+  service-worker.js
+  icon-192.png
+  icon-512.png
+  download.html
+  README.md
+  .gitignore
+  capacitor-project/
+    package.json
+    capacitor.config.json
+    BUILD_APK.txt
+  .github/
+    workflows/
+      build-debug-apk.yml
+      release-apk.yml
 ```
 
-## 3. Turn on GitHub Pages (hosts the web app)
+If you're uploading via the GitHub website: use **Add file → Upload
+files**, drag in everything except the `.github` folder (GitHub's
+upload box can't create folders starting with a dot), then add the two
+workflow files separately using **Add file → Create new file** and
+typing the full path (e.g. `.github/workflows/build-debug-apk.yml`),
+which auto-creates the folders.
 
-In your repo on GitHub: **Settings → Pages**.
-Under "Build and deployment", set **Source** to "Deploy from a
-branch", branch **main**, folder **/ (root)**. Save.
+## 2. Turn on GitHub Pages (if not already on)
 
-After a minute or two your app is live at:
+**Settings → Pages** → Source: "Deploy from a branch" → branch `main`
+→ folder `/ (root)` → Save.
 
-```
-https://YOUR-USERNAME.github.io/YOUR-REPO/
-```
+Live at: `https://matthewtanika-dotcom.github.io/mp-policing-guide/`
+Download page: `https://matthewtanika-dotcom.github.io/mp-policing-guide/download.html`
 
-and the download page at:
+## 3. Get the APK
 
-```
-https://YOUR-USERNAME.github.io/YOUR-REPO/download.html
-```
+Every push to `main` triggers **Build debug APK** automatically —
+check the **Actions** tab, open the run, download the
+`mp-policing-guide-debug-apk` artifact.
 
-That download.html link is what you'd share on WhatsApp — it has
-Open Graph tags so it shows a proper preview card instead of a bare
-URL.
+For the permanent download link already wired into `download.html`,
+create a release: go to **Releases** (right sidebar) → **Create a new
+release** → tag `v1.0.0` (or `v2.0.0` for this rebuild) → **Publish
+release**. The **Build and release APK** workflow runs automatically
+and attaches the APK. A minute or two later, the download link on
+`download.html` will work.
 
-## 4. Fix the two placeholder URLs in download.html
+## 4. Install it
 
-Open `download.html` and replace `YOUR-USERNAME` and `YOUR-REPO` in:
-- the two `og:image` / `twitter:image` meta tags
-- the "Download for Android" button link
+Open the download link on an Android phone, or transfer the .apk
+directly. You'll need to allow "install unknown apps" for whichever
+app you use to open it.
 
-Commit and push the change:
+## 5. Updating later
 
-```
-git add download.html
-git commit -m "Set live URLs in download page"
-git push
-```
-
-## 5. Get the actual APK
-
-Every push to `main` triggers **Build debug APK**
-(`.github/workflows/build-debug-apk.yml`) automatically. Watch it run
-under the **Actions** tab of your repo. When it finishes, open the
-run and download the `mp-policing-guide-debug-apk` artifact — that's
-a working APK, right now, built by GitHub's servers.
-
-For a **stable download link** (the one `download.html` uses), push a
-version tag instead — this triggers **Build and release APK**
-(`.github/workflows/release-apk.yml`), which builds the APK and
-attaches it to a proper GitHub Release:
-
-```
-git tag v1.0.0
-git push origin v1.0.0
-```
-
-Once that workflow finishes (Actions tab again), your APK is
-permanently available at:
-
-```
-https://github.com/YOUR-USERNAME/YOUR-REPO/releases/latest/download/mp-policing-guide.apk
-```
-
-which is exactly the link already wired into `download.html`.
-
-## 6. Install it
-
-On an Android phone, open the download link above (or transfer the
-.apk file directly) and open it. You'll need to allow "install
-unknown apps" for whichever app you use to open it — that's normal
-for any APK not from the Play Store.
-
-## 7. Updating the app later
-
-1. Edit `index.html` (or the other root files) as needed.
-2. Commit and push to `main` — GitHub Pages updates within a minute
-   or two, and a fresh debug APK builds automatically as a workflow
-   artifact.
-3. When you're happy with a version and want the public download link
-   to point at it, push a new tag:
-   ```
-   git tag v1.1.0
-   git push origin v1.1.0
-   ```
-   The Release workflow rebuilds the APK and updates the
-   `releases/latest` link automatically — `download.html` doesn't
-   need to change.
+Edit `index.html` (the single source of truth), commit and push to
+`main`. Pages updates within a minute or two; a fresh debug APK builds
+automatically. Push a new version tag when you want the public
+download link to point at the new build.
 
 ---
 
-## What each workflow actually does
+## What's in this rebuild
 
-Both workflows run on GitHub's own Ubuntu servers, which have real
-internet access and the Android SDK — this is what lets them build a
-genuine APK, which isn't possible in a sandboxed environment without
-network access.
+**Removed:** the AI Assistant tab, the statement/template section, all
+"by Majestiko" branding, and the old oversized warning box (replaced
+with a single small line under the app name).
 
-- **build-debug-apk.yml** — runs on every push to `main`. Good for
-  quickly checking a build works. The APK is attached as a workflow
-  artifact (visible under Actions → the run → Artifacts), which
-  requires being logged into GitHub to download and expires after 90
-  days.
-- **release-apk.yml** — runs when you push a tag like `v1.0.0`.
-  Produces the same APK but attaches it to a proper GitHub Release,
-  giving it a permanent, public, direct-download URL that doesn't
-  expire and doesn't require a GitHub login.
+**Restructured** around a 12-item operational hierarchy, reachable
+from the Home tab or the top tab bar: AFA 2006 → Civilian Offences →
+Military Police Powers → Identification/VIPER → I'm At A Job →
+Investigation → Evidence → Arrest & Custody → Checklists →
+Safeguarding → SPCoP/JSP/Reference → Search Everything. Favourites and
+Recently Viewed are on the Home tab, populated by the star icon on any
+card.
 
-Both produce a **debug-signed** APK — installable by anyone via
-sideloading, but not eligible for Play Store submission (that needs a
-proper release signing key; see `capacitor-project/BUILD_APK.txt` for
-that process if you want to go further later).
+**New icon**: a generic shield/badge design, not a copy of any
+official MOD/RMP crest or protected insignia.
 
-## Project structure
+## Content accuracy — what still needs your input
 
-```
-index.html            <- the app itself (single source of truth)
-manifest.json
-service-worker.js
-icon-192.png / icon-512.png
-download.html          <- WhatsApp-shareable landing page
-capacitor-project/     <- Android app shell (Capacitor)
-  package.json
-  capacitor.config.json
-  BUILD_APK.txt         <- instructions for building locally instead
-.github/workflows/      <- the two automated build pipelines above
-```
-
-`capacitor-project/www/` and `capacitor-project/android/` are not
-committed (see `.gitignore`) — both workflows, and the local build
-script (`npm run copy-web`), regenerate them from the root files each
-time, so the root files are always the one true source of truth.
+I did not invent legislation, powers, thresholds or procedures. Where
+verified public source material exists (the Armed Forces Act 2006
+itself, common civilian statutes, the general structure of the
+Service Police Codes of Practice), it's included as before. Several
+things you asked for rely on JSP 830 and other MOD-internal documents
+that are not publicly available to me, so I could not verify them —
+these are clearly marked **NEEDS VERIFICATION** throughout the app
+(mainly in Military Police Powers, and the JSP column generally) and
+left as placeholders rather than guessed at. The "Reference" tab has
+an add-your-own tool specifically so you can drop in verified extracts
+once you have them.
 
 ## Disclaimer
 
 Unofficial reference and training aid. Not affiliated with or
 endorsed by the MOD, RMP, RNP, RAFP or Defence Serious Crime Command.
-Always verify content against current official guidance before
-relying on it operationally.
+Always verify content against current legislation, JSPs, SPCoP and
+official guidance before relying on it operationally.

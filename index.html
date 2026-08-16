@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MP Policing Guide — Service Police Reference</title>
+<title>MP Policing Guide</title>
 <meta name="theme-color" content="#0A0A0A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,17 +16,9 @@
   @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
   :root{
-    --bg:#0A0A0A;
-    --bg2:#050505;
-    --panel:#161616;
-    --panel2:#1C1C1C;
-    --line:rgba(255,255,255,0.10);
-    --red:#C8102E;
-    --red-l:#F03A46;
-    --red-dark:#7A0D13;
-    --amber:#D8A13A;
-    --text:#F2F2F2;
-    --muted:#9A9A9A;
+    --bg:#0A0A0A; --bg2:#050505; --panel:#161616; --panel2:#1C1C1C;
+    --line:rgba(255,255,255,0.10); --red:#C8102E; --red-l:#F03A46; --red-dark:#7A0D13;
+    --amber:#D8A13A; --text:#F2F2F2; --muted:#9A9A9A; --gap:#4CAF50;
   }
   *{box-sizing:border-box;}
   body{
@@ -38,34 +30,28 @@
   .topbar{
     background:linear-gradient(180deg, var(--bg2), var(--bg));
     border-bottom:2px solid var(--red);
-    padding:16px 18px 0;
+    padding:14px 18px 0;
     position:sticky; top:0; z-index:20;
   }
-  .brand{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  .brand{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
   .crest{
-    width:36px; height:36px; border-radius:8px;
+    width:34px; height:34px; border-radius:8px;
     background:linear-gradient(135deg, var(--red), var(--red-dark));
     display:flex; align-items:center; justify-content:center;
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; color:#fff;
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; color:#fff;
     border:1px solid rgba(255,255,255,0.25);
   }
-  .brand-text .t1{ font-size:19px; font-weight:700; letter-spacing:0.5px; line-height:1.1; }
-  .brand-text .t2{ font-size:10.5px; color:var(--red-l); letter-spacing:1.5px; text-transform:uppercase; font-weight:600; }
+  .brand-text .t1{ font-size:18px; font-weight:700; letter-spacing:0.5px; line-height:1.1; }
+  .microdisclaimer{
+    font-size:10.5px; color:var(--muted); line-height:1.4; margin:0 0 10px 44px;
+  }
 
   .tabs{ display:flex; gap:2px; overflow-x:auto; padding-bottom:0; }
   .tab{
-    padding:10px 12px; font-size:12px; font-weight:600; color:var(--muted);
-    border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap;
-    letter-spacing:0.3px;
+    padding:9px 11px; font-size:11.5px; font-weight:600; color:var(--muted);
+    border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; letter-spacing:0.2px;
   }
   .tab.active{ color:#fff; border-color:var(--red); }
-
-  .disclaimer{
-    background:rgba(200,16,46,0.10); border:1px solid rgba(200,16,46,0.4);
-    color:#F5C9CE; font-size:12px; line-height:1.6; padding:12px 14px; border-radius:10px;
-    margin:14px 16px 0; display:flex; gap:10px; align-items:flex-start;
-  }
-  .disclaimer b{ color:#fff; }
 
   .wrap{ max-width:760px; margin:0 auto; padding:0 16px; }
   .panel-view{ display:none; padding-top:16px; }
@@ -84,24 +70,32 @@
   }
   .chip.active{ background:var(--red); border-color:var(--red); color:#fff; }
 
-  .card{
-    background:var(--panel); border:1px solid var(--line); border-radius:14px;
-    padding:16px; margin-bottom:12px;
-  }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
   .card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; cursor:pointer; }
-  .card-title{ font-size:16.5px; font-weight:600; line-height:1.35; }
+  .card-title{ font-size:16px; font-weight:600; line-height:1.35; }
   .card-sub{ font-size:12px; color:var(--red-l); margin-top:5px; font-weight:600; letter-spacing:0.3px; }
   .card-body{ display:none; margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
   .card.open .card-body{ display:block; }
   .chev{ color:var(--muted); font-size:18px; transition:.15s; }
   .card.open .chev{ transform:rotate(180deg); }
+  .headctrls{ display:flex; align-items:center; gap:4px; }
+  .fav-btn{ background:none; border:none; font-size:17px; cursor:pointer; color:var(--muted); padding:2px 4px; }
+  .fav-btn.faved{ color:var(--amber); }
+  .del-btn{ background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer; padding:2px 6px; }
+  .del-btn:hover{ color:var(--red-l); }
+  .custom-badge{
+    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:#fff;
+    background:var(--red); padding:2px 7px; border-radius:5px; margin-left:6px; vertical-align:middle;
+  }
+  .verify-badge{
+    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:#241a05;
+    background:var(--amber); padding:2px 7px; border-radius:5px; margin-left:6px; vertical-align:middle;
+  }
 
   .cl-title{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:12px 0 6px; }
   .cl-title:first-child{ margin-top:0; }
   ul.cl{ margin:0; padding:0; list-style:none; }
-  ul.cl li{
-    display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:13.5px; line-height:1.5; cursor:pointer;
-  }
+  ul.cl li{ display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:13.5px; line-height:1.5; cursor:pointer; }
   ul.cl li::before{
     content:''; width:16px; height:16px; margin-top:2px; border-radius:5px; flex:none;
     border:1.5px solid var(--muted); background:transparent;
@@ -117,10 +111,10 @@
     background:rgba(255,255,255,0.035); border-left:3px solid var(--red); border-radius:6px; margin-bottom:4px;
   }
   .note{ font-size:12px; color:var(--muted); line-height:1.6; margin-top:10px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px; }
-  .script{
-    font-size:13.5px; line-height:1.7; padding:12px 14px; background:rgba(255,255,255,0.04);
-    border-left:3px solid var(--red-l); border-radius:6px; margin-top:8px; font-style:italic;
-  }
+  .field-row{ margin-bottom:10px; }
+  .field-label{ font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--red-l); font-weight:700; margin-bottom:3px; }
+  .field-val{ font-size:13.5px; line-height:1.6; color:#DADADA; }
+  .field-val.needverify{ color:var(--amber); font-style:italic; }
 
   .sg-card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
   .sg-name{ font-size:16px; font-weight:700; margin-bottom:3px; }
@@ -137,25 +131,14 @@
     width:100%; min-height:110px; background:rgba(255,255,255,0.03); border:1px solid var(--line);
     border-radius:8px; color:var(--text); font-family:'Inter',sans-serif; font-size:12.5px; padding:10px; resize:vertical;
   }
-  .copy-btn{
-    margin-top:8px; padding:9px 14px; border-radius:8px; border:none; background:var(--red);
-    color:#fff; font-weight:600; font-size:12.5px; cursor:pointer;
-  }
-
-  .section-h{ font-size:22px; font-weight:600; margin:4px 0 4px; }
-  .section-p{ font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.6; }
-  .errbox{ display:none; background:#3a1113; border:1px solid #7a2126; color:#ffc9cc; padding:12px; border-radius:10px; font-size:12.5px; margin-bottom:14px; }
+  .copy-btn{ margin-top:8px; padding:9px 14px; border-radius:8px; border:none; background:var(--red); color:#fff; font-weight:600; font-size:12.5px; cursor:pointer; }
 
   .add-btn{
     display:block; width:100%; padding:10px; margin-bottom:14px; border-radius:10px;
-    border:1px dashed var(--line); background:transparent; color:var(--red-l);
-    font-size:13px; font-weight:600; cursor:pointer;
+    border:1px dashed var(--line); background:transparent; color:var(--red-l); font-size:13px; font-weight:600; cursor:pointer;
   }
   .add-btn:hover{ border-color:var(--red); background:rgba(200,16,46,0.06); }
-  .add-form{
-    display:none; background:var(--panel2); border:1px solid var(--line); border-radius:14px;
-    padding:16px; margin-bottom:16px;
-  }
+  .add-form{ display:none; background:var(--panel2); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
   .add-form.open{ display:block; }
   .add-form label{ display:block; font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:10px 0 5px; }
   .add-form label:first-child{ margin-top:0; }
@@ -166,25 +149,13 @@
   .add-form textarea{ min-height:70px; resize:vertical; }
   .add-form input:focus, .add-form textarea:focus{ border-color:var(--red-l); }
   .add-form .form-btns{ display:flex; gap:8px; margin-top:14px; }
-  .add-form .form-btns button{
-    flex:1; padding:11px; border-radius:8px; border:none; font-weight:600; font-size:13px; cursor:pointer;
-  }
+  .add-form .form-btns button{ flex:1; padding:11px; border-radius:8px; border:none; font-weight:600; font-size:13px; cursor:pointer; }
   .form-save{ background:var(--red); color:#fff; }
   .form-cancel{ background:rgba(255,255,255,0.06); color:var(--muted); }
-  .custom-badge{
-    font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:#fff;
-    background:var(--red); padding:2px 7px; border-radius:5px; margin-left:6px; vertical-align:middle;
-  }
-  .del-btn{
-    background:none; border:none; color:var(--muted); font-size:16px; cursor:pointer; padding:2px 6px;
-  }
-  .del-btn:hover{ color:var(--red-l); }
 
-  .tpl-purpose{ font-size:12px; color:var(--red-l); font-weight:600; margin-top:10px; letter-spacing:0.3px; }
-  .tpl-body{
-    font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12.5px; line-height:1.6; white-space:pre-wrap;
-    background:rgba(255,255,255,0.03); border:1px solid var(--line); border-radius:8px; padding:12px; margin-top:6px;
-  }
+  .section-h{ font-size:21px; font-weight:600; margin:4px 0 4px; }
+  .section-p{ font-size:12.5px; color:var(--muted); margin-bottom:14px; line-height:1.6; }
+  .errbox{ display:none; background:#3a1113; border:1px solid #7a2126; color:#ffc9cc; padding:12px; border-radius:10px; font-size:12.5px; margin-bottom:14px; }
 
   .databar{
     display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between;
@@ -192,45 +163,32 @@
   }
   .databar-text{ font-size:11.5px; color:var(--muted); line-height:1.5; flex:1; min-width:180px; }
   .databar-btns{ display:flex; gap:8px; }
-  .db-btn{
-    padding:8px 12px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,0.04);
-    color:var(--text); font-size:12px; cursor:pointer;
-  }
+  .db-btn{ padding:8px 12px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,0.04); color:var(--text); font-size:12px; cursor:pointer; }
   .db-btn:hover{ border-color:var(--red-l); }
 
-  .assist-hero{
-    background:linear-gradient(160deg, var(--panel2), var(--panel)); border:1px solid var(--line); border-radius:16px;
-    padding:18px; margin-bottom:16px;
+  /* HOME */
+  .home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px; }
+  .home-tile{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 12px;
+    cursor:pointer; display:flex; flex-direction:column; gap:6px;
   }
-  .assist-disclaimer{
-    font-size:11.5px; color:var(--muted); line-height:1.6; padding:10px 12px; background:rgba(255,255,255,0.03);
-    border-radius:8px; margin-bottom:14px;
+  .home-tile:hover{ border-color:var(--red-l); }
+  .home-tile .num{ font-size:11px; color:var(--red-l); font-weight:700; }
+  .home-tile .lbl{ font-size:14.5px; font-weight:700; line-height:1.25; }
+  .quick-row{ display:flex; gap:8px; overflow-x:auto; margin-bottom:22px; }
+  .quick-pill{
+    flex:none; padding:9px 14px; border-radius:20px; background:var(--panel); border:1px solid var(--line);
+    font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap;
   }
-  .quick-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
-  .quick-tile{
-    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 12px;
-    text-align:center; cursor:pointer; font-size:12.5px; font-weight:600; color:var(--text);
+  .quick-pill:hover{ border-color:var(--red-l); }
+  .home-sub{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:20px 0 10px; font-weight:700; }
+  .empty-row{ font-size:12.5px; color:var(--muted); padding:8px 0; }
+  .recent-item, .fav-item{
+    display:flex; justify-content:space-between; align-items:center; background:var(--panel); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; margin-bottom:8px; cursor:pointer; font-size:13.5px;
   }
-  .quick-tile:hover{ border-color:var(--red-l); }
-  .quick-tile .em{ font-size:22px; display:block; margin-bottom:6px; }
-  .assist-input-row{ display:flex; gap:8px; margin-bottom:16px; }
-  .assist-input-row input{
-    flex:1; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
-    background:var(--panel); color:var(--text); font-size:14px; outline:none;
-  }
-  .assist-input-row input:focus{ border-color:var(--red-l); }
-  .assist-input-row button{
-    padding:0 18px; border-radius:10px; border:none; background:var(--red); color:#fff; font-weight:600; cursor:pointer;
-  }
-  .assist-results{ display:flex; flex-direction:column; gap:10px; }
-  .assist-result-card{
-    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; cursor:pointer;
-  }
-  .assist-result-card:hover{ border-color:var(--red-l); }
-  .assist-result-tag{ font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--red-l); font-weight:700; margin-bottom:4px; }
-  .assist-result-title{ font-size:14.5px; font-weight:600; margin-bottom:3px; }
-  .assist-result-snippet{ font-size:12px; color:var(--muted); line-height:1.5; }
-  .assist-empty{ font-size:13px; color:var(--muted); text-align:center; padding:24px 10px; }
+  .recent-item:hover, .fav-item:hover{ border-color:var(--red-l); }
+  .recent-item .tag, .fav-item .tag{ font-size:10px; color:var(--red-l); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
 
   footer{ text-align:center; font-size:11px; color:var(--muted); padding:30px 20px 0; line-height:1.7; }
 </style>
@@ -240,63 +198,55 @@
 <div class="topbar">
   <div class="brand">
     <div class="crest">MP</div>
-    <div class="brand-text">
-      <div class="t1">MP Policing Guide</div>
-      <div class="t2">by Majestiko</div>
-    </div>
+    <div class="brand-text"><div class="t1">MP Policing Guide</div></div>
   </div>
+  <div class="microdisclaimer">Unofficial reference and training aid. Verify current legislation, JSPs, SPCoP and official guidance before relying on this operationally.</div>
   <div class="tabs" id="tabs">
-    <div class="tab" data-tab="assistant">MP Assistant</div>
-    <div class="tab active" data-tab="afa">AFA 06</div>
+    <div class="tab active" data-tab="home">Home</div>
+    <div class="tab" data-tab="afa">AFA 2006</div>
     <div class="tab" data-tab="civ">Civilian Offences</div>
-    <div class="tab" data-tab="templates">Templates</div>
-    <div class="tab" data-tab="da">Domestic Abuse</div>
-    <div class="tab" data-tab="arrest">Arrest &amp; Rights</div>
-    <div class="tab" data-tab="spcop">SPCoP Codes</div>
+    <div class="tab" data-tab="powers">MP Powers</div>
+    <div class="tab" data-tab="ident">Identification</div>
+    <div class="tab" data-tab="job">I'm At A Job</div>
+    <div class="tab" data-tab="invest">Investigation</div>
+    <div class="tab" data-tab="evidence">Evidence</div>
+    <div class="tab" data-tab="arrest">Arrest &amp; Custody</div>
+    <div class="tab" data-tab="checklists">Checklists</div>
     <div class="tab" data-tab="safeguard">Safeguarding</div>
-    <div class="tab" data-tab="victim">Victim Care</div>
+    <div class="tab" data-tab="reference">Reference</div>
+    <div class="tab" data-tab="search">Search</div>
   </div>
-</div>
-
-<div class="disclaimer">
-  <span>Warning</span>
-  <div><b>Unofficial reference tool.</b> Built from publicly available summaries of the Armed Forces Act 2006, the Service Police Codes of Practice and MOD/charity signposting information. It is a checklist and definition aid only, not a substitute for the current SPCoP, JSP 839, JSP 913, the Manual of Service Law, current civilian charging standards, or advice from Service Prosecuting or Legal Services. Verify every section number, definition, caution wording and contact detail against the in-date official source, and follow your own force SOPs.</div>
 </div>
 
 <div class="wrap">
 
-  <!-- MP ASSISTANT -->
-  <div class="panel-view" id="view-assistant">
-    <div class="assist-hero">
-      <div class="section-h" style="margin-bottom:6px;">MP Assistant</div>
-      <div class="section-p" style="margin-bottom:0;">Searches the offences, templates, checklists and safeguarding content already in this app and surfaces the most relevant entries. It does not generate new legal content and will not invent anything not already in the guide.</div>
+  <!-- HOME -->
+  <div class="panel-view active" id="view-home">
+    <div class="errbox" id="jsErrBox"></div>
+    <div class="quick-row">
+      <div class="quick-pill" data-goto="search">Search</div>
+      <div class="quick-pill" data-goto="afa">AFA 2006</div>
+      <div class="quick-pill" data-goto="civ">Civilian Offences</div>
+      <div class="quick-pill" data-goto="powers">Search Powers</div>
+      <div class="quick-pill" data-goto="ident">Identification</div>
+      <div class="quick-pill" data-goto="job">I'm At A Job</div>
+      <div class="quick-pill" data-goto="arrest">Arrest</div>
+      <div class="quick-pill" data-goto="evidence">Evidence</div>
+      <div class="quick-pill" data-goto="checklists">Checklists</div>
     </div>
-    <div class="assist-disclaimer">This is local search over the app's own reference content, not a connected AI model — it works fully offline and never sends anything you type off this device. It cannot search the live web. Always verify anything operationally important against the current authoritative source.</div>
+    <div class="home-grid" id="homeGrid"></div>
 
-    <div class="quick-grid" id="quickGrid">
-      <div class="quick-tile" data-q="arrest"><span class="em">🚔</span>Arrest guidance</div>
-      <div class="quick-tile" data-q="exhibit"><span class="em">📦</span>Exhibit &amp; continuity</div>
-      <div class="quick-tile" data-q="statement"><span class="em">📝</span>Statement templates</div>
-      <div class="quick-tile" data-q="interview"><span class="em">🎙️</span>Interview guidance</div>
-      <div class="quick-tile" data-q="domestic abuse"><span class="em">🛡️</span>Safeguarding &amp; DA</div>
-      <div class="quick-tile" data-q="checklist"><span class="em">📋</span>All checklists</div>
-    </div>
+    <div class="home-sub">My Favourites</div>
+    <div id="favList"></div>
 
-    <div class="assist-input-row">
-      <input type="text" id="assistInput" placeholder="Ask e.g. what should I check before arrest">
-      <button id="assistGoBtn">Search</button>
-    </div>
-
-    <div class="assist-results" id="assistResults">
-      <div class="assist-empty">Type a question, or tap a quick action above, to search everything in this app at once.</div>
-    </div>
+    <div class="home-sub">Recently Viewed</div>
+    <div id="recentList"></div>
   </div>
 
   <!-- AFA 2006 -->
-  <div class="panel-view active" id="view-afa">
+  <div class="panel-view" id="view-afa">
     <div class="section-h">Armed Forces Act 2006 — Part 1 offences</div>
-    <div class="section-p">Service disciplinary offences under AFA 2006. Each entry has a plain-language definition and an investigation checklist.</div>
-    <div class="errbox" id="jsErrBox"></div>
+    <div class="section-p">Service disciplinary offences under AFA 2006. Definition, then what to establish, then an investigation checklist and evidence to consider.</div>
     <input class="search" id="afaSearch" placeholder="Search AFA offences or section numbers">
     <div class="chipbar" id="afaChips"></div>
     <button class="add-btn" id="afaAddToggle">+ Add your own offence</button>
@@ -307,7 +257,7 @@
   <!-- CIVILIAN OFFENCES -->
   <div class="panel-view" id="view-civ">
     <div class="section-h">Civilian offences (applied via s.42)</div>
-    <div class="section-p">Common civilian offences under the law of England and Wales, which become service offences for persons subject to service law via section 42 AFA 2006 (criminal conduct). Not exhaustive — check current CPS charging standards for elements and thresholds.</div>
+    <div class="section-p">Common civilian offences under the law of England and Wales, which become service offences via section 42 AFA 2006. Not exhaustive — check current CPS charging standards for elements and thresholds.</div>
     <input class="search" id="civSearch" placeholder="Search civilian offences, e.g. assault, theft, stalking">
     <div class="chipbar" id="civChips"></div>
     <button class="add-btn" id="civAddToggle">+ Add your own offence</button>
@@ -315,146 +265,132 @@
     <div id="civList"></div>
   </div>
 
-  <!-- TEMPLATES -->
-  <div class="panel-view" id="view-templates">
-    <div class="section-h">Statement &amp; paperwork templates</div>
-    <div class="section-p">Example structures for common documents — arrest statement, interview record, exhibit continuity and witness statement. These are generic examples to guide format and content, not the official form itself. Copy into your force system and adapt.</div>
-    <input class="search" id="tplSearch" placeholder="Search templates, e.g. interview, exhibit, witness">
-    <div class="chipbar" id="tplChips"></div>
-    <button class="add-btn" id="tplAddToggle">+ Add your own template</button>
-    <div class="add-form" id="tplAddForm"></div>
-    <div id="tplList"></div>
+  <!-- MP POWERS -->
+  <div class="panel-view" id="view-powers">
+    <div class="section-h">Military Police powers</div>
+    <div class="section-p">Stop/search, entry, seizure and retention powers, kept separate from individual offences so you can find the power itself quickly. Fields marked <b style="color:var(--amber)">NEEDS VERIFICATION</b> are not something this app can confirm — check your current JSP 830 / SPCoP before relying on them.</div>
+    <input class="search" id="powersSearch" placeholder="Search powers, e.g. search, seizure, retention">
+    <div id="powersList"></div>
   </div>
 
-  <!-- DOMESTIC ABUSE -->
-  <div class="panel-view" id="view-da">
-    <div class="section-h">Domestic abuse — first response</div>
-    <div class="section-p">Checklists for attending a domestic abuse incident, from arrival on scene through to referral. Use alongside JSP 913, your force domestic abuse policy, and a current DASH-style risk assessment tool.</div>
+  <!-- IDENTIFICATION -->
+  <div class="panel-view" id="view-ident">
+    <div class="section-h">Identification / VIPER</div>
+    <div class="section-p">General identification-procedure principles. Service Police Code D may differ from civilian PACE Code D in its exact requirements — items here are general practice, flagged where the exact current SPCoP Code D wording needs checking locally.</div>
+    <input class="search" id="identSearch" placeholder="Search identification procedures">
+    <div id="identList"></div>
+  </div>
 
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Arrival and scene safety</div></div>
-      <div class="card-body"><ul class="cl" id="cl-da-arrival"></ul></div>
-    </div>
+  <!-- I'M AT A JOB -->
+  <div class="panel-view" id="view-job">
+    <div class="section-h">I'm at a job</div>
+    <div class="section-p">Pick what you're dealing with for a structured operational checklist across safety, victim, suspect, powers, scene, evidence, witnesses, identification, safeguarding, investigation, recording and further enquiries.</div>
+    <div class="chipbar" id="jobChips"></div>
+    <div id="jobList"></div>
+  </div>
 
+  <!-- INVESTIGATION -->
+  <div class="panel-view" id="view-invest">
+    <div class="section-h">Investigation</div>
+    <div class="section-p">Pick an offence to jump to its points to prove and evidence checklist, then use the case file check below before moving the case on.</div>
+    <input class="search" id="investSearch" placeholder="Search offences to start an investigation">
+    <div id="investList"></div>
+    <div class="home-sub">Case file check</div>
     <div class="card open">
-      <div class="card-head"><div class="card-title">Initial risk identification</div></div>
-      <div class="card-body">
-        <div class="note">Ask directly about strangulation or choking, escalation in frequency or severity, pregnancy, separation, and any use or threat of weapons — these are recognised high-risk indicators. Use your current DASH or equivalent risk tool to formally record the assessment.</div>
-        <ul class="cl" id="cl-da-risk"></ul>
-      </div>
-    </div>
-
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Evidence capture</div></div>
-      <div class="card-body"><ul class="cl" id="cl-da-evidence"></ul></div>
-    </div>
-
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Children and dependants in the household</div></div>
-      <div class="card-body"><ul class="cl" id="cl-da-children"></ul></div>
-    </div>
-
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Suspect handling</div></div>
-      <div class="card-body"><ul class="cl" id="cl-da-suspect"></ul></div>
-    </div>
-
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Referral and follow-up</div></div>
-      <div class="card-body"><ul class="cl" id="cl-da-referral"></ul></div>
+      <div class="card-head"><div class="card-title">Potential gaps to consider</div></div>
+      <div class="card-body"><ul class="cl" id="cl-casefile"></ul></div>
     </div>
   </div>
 
-  <!-- ARREST & RIGHTS -->
+  <!-- EVIDENCE -->
+  <div class="panel-view" id="view-evidence">
+    <div class="section-h">Evidence</div>
+    <div class="section-p">By evidence type: what to consider, preserve, record, and how continuity and disclosure apply.</div>
+    <div id="evidenceList"></div>
+  </div>
+
+  <!-- ARREST & CUSTODY -->
   <div class="panel-view" id="view-arrest">
-    <div class="section-h">Section 67 arrest — what you must cover</div>
-    <div class="section-p">Section 67 AFA 2006 is the main service power of arrest for a service offence. Use this alongside SPCoP Code G (arrest) and Code C (detention, treatment and questioning). Wording below is a plain-language prompt, not the verbatim legal caution — confirm the exact current wording in Code C before using it operationally.</div>
+    <div class="section-h">Arrest &amp; custody</div>
+    <div class="section-p"><b>Power to arrest:</b> section 67 AFA 2006 is the main service power of arrest for a service offence. <b>Necessity / procedural requirements:</b> SPCoP Code G (arrest) and Code C (detention, treatment and questioning) govern how that power must be used. The two are kept separate below. Wording here is a plain-language prompt, not the verbatim legal caution — confirm exact current wording in Code C before using it operationally.</div>
 
+    <div class="cl-title" style="margin-top:0;">Power to arrest — necessity</div>
     <div class="card open">
-      <div class="card-head"><div class="card-title">Before you arrest — necessity</div></div>
+      <div class="card-head"><div class="card-title">Before you arrest</div></div>
       <div class="card-body"><ul class="cl" id="cl-necessity"></ul></div>
     </div>
 
+    <div class="cl-title">Necessity / procedural requirements</div>
     <div class="card open">
       <div class="card-head"><div class="card-title">At the point of arrest — legally required disclosures</div></div>
       <div class="card-body">
         <div class="note">Under Code G, at the time of arrest (or as soon as practicable after) you must make clear to the person: the fact that they are under arrest, and the grounds and reason for the arrest, even if these seem obvious. Failure to do this may make the arrest unlawful.</div>
         <ul class="cl" id="cl-atarrest"></ul>
-        <div class="cl-title">Plain-language prompt (confirm exact wording locally)</div>
-        <div class="script">"I am arresting you under section 67 of the Armed Forces Act 2006 on suspicion of [offence]. This is because [grounds]. You do not have to say anything, but it may harm your defence if you do not mention, when questioned, something you later rely on. Anything you do say may be given in evidence."</div>
       </div>
     </div>
-
     <div class="card open">
       <div class="card-head"><div class="card-title">On arrival at service custody — entitlements to explain</div></div>
       <div class="card-body"><ul class="cl" id="cl-custody"></ul></div>
     </div>
-
     <div class="card open">
       <div class="card-head"><div class="card-title">Time limits and reviews</div></div>
       <div class="card-body">
-        <div class="note">Section 98 AFA 2006: a person arrested under section 67 must not be kept in service custody without charge except in accordance with the further provisions of the Act. If grounds for continued custody cease to apply, the commanding officer must order immediate release unless the person appears to have been unlawfully at large when arrested. Confirm current review periods and authorisation levels with your custody officer/SOPs.</div>
+        <div class="note">Section 98 AFA 2006: a person arrested under section 67 must not be kept in service custody without charge except in accordance with the further provisions of the Act. Confirm current review periods and authorisation levels with your custody officer/SOPs.</div>
         <ul class="cl" id="cl-timelimits"></ul>
       </div>
     </div>
-
     <div class="card open">
       <div class="card-head"><div class="card-title">Vulnerable suspects</div></div>
       <div class="card-body"><ul class="cl" id="cl-vulnerable"></ul></div>
     </div>
   </div>
 
-  <!-- SPCOP -->
-  <div class="panel-view" id="view-spcop">
-    <div class="section-h">Service Police Codes of Practice</div>
-    <div class="section-p">Codes A to G, issued under section 113 PACE 1984 for powers under Part 3 AFA 2006. Summarised in plain language — confirm against the current published SPCoP edition before relying on any threshold stated here.</div>
-    <input class="search" id="spcopSearch" placeholder="Search codes, e.g. search, detention, arrest">
-    <div class="chipbar" id="spcopChips"></div>
-    <div id="spcopList"></div>
+  <!-- CHECKLISTS -->
+  <div class="panel-view" id="view-checklists">
+    <div class="section-h">Checklists</div>
+    <div class="section-p">Every checklist in the app, in one searchable place, plus general ones below.</div>
+    <input class="search" id="checklistSearch" placeholder="Search checklists">
+    <div id="checklistHubList"></div>
   </div>
 
   <!-- SAFEGUARDING -->
   <div class="panel-view" id="view-safeguard">
     <div class="section-h">Safeguarding and signposting</div>
-    <div class="section-p">Have these ready before speaking to a victim. Filter by concern type. Each card has a one-tap call/WhatsApp link where a number is available.</div>
+    <div class="section-p">Have these ready before speaking to a victim. Filter by concern type. Each card has a one-tap call/WhatsApp link where a number is available. See also the Domestic abuse checklist under Checklists, and job-specific prompts under I'm At A Job.</div>
     <div class="chipbar" id="sgChips"></div>
     <div id="sgList"></div>
   </div>
 
-  <!-- VICTIM CARE -->
-  <div class="panel-view" id="view-victim">
-    <div class="section-h">First contact — victim and witness checklist</div>
-    <div class="section-p">Prompts aligned to the Code of Practice for Victims of Crime in the Service Justice System (JSP 839) enhanced-entitlement categories. Use alongside your unit victim care SOPs.</div>
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Immediate safety and welfare</div></div>
-      <div class="card-body"><ul class="cl" id="cl-safety"></ul></div>
+  <!-- REFERENCE -->
+  <div class="panel-view" id="view-reference">
+    <div class="section-h">SPCoP / JSP / reference</div>
+    <div class="section-p">Codes A to G, issued under section 113 PACE 1984 for powers under Part 3 AFA 2006, summarised in plain language — confirm against the current published SPCoP edition. JSP 830 is not a public document, so no JSP content is included by default; add verified extracts yourself below.</div>
+    <input class="search" id="spcopSearch" placeholder="Search codes, e.g. search, detention, arrest">
+    <div class="chipbar" id="spcopChips"></div>
+    <div id="spcopList"></div>
+    <div class="home-sub">Your reference library</div>
+    <div class="note" style="margin-bottom:14px;">Add verified extracts from JSP 830 or other current orders here — this app does not include any by default, since these are not public documents.</div>
+    <button class="add-btn" id="refAddToggle">+ Add a reference entry</button>
+    <div class="add-form" id="refAddForm"></div>
+    <div id="refList"></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="panel-view" id="view-search">
+    <div class="section-h">Search everything</div>
+    <div class="section-p">Searches offences, powers, identification procedures, checklists, safeguarding and reference content already in this app. This is plain local search, not a connected AI, and it does not access the internet.</div>
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+      <input type="text" id="globalSearchInput" class="search" style="margin-bottom:0;" placeholder="e.g. section 69, assault, retention, VIPER">
+      <button id="globalSearchBtn" style="padding:0 18px; border-radius:10px; border:none; background:var(--red); color:#fff; font-weight:600; cursor:pointer;">Go</button>
     </div>
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Identify enhanced entitlement status</div></div>
-      <div class="card-body">
-        <div class="note">A victim may qualify for an enhanced service if they are: persistently targeted (repeat victimisation, harassment, stalking); intimidated (quality of evidence may be affected by suspect or family behaviour, or by religious or cultural factors); or vulnerable (under 18, mental health condition, physical disability, learning difficulty or social impairment). Flag any that apply and notify the Victim Witness Care Unit.</div>
-      </div>
-    </div>
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Referral and signposting actions</div></div>
-      <div class="card-body"><ul class="cl" id="cl-referral"></ul></div>
-    </div>
-    <div class="card open">
-      <div class="card-head"><div class="card-title">Case note — copy block</div></div>
-      <div class="card-body">
-        <div class="copybox">
-          <textarea id="caseNotes" readonly></textarea>
-          <button class="copy-btn" id="copyNotesBtn">Copy to clipboard</button>
-        </div>
-      </div>
-    </div>
+    <div id="globalSearchResults"></div>
   </div>
 
 </div>
 
 <div class="wrap">
   <div class="databar">
-    <div class="databar-text">Anything you add yourself is saved on this device only, and survives reloads and updates to this file. Back it up regularly.</div>
+    <div class="databar-text">Anything you add yourself is saved on this device only, and survives reloads. Back it up regularly.</div>
     <div class="databar-btns">
       <button class="db-btn" id="exportBtn">Export my additions</button>
       <button class="db-btn" id="importBtn">Import backup</button>
@@ -463,15 +399,9 @@
   </div>
 </div>
 
-<footer>MP Policing Guide is an unofficial field reference. Not affiliated with the MOD, RMP, RNP, RAFP or Defence Serious Crime Command.<br>Verify all content against current official guidance.</footer>
+<footer>MP Policing Guide is an unofficial field reference and training aid. Not affiliated with or endorsed by the MOD, RMP, RNP, RAFP or Defence Serious Crime Command.<br>Always verify content against current legislation, JSPs, SPCoP and official guidance before relying on it operationally.</footer>
 
 <script>
-window.addEventListener('error', function(e){
-  var box = document.getElementById('jsErrBox');
-  if(box){ box.style.display='block'; box.textContent = 'A script error occurred: ' + e.message; }
-});
-
-/* ===================== AFA 2006 OFFENCES ===================== */
 var AFA = [
   { cat:'Operations', title:'Assisting an enemy', ref:'AFA 2006 s.1',
     def:'Covers conduct that assists an enemy, including surrendering, giving up a position that should have been defended, or otherwise aiding the enemy, without lawful excuse.',
@@ -571,7 +501,7 @@ var AFA = [
     checklist:['Obtain radar or track data and authorised low-flying area details','Interview crew and any ground witnesses'] }
 ];
 
-/* ===================== CIVILIAN OFFENCES (via s.42) ===================== */
+
 var CIV = [
   { cat:'Violence', title:'Common assault', ref:'Criminal Justice Act 1988 s.39',
     def:'Intentionally or recklessly applying unlawful force to another person, or causing another person to apprehend immediate unlawful force. Summary-only offence at common law level.',
@@ -785,7 +715,7 @@ var CIV = [
     checklist:['Treat any disclosure or suspicion as a child or adult safeguarding matter and act without delay','Consider a referral to British Forces Social Work Service and, in the UK, to the relevant civilian safeguarding lead','Be aware of mandatory reporting duties that may apply to regulated professionals who identify FGM in a girl under 18','Avoid contacting family members to verify the account before a safeguarding assessment has been completed'] }
 ];
 
-/* ===================== SPCoP CODES ===================== */
+
 var SPCOP = [
   { code:'Code A', title:'Stop and search',
     body:'Criteria for exercising the power of stop and search under section 75 AFA 2006, including Misuse of Drugs Act and other prescribed grounds.',
@@ -869,7 +799,7 @@ var SPCOP = [
     checklist:['Necessity, confirm arrest is necessary and record why other options were not sufficient','Grounds for suspicion clearly articulated and recorded','Caution given at the point of arrest','Reason for arrest explained in terms the person understands','Notify custody as soon as practicable after arrest'] }
 ];
 
-/* ===================== SAFEGUARDING ===================== */
+
 var SAFEGUARD = [
   { cat:'Domestic Abuse / Sexual Violence / Stalking', name:'Aurora New Dawn — Armed Forces Helpline', role:'Independent, confidential support for domestic abuse, sexual violence and stalking. For serving personnel, reservists, veterans and family members, UK and overseas. Not a 24/7 emergency line.', phone:'0333 091 2527', note:'Also available via WhatsApp on the same number.' },
   { cat:'Domestic Abuse / Sexual Violence / Stalking', name:'Defence Victim Witness Care Unit (VWCU)', role:'Central point of contact, independent of the single-Service chains of command, for victims and witnesses of serious crime committed by persons subject to service law. Provides enhanced entitlement support under the JSP 839 code of practice.', phone:'07974 074259', note:'Staffed 8am to 4pm Monday to Thursday, 8am to 3.30pm Friday, excluding public and stand-down days. Confirm current hours.' },
@@ -884,27 +814,6 @@ var SAFEGUARD = [
   { cat:'General Victim Support', name:'Victim Support', role:'Independent charity offering practical and emotional support to victims of crime, free and confidential.', phone:'0808 168 9111', note:'Also offers live chat via their website.' }
 ];
 
-/* ===================== STATEMENT & PAPERWORK TEMPLATES ===================== */
-var TEMPLATES = [
-  { cat:'Arrest', title:'Arrest statement / pocket notebook entry',
-    guidance:'Purpose: a first-person, contemporaneous account of an arrest, written as soon as possible after the event. What to record: your identification, the exact grounds and words used, the caution, the suspect response, force used, and the handover to custody. Common mistakes: paraphrasing the caution instead of quoting it, forgetting to record the exact time, and omitting the suspect\u2019s reply even when they said nothing (record "made no reply").',
-    body:'STATEMENT OF [RANK, NAME, SERVICE NUMBER]\n\nThis statement (consisting of ONE page signed by me) is true to the best of my knowledge and belief, and I make it knowing that if it is tendered in evidence I shall be liable to prosecution if I state in it anything I know to be false or do not believe to be true.\n\nSigned: ______________  Date: ______________\n\nOn [date] at approximately [time] hours, I was on duty at/in [location] when [describe how you came to be involved — what you saw, heard, or were told].\n\nAt [time] hours I approached [name/description of person] and identified myself as [rank/role]. I arrested [name] under section 67 of the Armed Forces Act 2006 on suspicion of [offence]. I informed [him/her/them] that they were under arrest and told them this was because [state the grounds in plain terms]. I cautioned [him/her/them]: "You do not have to say anything, but it may harm your defence if you do not mention, when questioned, something you later rely on. Anything you do say may be given in evidence." [He/She/They] replied: "[record exact words, or write \u2018made no reply\u2019]."\n\n[Continue chronologically: any force used and why, any injuries, any property seized at this point, who else was present, and the time the person was handed into custody or notified to the custody officer.]\n\nSigned: ______________' },
-  { cat:'Interview', title:'Interview record — opening declaration',
-    guidance:'Purpose: the fixed opening sequence at the start of every recorded interview, so the recording is admissible and the suspect\u2019s rights are demonstrably protected. What to record: date, time, location, everyone present, the legal advice offer, and the caution — all read onto the recording itself, not just written down afterwards. Common mistakes: skipping the legal advice question because a solicitor is already present, and cautioning too quickly for the response to be properly considered.',
-    body:'INTERVIEW RECORD — OPENING DECLARATION\n\nDate: ___________  Time commenced: ___________  Location: ___________\nPresent: [interviewing officer rank/name/number], [second officer if any], [suspect name], [solicitor/legal adviser name if present], [appropriate adult name/role if present]\n\nInterviewing officer: "This interview is being [audio/visually] recorded. I am [rank, name, number]. Also present is [names and roles]. The date is [date] and the time by my watch is [time]. We are at [location]."\n\n"You are entitled to free and independent legal advice, either in person or by telephone. Do you understand?"\n[Record response]\n\n"I must caution you: You do not have to say anything, but it may harm your defence if you do not mention, when questioned, something you later rely on in service proceedings. Anything you do say may be given in evidence. Do you understand the caution?"\n[Record response, then proceed to substantive questions]' },
-  { cat:'Exhibit Continuity', title:'Exhibit label and continuity log',
-    guidance:'Purpose: an unbroken, provable chain of custody for every exhibit from seizure to court or disposal. What to record: a unique reference (officer initials plus sequential number is standard), a full description, exactly where and when it was found, who seized it, and every single subsequent transfer. Common mistakes: gaps in the log where an item moved but nobody recorded it, and vague descriptions that could apply to more than one item.',
-    body:'EXHIBIT LABEL\n\nExhibit reference: [officer initials + sequential number, e.g. JB/1]\nDescription of item: ___________________________\nExactly where found / seized from: ___________________________\nDate and time seized: ___________________________\nSeized by: [rank, name, number]\nWitnessed by: ___________________________\n\nCONTINUITY LOG\nDate/Time | From | To | Purpose | Signature\n____________________________________________\n____________________________________________\n____________________________________________\n\nGuidance note: record every transfer, however brief — including movement into and out of a vehicle, a temporary store, or a forensic laboratory. A single unexplained gap can undermine the evidential value of the exhibit.' },
-  { cat:'Witness Statement', title:'Witness / victim statement',
-    guidance:'Purpose: a first-person written account in the witness\u2019s own words, taken as soon as possible while memory is fresh. What to record: full personal details, a clear declaration of truth, then a chronological account in plain language. Common mistakes: writing in the officer\u2019s words instead of the witness\u2019s own, and leaving out how the witness knows what they are describing (for example, what they could actually see from where they were standing).',
-    body:'STATEMENT OF WITNESS\n\nName: ___________________________\nAge (if under 18, state so): _______  Occupation: ___________________________\n\nThis statement, consisting of [X] pages each signed by me, is true to the best of my knowledge and belief, and I make it knowing that if it is tendered in evidence I shall be liable to prosecution if I state in it anything I know to be false or do not believe to be true.\n\nSignature: ______________  Date: ______________\n\n[Body of statement, in the witness\u2019s own words, first person and chronological:]\n"On [date] at approximately [time] I was at [location] when I [describe what happened, what you saw, heard, and did, in the order it happened]..."' },
-  { cat:'Custody', title:'Custody record — first entry',
-    guidance:'Purpose: the opening record when a detained person arrives at service custody, capturing the legal basis for detention and confirming rights have been explained. What to record: arrival time, arresting officer, grounds for detention as authorised by the custody officer, and every right and entitlement offered. Common mistakes: recording that rights were "explained" without noting whether the person actually understood them, and missing the risk assessment.',
-    body:'CUSTODY RECORD — FIRST ENTRY\n\nDetained person: ___________________________  Time of arrival: ___________\nArresting officer: ___________________________  Reason for arrest: ___________________________\n\nContinued detention authorised by: [custody officer rank/name] at [time]\nGrounds recorded: ___________________________\n\nRights and entitlements explained (initial each):\nRight to have someone informed of the arrest        [ ]\nRight to legal advice                                [ ]\nRight to consult the Codes of Practice               [ ]\nInterpreter required?                                [ ]\nAppropriate adult required?                          [ ]\n\nRisk assessment completed: [ ]   Time: ___________\nFirst review due: ___________' },
-  { cat:'Exhibit Continuity', title:'CCTV / BWV seizure record',
-    guidance:'Purpose: recording how digital video evidence was obtained so its authenticity and continuity can be demonstrated later. What to record: the source system, the exact time range requested versus the time range actually covering the incident, the format and method of extraction, and who verified the copy matches the original. Common mistakes: not requesting enough time either side of the incident, and not recording whether the source system clock was accurate against real time.',
-    body:'CCTV / BWV SEIZURE RECORD\n\nSource: [business name / address / body-worn camera ID]\nSystem owner or point of contact: ___________________________\nIncident date/time: ___________  Footage requested from: _______ to _______\nSystem clock checked against real time? [ ]  Offset noted: ___________\nFormat obtained: ___________  Method of extraction: ___________\nCopy verified as true copy by: ___________________________\nExhibit reference allocated: ___________________________\nContinuity: log onto the standard exhibit continuity log above from this point.' }
-];
 
 var NECESSITY_CL = [
   'Ask whether summons, a fixed penalty, voluntary attendance for interview, or reporting for consideration of charge would achieve the same result without depriving the person of their liberty',
@@ -1011,14 +920,260 @@ var DA_REFERRAL_DA_CL = [
   'Record everything offered and the victim response, even if support is declined at this stage'
 ];
 
-/* ===================== RENDER HELPERS ===================== */
+/* ===================== ADDITIONAL GENERIC CHECKLISTS ===================== */
+var INITIAL_ATTENDANCE_CL = [
+  'Confirm you have the correct location and are dealing with the right incident before committing resources',
+  'Assess immediate risk to yourself, colleagues, the public, victim and suspect before doing anything else',
+  'Identify everyone present and their role — victim, witness, suspect, bystander',
+  'Establish what has already happened, and what is still ongoing, in the first few sentences from whoever meets you',
+  'Consider whether other agencies or specialist support are needed and request them early rather than late',
+  'Note the exact time you arrived and the time of first contact with each party'
+];
+var SCENE_PRESERVATION_CL = [
+  'Identify the scene boundary before people start moving through it',
+  'Consider whether a cordon is needed and where its edges should sit',
+  'Restrict entry to those who need to be there, and log who enters and leaves',
+  'Identify anything time-limited — weather affecting outdoor evidence, CCTV due to be overwritten, perishable forensic opportunities',
+  'Photograph the scene before anything is moved, including wide shots for context and close-ups of detail',
+  'Consider whether specialist forensic or scene examination support is needed before anyone else disturbs the scene'
+];
+var BEFORE_LEAVING_CL = [
+  'Has the victim been given clear information on what happens next and how to get support?',
+  'Have all exhibits been correctly seized, labelled and logged?',
+  'Have you checked for outstanding safeguarding concerns, not just the immediate incident?',
+  'Have you recorded everyone\u2019s details while they are still present, rather than trying to trace them later?',
+  'Is there anything time-critical that must happen before you leave — CCTV request, medical examination, urgent referral?',
+  'Have you made a note of what you still need to follow up?'
+];
+var HANDOVER_CL = [
+  'Is the person receiving the handover clear on what has and has not been done so far?',
+  'Have all exhibits, statements and contact details been physically or digitally handed over, not just described verbally?',
+  'Are there any outstanding risks the next person needs to know about immediately?',
+  'Has the victim been told who to contact next, so they are not left without a point of contact?',
+  'Is there a written record of the handover itself, not just the incident?'
+];
+var CASEFILE_REVIEW_CL = [
+  'Is the correct offence identified, including whether it should be an AFA 2006 offence, a civilian offence via s.42, or both?',
+  'Have the points to prove for that offence actually been addressed by the evidence gathered?',
+  'Has victim evidence been obtained and recorded?',
+  'Has witness evidence been considered and followed up?',
+  'Has CCTV been considered, requested, and either obtained or ruled out?',
+  'Has BWV been considered, downloaded, and correctly exhibited?',
+  'Has digital evidence — phones, messages, social media — been considered?',
+  'Have photographs been obtained where relevant?',
+  'Have forensic opportunities been considered, even if ultimately not pursued?',
+  'Has identification been considered where the suspect is disputed or unknown?',
+  'Has a suspect account been obtained or the absence of one recorded?',
+  'Are all exhibits accounted for with continuity maintained throughout?',
+  'Has safeguarding been completed and recorded, not just considered?',
+  'Have disclosure considerations been addressed, including material that does not support the prosecution case?',
+  'Are outstanding enquiries clearly identified and tasked?'
+];
+
+/* ===================== MILITARY POLICE POWERS ===================== */
+var POWERS = [
+  { key:'stopsearch', title:'Stop and search a person', legalPower:'Powers under section 75 AFA 2006 and the Armed Forces (Powers of Stop and Search, Search, Seizure and Retention) Order 2009. Exact current article numbers are NEEDS VERIFICATION — confirm with your unit.',
+    who:'Service police, and other persons authorised under the Order.',
+    when:'Where reasonable grounds for suspicion exist that a person is in possession of a prohibited or relevant item, for example controlled drugs, stolen property, or an offensive weapon.',
+    threshold:'Reasonable suspicion relating to the specific person, not generalisations or a protected characteristic. See SPCoP Code A.',
+    allows:'A search of outer clothing in public; a fuller search out of public view where a higher-level power applies.',
+    limitations:'Cannot be based on stereotyping. Must be proportionate and no more intrusive than necessary for the circumstances.',
+    recorded:'Officer identity or number, grounds, object of the search, outcome, and the person\u2019s self-defined ethnicity.',
+    spcop:'Code A', jsp:'NEEDS VERIFICATION — confirm relevant JSP 830 chapter with your unit',
+    source:'AFA 2006 s.75; SPCoP Code A', verify:true },
+  { key:'entrysearch', title:'Enter and search premises', legalPower:'Powers of entry and search under the Armed Forces (Powers of Stop and Search, Search, Seizure and Retention) Order 2009 and associated warrant provisions. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'Service police, and other authorised persons where specified.',
+    when:'With a warrant, with consent, or under a specific statutory power such as a search incident to arrest.',
+    threshold:'A clear legal basis must be identified before entry — warrant, consent, or statutory power, not assumed.',
+    allows:'Entry and search of premises for evidence, and seizure of relevant items found.',
+    limitations:'Reasonable force only where necessary; privacy and property of the occupier must be respected; legally privileged material has special protection and should not be seized without specific authority.',
+    recorded:'Legal basis relied on, what was searched, what was seized and from where, with a copy of the record given to the occupier.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION — confirm relevant JSP 830 chapter with your unit',
+    source:'SPCoP Code B', verify:true },
+  { key:'seizure', title:'Seize property', legalPower:'Seizure powers connected to a lawful search under the 2009 Order. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'Service police conducting a lawful search.',
+    when:'Where an item is reasonably believed to be evidence of an offence, or is itself unlawful to possess.',
+    threshold:'The item must be reasonably believed relevant to the search being conducted, or its possession itself unlawful — not seized simply because it is present.',
+    allows:'Removal of the item from the premises or person for further investigation.',
+    limitations:'Legally privileged material generally cannot be seized without specific authority.',
+    recorded:'A full exhibit continuity record from the point of seizure — see Evidence.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION',
+    source:'SPCoP Code B', verify:true },
+  { key:'retention', title:'Retain seized property', legalPower:'Retention powers under the 2009 Order. This app does not hold a verified article number for this power — do not rely on any specific article number (including "Article 12") without confirming it against the current Order yourself.',
+    who:'Service police / relevant authority holding the item.',
+    when:'While the item remains necessary for the investigation, for use as evidence, or pending a decision on its return.',
+    threshold:'Retention must remain necessary — items should be returned once no longer required, not held by default.',
+    allows:'Continued possession of seized property for investigative or evidential purposes.',
+    limitations:'Not indefinite. Retention should be kept under active review, not left open-ended.',
+    recorded:'The retention decision, the reason, and a review date in the exhibit record.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION',
+    source:'NEEDS VERIFICATION — confirm exact statutory basis and article number locally before citing it', verify:true },
+  { key:'searcharrest', title:'Search following arrest', legalPower:'Search powers connected to a lawful arrest under AFA 2006 and the 2009 Order. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'The arresting officer or other service police.',
+    when:'On or shortly after arrest, where necessary.',
+    threshold:'Necessary to search for anything that might be used to cause harm, to aid escape, or that is evidence of an offence — not routine.',
+    allows:'A search of the arrested person and items in their possession.',
+    limitations:'Should be no more intrusive than necessary. A strip search requires specific higher-level authority — confirm current thresholds locally.',
+    recorded:'What was searched, what was found, and the time and location — see Arrest and Custody.',
+    spcop:'Code C / Code G', jsp:'NEEDS VERIFICATION',
+    source:'SPCoP Code C, Code G', verify:true },
+  { key:'emergency', title:'Emergency powers', legalPower:'NEEDS VERIFICATION — this app does not hold verified detail on any specific emergency powers provision.',
+    who:'NEEDS VERIFICATION', when:'NEEDS VERIFICATION', threshold:'NEEDS VERIFICATION',
+    allows:'NEEDS VERIFICATION', limitations:'NEEDS VERIFICATION', recorded:'NEEDS VERIFICATION',
+    spcop:'NEEDS VERIFICATION', jsp:'NEEDS VERIFICATION',
+    source:'Add from your current JSP 830 / SPCoP once verified, using the reference library under Reference', verify:true }
+];
+
+/* ===================== IDENTIFICATION / VIPER ===================== */
+var IDENTIFICATION = [
+  { title:'Street / immediate identification',
+    when:'Used shortly after an offence where a witness may be able to identify a suspect who is still nearby.',
+    how:'The witness is taken to view the person as soon as practicable, in a way that avoids suggesting who the suspect is.',
+    requirements:'Should be conducted fairly with no leading of the witness. More formal procedures are usually needed if the case will rely heavily on this identification.',
+    record:'Time, location, exact words used by the witness, and who was present.',
+    avoid:'Any suggestion, even unintentional, of who the suspect is before the witness makes their own identification.',
+    spcop:'Code D', verify:true },
+  { title:'Video identification (VIPER)',
+    when:'The standard formal identification method where the suspect is not known to the witness and a suspect is available.',
+    how:'The witness is shown a set of moving images including the suspect and a number of others of similar appearance, and asked if they recognise anyone.',
+    requirements:'Should be arranged and conducted independently of the investigating officer wherever practicable.',
+    record:'Who was shown the images, the images used, and the exact outcome including any comments made.',
+    avoid:'The investigating officer conducting or being present for the procedure where independence is required.',
+    spcop:'Code D', verify:true },
+  { title:'Identification parade',
+    when:'A formal, in-person identification procedure, now less commonly used than video identification.',
+    how:'The witness views a line of people including the suspect and a number of others of similar appearance.',
+    requirements:'Conducted independently and fairly. The suspect is normally given the chance to raise objections to the composition of the parade.',
+    record:'Composition of the parade, any objections raised, and the outcome.',
+    avoid:'Unfair composition, for example where the suspect obviously stands out from the others.',
+    spcop:'Code D', verify:true },
+  { title:'Group identification',
+    when:'Used where a formal parade or video identification is not practicable.',
+    how:'The witness views the suspect within an informal group of other people in an everyday setting.',
+    requirements:'Should still be conducted fairly and, wherever practicable, independently.',
+    record:'Location, composition of the group, and the outcome.',
+    avoid:'This becoming, in effect, a suggestive one-person identification.',
+    spcop:'Code D', verify:true },
+  { title:'Photograph identification',
+    when:'Used where the suspect is not available for a video identification or parade.',
+    how:'The witness is shown a set of photographs, including one of a known suspect where relevant, alongside a number of others.',
+    requirements:'Should be conducted by an officer independent of the investigation wherever practicable.',
+    record:'The photographs shown, who conducted the procedure, and the outcome.',
+    avoid:'Showing a single photograph in isolation, which can taint any later formal procedure.',
+    spcop:'Code D', verify:true },
+  { title:'Fingerprints and biometrics',
+    when:'Taken to confirm identity or to compare against evidence recovered from a scene.',
+    how:'Taken per current force procedure, usually following arrest.',
+    requirements:'Requires appropriate legal authority — confirm the current basis and retention rules locally.',
+    record:'When taken, by whom, and consent status where relevant.',
+    avoid:'Taking without first confirming current legal authority and retention rules.',
+    spcop:'NEEDS VERIFICATION', verify:true }
+];
+
+/* ===================== I'M AT A JOB ===================== */
+var JOB_TYPES = ['Assault','Domestic abuse','Sexual offence','Theft','Criminal damage','Public order','Weapons','Drugs','Service offence','Safeguarding','Other'];
+
+var JOB_BASE = {
+  'Safety':['Any immediate threat to you, colleagues or the public?','Any weapons present or reported?','Any further risk once this immediate incident is dealt with?','Any children or vulnerable people present?','Any medical emergency needing immediate attention?','Is the scene itself safe to remain in?'],
+  'Victim':['What are their immediate needs — medical, safety, welfare?','Any visible or reported injuries?','Have you taken an initial account in their own words?','Any safeguarding concerns to flag?','Are there other witnesses to identify?','What evidence might support their account?'],
+  'Suspect':['Is the suspect identified, located, or still outstanding?','Any immediate safety considerations in dealing with them?','Any injuries needing medical attention?','Any comments made — have you recorded them verbatim?','Any grounds to consider arrest? See Arrest and Custody.'],
+  'Powers':['What power, if any, do you need to use — see MP Powers?','Is the power\u2019s threshold actually met, or are you assuming it is?','Have you considered a search power, and is it necessary?','Have you recorded the legal basis relied on?'],
+  'Scene':['Has the scene been preserved from contamination?','Does it need to be secured or cordoned?','Are there time-limited opportunities, for example weather affecting outdoor evidence?','Who else needs to attend — DSCU, medical, safeguarding?'],
+  'Evidence':['CCTV in the area — identified and preserved?','BWV — activated and correctly labelled?','Photographs of the scene, injuries or damage?','Digital evidence — phones, messages, social media?','Any forensic opportunities that could be lost if not acted on now?','Documents or paperwork relevant to the incident?'],
+  'Witnesses':['Have all potential witnesses been identified?','Initial accounts taken before memories fade or accounts are shared between them?','Contact details recorded for follow-up?'],
+  'Identification':['Is identification of the suspect actually in dispute in this case?','If so, which identification procedure is likely to be appropriate? See Identification / VIPER.'],
+  'Safeguarding':['Any children or vulnerable adults affected, directly or indirectly?','Any referral needed? See Safeguarding.','Any repeat victimisation or escalating risk pattern?'],
+  'Investigation':['What offence, or offences, are you actually investigating? See AFA 2006 / Civilian Offences.','What are the evidential gaps at this early stage?','What are the immediate next steps?'],
+  'Recording':['Notes made contemporaneously, not from memory later?','Times, locations and exact words recorded accurately?','Exhibit references allocated correctly? See Evidence.'],
+  'Further enquiries':['What further enquiries are outstanding?','Who needs to be updated or tasked?','What is the plan for following up with the victim?']
+};
+var JOB_EXTRAS = {
+  'Domestic abuse': { 'Safety':['Ask directly about strangulation or choking, this incident and previously — a recognised high-risk indicator.'], 'Safeguarding':['Complete a current DASH-style risk assessment before leaving the scene.'] },
+  'Sexual offence': { 'Victim':['Offer a specially trained officer or ISVA referral before a detailed account is taken.'], 'Evidence':['Consider early evidence capture and a forensic strategy without delay — some evidence is time-critical.'] },
+  'Weapons': { 'Safety':['Confirm the weapon has been made safe and is not accessible to anyone at the scene.'] },
+  'Drugs': { 'Evidence':['Seize and exhibit per current forensic packaging procedure.'] },
+  'Service offence': { 'Investigation':['Confirm jurisdiction — is this a Service offence, a civilian offence via s.42, or both? See AFA 2006.'] },
+  'Public order': { 'Evidence':['Prioritise CCTV and body-worn footage — public order incidents are often contested and footage is decisive.'] },
+  'Criminal damage': { 'Evidence':['Photograph damage before any repair or cleanup takes place.'] },
+  'Theft': { 'Evidence':['Identify and value the property precisely, and check CCTV/access records before they are overwritten.'] }
+};
+
+/* ===================== EVIDENCE TYPES ===================== */
+var EVIDENCE_TYPES = [
+  { title:'CCTV', consider:'Is there CCTV covering the scene, or the approach and escape routes?', preserve:'Request footage before automatic overwrite — check the retention period with the system holder.', record:'Source, exact time range requested, and who provided it.', continuity:'Log onto a standard exhibit continuity record once obtained.', disclosure:'Retain even if not used in the case — it may still be disclosable.' },
+  { title:'Body-worn video (BWV)', consider:'Was it activated, and does it cover the material part of the incident?', preserve:'Download and secure per current force procedure before it is auto-deleted.', record:'Officer, device ID, and start/end times.', continuity:'Treat as an exhibit in its own right from the point of download.', disclosure:'Retain in full, including anything unhelpful to the case.' },
+  { title:'Mobile phones / digital evidence', consider:'Is a phone or device relevant to proving or disproving the offence?', preserve:'Seize per current digital forensics policy — avoid using the device yourself.', record:'Make, model, IMEI where visible, and who seized it.', continuity:'Full exhibit continuity from seizure through to forensic examination.', disclosure:'Consider material on the device that may undermine as well as support the case.' },
+  { title:'Messages / social media', consider:'Are there messages, posts or communications relevant to the incident?', preserve:'Screenshot or export before content can be deleted, with timestamps visible.', record:'Platform, account, and exact date/time captured.', continuity:'Note how the capture was made and by whom.', disclosure:'Include material that contradicts the account being pursued, not just supporting material.' },
+  { title:'Photographs', consider:'Injuries, damage, the scene, and anything time-limited such as weather-affected evidence.', preserve:'Take photographs before anything is moved, cleaned, or repaired.', record:'Date, time, location, and who took them.', continuity:'Exhibit the original files, not edited copies.', disclosure:'Retain all photographs taken, not only the clearest ones.' },
+  { title:'Medical evidence', consider:'Does an injury need clinical description or a prognosis to support the case?', preserve:'Request medical records or a statement promptly, before recollection fades.', record:'Treating clinician, date of examination, and findings.', continuity:'Not usually a physical exhibit, but keep the source clearly referenced.', disclosure:'Include findings that do not clearly support the alleged mechanism, not only those that do.' },
+  { title:'Forensic evidence', consider:'DNA, fingerprints or other forensic opportunities at the scene or on exhibits.', preserve:'Avoid contamination — use correct packaging and handling procedures from the outset.', record:'Who recovered it, when, and from where exactly.', continuity:'Unbroken chain of custody from recovery to laboratory and back.', disclosure:'Include results that do not support the case as well as those that do.' },
+  { title:'Documents', consider:'Records, orders, receipts or other paperwork relevant to the offence.', preserve:'Obtain originals where possible, and note if only a copy is available.', record:'Source, date obtained, and who provided it.', continuity:'Exhibit as with any other physical item.', disclosure:'Include documents that could support an innocent explanation.' },
+  { title:'Victim, witness and suspect evidence', consider:'Accounts should be obtained as early as practicable, before memories fade or accounts are shared.', preserve:'Record contemporaneous notes even before a formal statement is taken.', record:'Exact words where significant, not paraphrases.', continuity:'Not applicable in the exhibit sense, but note who was present when each account was taken.', disclosure:'Any account that conflicts with the main narrative must still be retained and considered.' },
+  { title:'Exhibits and continuity (general)', consider:'Every physical item seized needs a clear, unique reference from the moment it is recovered.', preserve:'Package and seal correctly for the type of item — ask a supervisor if unsure.', record:'Who seized it, exactly where and when, and a full description.', continuity:'Log every single transfer, however brief — a gap can undermine the evidential value of the exhibit.', disclosure:'Exhibits not ultimately used still need to be accounted for.' }
+];
+
+
+/* ===================== SHARED HELPERS ===================== */
+window.addEventListener('error', function(e){
+  var box = document.getElementById('jsErrBox');
+  if(box){ box.style.display='block'; box.textContent = 'A script error occurred: ' + e.message; }
+});
+
+var CUSTOM_KEY = 'mpgCustomData_v2';
+function loadCustomStore(){
+  try{
+    var raw = localStorage.getItem(CUSTOM_KEY);
+    if(!raw) return { afa:[], civ:[], reference:[] };
+    var p = JSON.parse(raw);
+    return { afa:p.afa||[], civ:p.civ||[], reference:p.reference||[] };
+  }catch(e){ return { afa:[], civ:[], reference:[] }; }
+}
+function saveCustomStore(){ try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(customStore)); }catch(e){} }
+var customStore = loadCustomStore();
+
+var FAV_KEY = 'mpgFavourites_v1';
+function loadFavs(){ try{ return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }catch(e){ return []; } }
+function saveFavs(){ try{ localStorage.setItem(FAV_KEY, JSON.stringify(favourites)); }catch(e){} }
+var favourites = loadFavs();
+function isFaved(id){ return favourites.some(function(f){ return f.id === id; }); }
+function toggleFav(id, title, tag, tab){
+  if(isFaved(id)){ favourites = favourites.filter(function(f){ return f.id !== id; }); }
+  else { favourites.unshift({ id:id, title:title, tag:tag, tab:tab }); }
+  saveFavs();
+  renderHome();
+}
+
+var RECENT_KEY = 'mpgRecent_v1';
+function loadRecent(){ try{ return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }catch(e){ return []; } }
+function saveRecent(){ try{ localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); }catch(e){} }
+var recent = loadRecent();
+function logRecent(id, title, tag, tab){
+  recent = recent.filter(function(r){ return r.id !== id; });
+  recent.unshift({ id:id, title:title, tag:tag, tab:tab });
+  recent = recent.slice(0, 15);
+  saveRecent();
+}
+
+function goToTab(tabName){
+  var el = document.querySelector('.tab[data-tab="'+tabName+'"]');
+  if(el) el.click();
+}
+
+function buildChecklist(ul, items, onToggle){
+  ul.innerHTML = '';
+  items.forEach(function(item){
+    var li = document.createElement('li');
+    li.textContent = item;
+    li.addEventListener('click', function(){ li.classList.toggle('done'); if(onToggle) onToggle(); });
+    ul.appendChild(li);
+  });
+}
 
 function uniqueCats(arr){
   var out = ['All'];
   arr.forEach(function(o){ if(out.indexOf(o.cat)===-1) out.push(o.cat); });
   return out;
 }
-
 function renderChips(container, cats, onSelect){
   container.innerHTML = '';
   cats.forEach(function(c,i){
@@ -1034,538 +1189,529 @@ function renderChips(container, cats, onSelect){
     container.appendChild(el);
   });
 }
-
-function buildChecklist(ul, items, onToggle){
-  ul.innerHTML = '';
-  items.forEach(function(item){
-    var li = document.createElement('li');
-    li.textContent = item;
-    li.addEventListener('click', function(){
-      li.classList.toggle('done');
-      if(onToggle) onToggle();
+function favButtonHtml(id){
+  return '<button class="fav-btn'+(isFaved(id)?' faved':'')+'" data-fav="'+id+'">'+(isFaved(id)?'\u2605':'\u2606')+'</button>';
+}
+function wireFavButton(head, id, title, tag, tab){
+  var btn = head.querySelector('[data-fav]');
+  if(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      toggleFav(id, title, tag, tab);
+      btn.textContent = isFaved(id) ? '\u2605' : '\u2606';
+      btn.classList.toggle('faved', isFaved(id));
     });
-    ul.appendChild(li);
-  });
+  }
 }
 
-/* ===================== CUSTOM CONTENT STORE (localStorage) ===================== */
-var CUSTOM_KEY = 'mpgCustomData_v1';
-function loadCustomStore(){
-  try{
-    var raw = localStorage.getItem(CUSTOM_KEY);
-    if(!raw) return { afa:[], civ:[], templates:[] };
-    var parsed = JSON.parse(raw);
-    return { afa: parsed.afa||[], civ: parsed.civ||[], templates: parsed.templates||[] };
-  }catch(e){ return { afa:[], civ:[], templates:[] }; }
-}
-function saveCustomStore(){
-  try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(customStore)); }catch(e){}
-}
-var customStore = loadCustomStore();
-
-function offenceCard(o, onDelete){
+/* ===================== OFFENCE CARDS (AFA / CIV) ===================== */
+function offenceCard(o, type, onDelete){
+  var id = type+':'+o.title;
   var card = document.createElement('div');
   card.className = 'card';
   var head = document.createElement('div');
   head.className = 'card-head';
   var badge = o.custom ? '<span class="custom-badge">Custom</span>' : '';
   var delHtml = o.custom ? '<button class="del-btn" data-del="1">\u00d7</button>' : '';
-  head.innerHTML = '<div><div class="card-title">'+o.title+badge+'</div><div class="card-sub">'+o.ref+'</div></div><div style="display:flex;align-items:center;gap:4px;">'+delHtml+'<div class="chev">v</div></div>';
+  head.innerHTML = '<div><div class="card-title">'+o.title+badge+'</div><div class="card-sub">'+o.ref+'</div></div><div class="headctrls">'+favButtonHtml(id)+delHtml+'<div class="chev">v</div></div>';
   var body = document.createElement('div');
   body.className = 'card-body';
-  var defTitle = document.createElement('div');
-  defTitle.className = 'cl-title';
-  defTitle.textContent = 'Definition';
-  body.appendChild(defTitle);
-  var defBox = document.createElement('div');
-  defBox.className = 'definition';
-  defBox.textContent = o.def;
-  body.appendChild(defBox);
-  var clTitle = document.createElement('div');
-  clTitle.className = 'cl-title';
-  clTitle.textContent = 'Investigation checklist';
-  body.appendChild(clTitle);
-  var ul = document.createElement('ul');
-  ul.className = 'cl';
-  body.appendChild(ul);
+  body.innerHTML =
+    '<div class="cl-title">Definition</div><div class="definition">'+o.def+'</div>' +
+    '<div class="cl-title">Investigation checklist / evidence to consider</div>';
+  var ul = document.createElement('ul'); ul.className = 'cl'; body.appendChild(ul);
   buildChecklist(ul, o.checklist);
-  card.appendChild(head);
-  card.appendChild(body);
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, o.title, type==='afa'?'AFA 2006':'Civilian offence', type);
   head.addEventListener('click', function(e){
-    if(e.target && e.target.getAttribute('data-del')){
-      e.stopPropagation();
-      if(onDelete) onDelete();
-      return;
-    }
+    if(e.target && e.target.getAttribute('data-del')){ e.stopPropagation(); if(onDelete) onDelete(); return; }
+    if(e.target && e.target.getAttribute('data-fav')) return;
     card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, o.title, type==='afa'?'AFA 2006':'Civilian offence', type);
   });
   return card;
 }
-
 function renderOffenceList(listEl, builtIn, customArr, customType, filterCat, query){
   listEl.innerHTML = '';
-  var q = (query || '').toLowerCase();
+  var q = (query||'').toLowerCase();
   var data = builtIn.concat(customArr);
   var results = data.filter(function(o){
-    var catOk = (filterCat === 'All' || o.cat === filterCat);
-    var textOk = (!q || (o.title + ' ' + o.ref + ' ' + o.cat + ' ' + o.def).toLowerCase().indexOf(q) !== -1);
+    var catOk = (filterCat==='All' || o.cat===filterCat);
+    var textOk = (!q || (o.title+' '+o.ref+' '+o.cat+' '+o.def).toLowerCase().indexOf(q)!==-1);
     return catOk && textOk;
   });
-  if(results.length === 0){
-    var empty = document.createElement('div');
-    empty.className = 'note';
-    empty.textContent = 'No offences match that search.';
-    listEl.appendChild(empty);
-    return;
-  }
+  if(results.length===0){ var e=document.createElement('div'); e.className='note'; e.textContent='No offences match that search.'; listEl.appendChild(e); return; }
   results.forEach(function(o){
-    var onDelete = null;
-    if(o.custom){
-      onDelete = function(){
-        customStore[customType] = customStore[customType].filter(function(x){ return x.id !== o.id; });
-        saveCustomStore();
-        listEl.parentNode && refreshAllLists();
-      };
-    }
-    listEl.appendChild(offenceCard(o, onDelete));
+    var onDelete = o.custom ? function(){
+      customStore[customType] = customStore[customType].filter(function(x){ return x.id !== o.id; });
+      saveCustomStore(); refreshAllLists();
+    } : null;
+    listEl.appendChild(offenceCard(o, customType, onDelete));
   });
 }
-
-function spcopCard(s){
-  var card = document.createElement('div');
-  card.className = 'card';
-  var head = document.createElement('div');
-  head.className = 'card-head';
-  head.innerHTML = '<div><div class="card-title">'+s.code+' — '+s.title+'</div><div class="card-sub">'+s.body+'</div></div><div class="chev">v</div>';
-  var body = document.createElement('div');
-  body.className = 'card-body';
-  var ptTitle = document.createElement('div');
-  ptTitle.className = 'cl-title';
-  ptTitle.textContent = 'Key points';
-  body.appendChild(ptTitle);
-  var pts = document.createElement('ul');
-  pts.className = 'points';
-  s.points.forEach(function(p){ var li=document.createElement('li'); li.textContent=p; pts.appendChild(li); });
-  body.appendChild(pts);
-  var clTitle = document.createElement('div');
-  clTitle.className = 'cl-title';
-  clTitle.textContent = 'Field checklist';
-  body.appendChild(clTitle);
-  var ul = document.createElement('ul');
-  ul.className = 'cl';
-  body.appendChild(ul);
-  buildChecklist(ul, s.checklist);
-  card.appendChild(head);
-  card.appendChild(body);
-  head.addEventListener('click', function(){ card.classList.toggle('open'); });
-  return card;
-}
-function renderSpcop(codeFilter, query){
-  var list = document.getElementById('spcopList');
-  list.innerHTML = '';
-  var q = (query || '').toLowerCase();
-  var results = SPCOP.filter(function(s){
-    var codeOk = (!codeFilter || codeFilter === 'All' || s.code === codeFilter);
-    if(!codeOk) return false;
-    if(!q) return true;
-    var hay = (s.code + ' ' + s.title + ' ' + s.body + ' ' + s.points.join(' ') + ' ' + s.checklist.join(' ')).toLowerCase();
-    return hay.indexOf(q) !== -1;
-  });
-  if(results.length === 0){
-    var empty = document.createElement('div');
-    empty.className = 'note';
-    empty.textContent = 'No codes match that search.';
-    list.appendChild(empty);
-    return;
-  }
-  results.forEach(function(s){ list.appendChild(spcopCard(s)); });
-}
-
-function sgCard(s){
-  var card = document.createElement('div');
-  card.className = 'sg-card';
-  var tel = s.phone ? s.phone.replace(/\s+/g,'') : '';
-  var html = '<div class="sg-name">'+s.name+'</div><div class="sg-role">'+s.role+'</div>';
-  if(s.note){ html += '<div class="note">'+s.note+'</div>'; }
-  html += '<div class="sg-contact">';
-  if(s.phone){
-    html += '<a class="sg-btn primary" href="tel:'+tel+'">Call '+s.phone+'</a>';
-    html += '<a class="sg-btn" href="https://wa.me/'+tel.replace('+','')+'" target="_blank">WhatsApp</a>';
-  }
-  html += '</div>';
-  card.innerHTML = html;
-  return card;
-}
-function renderSafeguard(filterCat){
-  var list = document.getElementById('sgList');
-  list.innerHTML = '';
-  SAFEGUARD.filter(function(s){ return filterCat === 'All' || s.cat === filterCat; })
-    .forEach(function(s){ list.appendChild(sgCard(s)); });
-}
-
-function updateNotes(){
-  var doneEls = document.querySelectorAll('#cl-safety li.done, #cl-referral li.done');
-  var lines = [];
-  for(var i=0;i<doneEls.length;i++){ lines.push('- ' + doneEls[i].textContent); }
-  var ta = document.getElementById('caseNotes');
-  ta.value = 'VICTIM FIRST CONTACT — ACTIONS COMPLETED\n' + new Date().toLocaleString() + '\n\n' + (lines.length ? lines.join('\n') : '(no items marked yet)');
-}
-
-/* ===================== TEMPLATE RENDERING ===================== */
-function templateCard(t, onDelete){
-  var card = document.createElement('div');
-  card.className = 'card';
-  var head = document.createElement('div');
-  head.className = 'card-head';
-  var badge = t.custom ? '<span class="custom-badge">Custom</span>' : '';
-  var delHtml = t.custom ? '<button class="del-btn" data-del="1">\u00d7</button>' : '';
-  head.innerHTML = '<div><div class="card-title">'+t.title+badge+'</div><div class="card-sub">'+t.cat+'</div></div><div style="display:flex;align-items:center;gap:4px;">'+delHtml+'<div class="chev">v</div></div>';
-  var body = document.createElement('div');
-  body.className = 'card-body';
-  var purpose = document.createElement('div');
-  purpose.className = 'tpl-purpose';
-  purpose.textContent = 'Guidance';
-  body.appendChild(purpose);
-  var g = document.createElement('div');
-  g.className = 'note';
-  g.style.marginTop = '4px';
-  g.textContent = t.guidance;
-  body.appendChild(g);
-  var bTitle = document.createElement('div');
-  bTitle.className = 'cl-title';
-  bTitle.textContent = 'Example template — copy and adapt';
-  body.appendChild(bTitle);
-  var pre = document.createElement('div');
-  pre.className = 'tpl-body';
-  pre.textContent = t.body;
-  body.appendChild(pre);
-  var copyBtn = document.createElement('button');
-  copyBtn.className = 'copy-btn';
-  copyBtn.textContent = 'Copy template text';
-  copyBtn.style.marginTop = '8px';
-  copyBtn.addEventListener('click', function(e){
-    e.stopPropagation();
-    var ta = document.createElement('textarea');
-    ta.value = t.body;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    copyBtn.textContent = 'Copied';
-    setTimeout(function(){ copyBtn.textContent = 'Copy template text'; }, 1500);
-  });
-  body.appendChild(copyBtn);
-  card.appendChild(head);
-  card.appendChild(body);
-  head.addEventListener('click', function(e){
-    if(e.target && e.target.getAttribute('data-del')){
-      e.stopPropagation();
-      if(onDelete) onDelete();
-      return;
-    }
-    card.classList.toggle('open');
-  });
-  return card;
-}
-function renderTemplates(filterCat, query){
-  var listEl = document.getElementById('tplList');
-  listEl.innerHTML = '';
-  var q = (query || '').toLowerCase();
-  var data = TEMPLATES.concat(customStore.templates);
-  var results = data.filter(function(t){
-    var catOk = (filterCat === 'All' || t.cat === filterCat);
-    var textOk = (!q || (t.title + ' ' + t.cat + ' ' + t.guidance).toLowerCase().indexOf(q) !== -1);
-    return catOk && textOk;
-  });
-  if(results.length === 0){
-    var empty = document.createElement('div');
-    empty.className = 'note';
-    empty.textContent = 'No templates match that search.';
-    listEl.appendChild(empty);
-    return;
-  }
-  results.forEach(function(t){
-    var onDelete = null;
-    if(t.custom){
-      onDelete = function(){
-        customStore.templates = customStore.templates.filter(function(x){ return x.id !== t.id; });
-        saveCustomStore();
-        refreshAllLists();
-      };
-    }
-    listEl.appendChild(templateCard(t, onDelete));
-  });
-}
-
-/* ===================== ADD-YOUR-OWN FORMS ===================== */
 function buildOffenceAddForm(container, type){
   container.innerHTML =
     '<label>Category</label><input type="text" id="'+type+'NewCat" placeholder="e.g. Fraud, Violence">' +
     '<label>Title</label><input type="text" id="'+type+'NewTitle" placeholder="Offence name">' +
     '<label>Reference</label><input type="text" id="'+type+'NewRef" placeholder="e.g. Theft Act 1968 s.1">' +
-    '<label>Definition</label><textarea id="'+type+'NewDef" placeholder="Plain-language definition"></textarea>' +
-    '<label>Checklist (one item per line)</label><textarea id="'+type+'NewChecklist" placeholder="One checklist item per line"></textarea>' +
+    '<label>Definition</label><textarea id="'+type+'NewDef"></textarea>' +
+    '<label>Checklist (one item per line)</label><textarea id="'+type+'NewChecklist"></textarea>' +
     '<div class="form-btns"><button class="form-save" id="'+type+'NewSave">Save</button><button class="form-cancel" id="'+type+'NewCancel">Cancel</button></div>';
   document.getElementById(type+'NewSave').addEventListener('click', function(){
-    var cat = document.getElementById(type+'NewCat').value.trim();
     var title = document.getElementById(type+'NewTitle').value.trim();
-    var ref = document.getElementById(type+'NewRef').value.trim();
-    var def = document.getElementById(type+'NewDef').value.trim();
+    if(!title){ alert('Please enter a title.'); return; }
     var checklistRaw = document.getElementById(type+'NewChecklist').value.trim();
-    if(!title){ alert('Please enter a title.'); return; }
-    var checklist = checklistRaw ? checklistRaw.split('\n').map(function(s){ return s.trim(); }).filter(Boolean) : [];
-    var obj = { id: 'c'+Date.now(), cat: cat || 'Custom', title: title, ref: ref || 'User-added', def: def || '', checklist: checklist, custom: true };
-    customStore[type].push(obj);
+    var checklist = checklistRaw ? checklistRaw.split('\n').map(function(s){return s.trim();}).filter(Boolean) : [];
+    customStore[type].push({ id:'c'+Date.now(), cat:document.getElementById(type+'NewCat').value.trim()||'Custom', title:title,
+      ref:document.getElementById(type+'NewRef').value.trim()||'User-added', def:document.getElementById(type+'NewDef').value.trim()||'', checklist:checklist, custom:true });
     saveCustomStore();
     document.getElementById(type+'AddForm').classList.remove('open');
     refreshAllLists();
   });
-  document.getElementById(type+'NewCancel').addEventListener('click', function(){
-    document.getElementById(type+'AddForm').classList.remove('open');
-  });
+  document.getElementById(type+'NewCancel').addEventListener('click', function(){ document.getElementById(type+'AddForm').classList.remove('open'); });
 }
-function buildTemplateAddForm(){
-  var container = document.getElementById('tplAddForm');
-  container.innerHTML =
-    '<label>Category</label><input type="text" id="tplNewCat" placeholder="e.g. Interview, Exhibit Continuity">' +
-    '<label>Title</label><input type="text" id="tplNewTitle" placeholder="Template name">' +
-    '<label>Guidance (purpose, what to record, common mistakes)</label><textarea id="tplNewGuidance"></textarea>' +
-    '<label>Template body</label><textarea id="tplNewBody" placeholder="The example wording / structure" style="min-height:140px;"></textarea>' +
-    '<div class="form-btns"><button class="form-save" id="tplNewSave">Save</button><button class="form-cancel" id="tplNewCancel">Cancel</button></div>';
-  document.getElementById('tplNewSave').addEventListener('click', function(){
-    var title = document.getElementById('tplNewTitle').value.trim();
-    if(!title){ alert('Please enter a title.'); return; }
-    var obj = {
-      id: 'c'+Date.now(),
-      cat: document.getElementById('tplNewCat').value.trim() || 'Custom',
-      title: title,
-      guidance: document.getElementById('tplNewGuidance').value.trim(),
-      body: document.getElementById('tplNewBody').value,
-      custom: true
-    };
-    customStore.templates.push(obj);
-    saveCustomStore();
-    document.getElementById('tplAddForm').classList.remove('open');
-    refreshAllLists();
+
+/* ===================== MP POWERS ===================== */
+function powerCard(p){
+  var id = 'power:'+p.key;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+p.title+'</div><div class="card-sub">'+p.spcop+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  var fields = [['Legal power',p.legalPower],['Who can use it',p.who],['When it can be used',p.when],['Threshold / conditions',p.threshold],['What it allows',p.allows],['Limitations',p.limitations],['What must be recorded',p.recorded],['Relevant JSP',p.jsp],['Source',p.source]];
+  fields.forEach(function(f){
+    var needVerify = f[1] && f[1].indexOf('NEEDS VERIFICATION')!==-1;
+    body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val'+(needVerify?' needverify':'')+'">'+f[1]+'</div></div>';
   });
-  document.getElementById('tplNewCancel').addEventListener('click', function(){
-    document.getElementById('tplAddForm').classList.remove('open');
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, p.title, 'MP Power', 'powers');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, p.title, 'MP Power', 'powers');
+  });
+  return card;
+}
+function renderPowers(query){
+  var list = document.getElementById('powersList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = POWERS.filter(function(p){ return !q || (p.title+' '+p.legalPower+' '+p.source).toLowerCase().indexOf(q)!==-1; });
+  if(results.length===0){ list.innerHTML='<div class="note">No powers match that search.</div>'; return; }
+  results.forEach(function(p){ list.appendChild(powerCard(p)); });
+}
+
+/* ===================== IDENTIFICATION ===================== */
+function identCard(it, idx){
+  var id = 'ident:'+idx;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+it.title+'</div><div class="card-sub">'+it.spcop+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  var fields = [['When it may be used',it.when],['How it works',it.how],['Key requirements',it.requirements],['What to record',it.record],['What to avoid',it.avoid]];
+  fields.forEach(function(f){ body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val">'+f[1]+'</div></div>'; });
+  body.innerHTML += '<div class="note">Confirm exact current SPCoP Code D wording locally — this entry describes general identification-procedure practice, not a verified quote from the current Code D.</div>';
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, it.title, 'Identification', 'ident');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, it.title, 'Identification', 'ident');
+  });
+  return card;
+}
+function renderIdent(query){
+  var list = document.getElementById('identList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  IDENTIFICATION.forEach(function(it, idx){
+    if(!q || (it.title+' '+it.when+' '+it.how).toLowerCase().indexOf(q)!==-1) list.appendChild(identCard(it, idx));
+  });
+  if(list.children.length===0) list.innerHTML='<div class="note">No identification procedures match that search.</div>';
+}
+
+/* ===================== I'M AT A JOB ===================== */
+function renderJobChips(){
+  renderChips(document.getElementById('jobChips'), JOB_TYPES, function(type){ renderJob(type); });
+}
+function renderJob(type){
+  var list = document.getElementById('jobList'); list.innerHTML='';
+  var extras = JOB_EXTRAS[type] || {};
+  Object.keys(JOB_BASE).forEach(function(section){
+    var items = JOB_BASE[section].slice();
+    if(extras[section]) items = items.concat(extras[section]);
+    var card = document.createElement('div'); card.className='card';
+    card.innerHTML = '<div class="card-head"><div class="card-title">'+section.toUpperCase()+'</div><div class="chev">v</div></div><div class="card-body"><ul class="cl"></ul></div>';
+    var ul = card.querySelector('ul.cl');
+    buildChecklist(ul, items);
+    card.querySelector('.card-head').addEventListener('click', function(){ card.classList.toggle('open'); });
+    list.appendChild(card);
   });
 }
 
-/* ===================== MP ASSISTANT (local search) ===================== */
+/* ===================== INVESTIGATION ===================== */
+function renderInvestList(query){
+  var list = document.getElementById('investList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var all = AFA.concat(customStore.afa).map(function(o){ return {o:o,type:'afa'}; }).concat(CIV.concat(customStore.civ).map(function(o){ return {o:o,type:'civ'}; }));
+  var results = all.filter(function(x){ return !q || (x.o.title+' '+x.o.ref).toLowerCase().indexOf(q)!==-1; });
+  if(!q){ list.innerHTML = '<div class="note">Type an offence name to jump straight to its checklist, or search AFA 2006 / Civilian Offences directly.</div>'; return; }
+  if(results.length===0){ list.innerHTML='<div class="note">No offences match that search.</div>'; return; }
+  results.slice(0,15).forEach(function(x){
+    var row = document.createElement('div'); row.className='recent-item';
+    row.innerHTML = '<div><div class="tag">'+(x.type==='afa'?'AFA 2006':'Civilian offence')+'</div>'+x.o.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(x.type); });
+    list.appendChild(row);
+  });
+}
+
+/* ===================== EVIDENCE ===================== */
+function renderEvidence(){
+  var list = document.getElementById('evidenceList'); list.innerHTML='';
+  EVIDENCE_TYPES.forEach(function(e, idx){
+    var id = 'evidence:'+idx;
+    var card = document.createElement('div'); card.className='card';
+    var head = document.createElement('div'); head.className='card-head';
+    head.innerHTML = '<div class="card-title">'+e.title+'</div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+    var body = document.createElement('div'); body.className='card-body';
+    [['Consider',e.consider],['Preserve',e.preserve],['Record',e.record],['Continuity',e.continuity],['Disclosure',e.disclosure]].forEach(function(f){
+      body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val">'+f[1]+'</div></div>';
+    });
+    card.appendChild(head); card.appendChild(body);
+    wireFavButton(head, id, e.title, 'Evidence', 'evidence');
+    head.addEventListener('click', function(ev){
+      if(ev.target && ev.target.getAttribute('data-fav')) return;
+      card.classList.toggle('open');
+      if(card.classList.contains('open')) logRecent(id, e.title, 'Evidence', 'evidence');
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ===================== CHECKLISTS HUB ===================== */
+var CHECKLIST_HUB = [
+  { title:'Initial attendance', arr:INITIAL_ATTENDANCE_CL },
+  { title:'Scene preservation', arr:SCENE_PRESERVATION_CL },
+  { title:'Arrest necessity', arr:NECESSITY_CL },
+  { title:'At the point of arrest', arr:ATARREST_CL },
+  { title:'Custody entitlements', arr:CUSTODY_CL },
+  { title:'Custody time limits', arr:TIMELIMITS_CL },
+  { title:'Vulnerable suspects', arr:VULNERABLE_CL },
+  { title:'Victim safety', arr:SAFETY_CL },
+  { title:'Victim referral', arr:REFERRAL_CL },
+  { title:'Domestic abuse — arrival and scene safety', arr:DA_ARRIVAL_CL },
+  { title:'Domestic abuse — risk identification', arr:DA_RISK_CL },
+  { title:'Domestic abuse — evidence capture', arr:DA_EVIDENCE_CL },
+  { title:'Domestic abuse — children in the household', arr:DA_CHILDREN_CL },
+  { title:'Domestic abuse — suspect handling', arr:DA_SUSPECT_CL },
+  { title:'Domestic abuse — referral and follow-up', arr:DA_REFERRAL_DA_CL },
+  { title:'Before leaving the scene', arr:BEFORE_LEAVING_CL },
+  { title:'Handover', arr:HANDOVER_CL },
+  { title:'Case file review', arr:CASEFILE_REVIEW_CL }
+];
+function renderChecklistHub(query){
+  var list = document.getElementById('checklistHubList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = CHECKLIST_HUB.filter(function(c){ return !q || (c.title+' '+c.arr.join(' ')).toLowerCase().indexOf(q)!==-1; });
+  if(results.length===0){ list.innerHTML='<div class="note">No checklists match that search.</div>'; return; }
+  results.forEach(function(c, idx){
+    var id = 'checklist:'+c.title;
+    var card = document.createElement('div'); card.className='card';
+    var head = document.createElement('div'); head.className='card-head';
+    head.innerHTML = '<div class="card-title">'+c.title+'</div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+    var body = document.createElement('div'); body.className='card-body';
+    var ul = document.createElement('ul'); ul.className='cl'; body.appendChild(ul);
+    buildChecklist(ul, c.arr);
+    card.appendChild(head); card.appendChild(body);
+    wireFavButton(head, id, c.title, 'Checklist', 'checklists');
+    head.addEventListener('click', function(e){
+      if(e.target && e.target.getAttribute('data-fav')) return;
+      card.classList.toggle('open');
+      if(card.classList.contains('open')) logRecent(id, c.title, 'Checklist', 'checklists');
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ===================== SAFEGUARDING ===================== */
+function sgCard(s){
+  var card = document.createElement('div'); card.className='sg-card';
+  var tel = s.phone ? s.phone.replace(/\s+/g,'') : '';
+  var html = '<div class="sg-name">'+s.name+'</div><div class="sg-role">'+s.role+'</div>';
+  if(s.note) html += '<div class="note">'+s.note+'</div>';
+  html += '<div class="sg-contact">';
+  if(s.phone){ html += '<a class="sg-btn primary" href="tel:'+tel+'">Call '+s.phone+'</a><a class="sg-btn" href="https://wa.me/'+tel.replace('+','')+'" target="_blank">WhatsApp</a>'; }
+  html += '</div>';
+  card.innerHTML = html;
+  return card;
+}
+function renderSafeguard(filterCat){
+  var list = document.getElementById('sgList'); list.innerHTML='';
+  SAFEGUARD.filter(function(s){ return filterCat==='All' || s.cat===filterCat; }).forEach(function(s){ list.appendChild(sgCard(s)); });
+}
+
+/* ===================== SPCoP / REFERENCE ===================== */
+function spcopCard(s){
+  var id = 'spcop:'+s.code;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+s.code+' — '+s.title+'</div><div class="card-sub">'+s.body+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  body.innerHTML = '<div class="cl-title">Key points</div>';
+  var pts = document.createElement('ul'); pts.className='points';
+  s.points.forEach(function(p){ var li=document.createElement('li'); li.textContent=p; pts.appendChild(li); });
+  body.appendChild(pts);
+  body.innerHTML += '<div class="cl-title">Field checklist</div>';
+  var ul = document.createElement('ul'); ul.className='cl'; body.appendChild(ul);
+  buildChecklist(ul, s.checklist);
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, s.code+' — '+s.title, 'SPCoP', 'reference');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, s.code+' — '+s.title, 'SPCoP', 'reference');
+  });
+  return card;
+}
+function renderSpcop(codeFilter, query){
+  var list = document.getElementById('spcopList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = SPCOP.filter(function(s){
+    var codeOk = (!codeFilter || codeFilter==='All' || s.code===codeFilter);
+    if(!codeOk) return false;
+    if(!q) return true;
+    return (s.code+' '+s.title+' '+s.body+' '+s.points.join(' ')+' '+s.checklist.join(' ')).toLowerCase().indexOf(q)!==-1;
+  });
+  if(results.length===0){ list.innerHTML='<div class="note">No codes match that search.</div>'; return; }
+  results.forEach(function(s){ list.appendChild(spcopCard(s)); });
+}
+function refCard(r, onDelete){
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+r.title+'<span class="custom-badge">Custom</span></div><div class="card-sub">'+r.source+'</div></div><div class="headctrls"><button class="del-btn" data-del="1">\u00d7</button><div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  body.innerHTML = '<div class="definition">'+r.content+'</div>';
+  card.appendChild(head); card.appendChild(body);
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-del')){ e.stopPropagation(); if(onDelete) onDelete(); return; }
+    card.classList.toggle('open');
+  });
+  return card;
+}
+function renderRefList(){
+  var list = document.getElementById('refList'); list.innerHTML='';
+  if(customStore.reference.length===0){ list.innerHTML=''; return; }
+  customStore.reference.forEach(function(r){
+    list.appendChild(refCard(r, function(){
+      customStore.reference = customStore.reference.filter(function(x){ return x.id!==r.id; });
+      saveCustomStore(); renderRefList();
+    }));
+  });
+}
+document.getElementById('refAddToggle').addEventListener('click', function(){
+  var f = document.getElementById('refAddForm');
+  if(!f.classList.contains('open')){
+    f.innerHTML = '<label>Title</label><input type="text" id="refNewTitle" placeholder="e.g. JSP 830 Ch.4 — Search of premises">' +
+      '<label>Source</label><input type="text" id="refNewSource" placeholder="e.g. JSP 830, current edition, Ch.4">' +
+      '<label>Content</label><textarea id="refNewContent" placeholder="Paste the verified extract or your own summary"></textarea>' +
+      '<div class="form-btns"><button class="form-save" id="refNewSave">Save</button><button class="form-cancel" id="refNewCancel">Cancel</button></div>';
+    document.getElementById('refNewSave').addEventListener('click', function(){
+      var title = document.getElementById('refNewTitle').value.trim();
+      if(!title){ alert('Please enter a title.'); return; }
+      customStore.reference.push({ id:'c'+Date.now(), title:title, source:document.getElementById('refNewSource').value.trim()||'User-added', content:document.getElementById('refNewContent').value.trim() });
+      saveCustomStore(); f.classList.remove('open'); renderRefList();
+    });
+    document.getElementById('refNewCancel').addEventListener('click', function(){ f.classList.remove('open'); });
+  }
+  f.classList.toggle('open');
+});
+
+/* ===================== GLOBAL SEARCH ===================== */
 function buildSearchIndex(){
   var idx = [];
-  AFA.concat(customStore.afa).forEach(function(o){
-    idx.push({ tag:'AFA 2006', title:o.title, snippet:o.def, tab:'afa', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase() });
-  });
-  CIV.concat(customStore.civ).forEach(function(o){
-    idx.push({ tag:'Civilian offence', title:o.title, snippet:o.def, tab:'civ', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase() });
-  });
-  TEMPLATES.concat(customStore.templates).forEach(function(t){
-    idx.push({ tag:'Template', title:t.title, snippet:t.guidance, tab:'templates', text:(t.title+' '+t.cat+' '+t.guidance+' '+t.body).toLowerCase() });
-  });
-  SPCOP.forEach(function(s){
-    idx.push({ tag:'SPCoP '+s.code, title:s.title, snippet:s.body, tab:'spcop', text:(s.code+' '+s.title+' '+s.body+' '+s.points.join(' ')+' '+s.checklist.join(' ')).toLowerCase() });
-  });
-  idx.push({ tag:'Arrest & Rights', title:'Section 67 arrest necessity', snippet:'Necessity grounds to consider before arresting.', tab:'arrest', text:'arrest necessity section 67 grounds ' + NECESSITY_CL.join(' ').toLowerCase() });
-  idx.push({ tag:'Arrest & Rights', title:'At the point of arrest — disclosures', snippet:'What must legally be told to the person at arrest.', tab:'arrest', text:'arrest caution rights disclosure ' + ATARREST_CL.join(' ').toLowerCase() });
-  idx.push({ tag:'Arrest & Rights', title:'Custody entitlements', snippet:'Rights to explain on arrival at custody.', tab:'arrest', text:'custody solicitor interpreter rights ' + CUSTODY_CL.join(' ').toLowerCase() });
-  idx.push({ tag:'Domestic Abuse', title:'First response on scene', snippet:'Arrival, safety and risk identification checklist.', tab:'da', text:'domestic abuse scene arrival risk strangulation ' + DA_ARRIVAL_CL.join(' ').toLowerCase() + ' ' + DA_RISK_CL.join(' ').toLowerCase() });
-  idx.push({ tag:'Domestic Abuse', title:'Evidence capture', snippet:'Evidence gathering checklist for domestic abuse incidents.', tab:'da', text:'domestic abuse evidence cctv photographs ' + DA_EVIDENCE_CL.join(' ').toLowerCase() });
-  idx.push({ tag:'Safeguarding', title:'Aurora New Dawn and referral contacts', snippet:'Signposting and safeguarding agency contacts.', tab:'safeguard', text:'aurora new dawn victim witness care unit bfsws safeguarding' });
-  idx.push({ tag:'Victim Care', title:'Victim safety and referral checklist', snippet:'First-contact victim safety and referral checklist.', tab:'victim', text:'victim safety referral enhanced entitlement ' + SAFETY_CL.join(' ').toLowerCase() + ' ' + REFERRAL_CL.join(' ').toLowerCase() });
+  AFA.concat(customStore.afa).forEach(function(o){ idx.push({tag:'AFA 2006', title:o.title, snippet:o.def, tab:'afa', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase()}); });
+  CIV.concat(customStore.civ).forEach(function(o){ idx.push({tag:'Civilian offence', title:o.title, snippet:o.def, tab:'civ', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase()}); });
+  POWERS.forEach(function(p){ idx.push({tag:'MP Power', title:p.title, snippet:p.legalPower, tab:'powers', text:(p.title+' '+p.legalPower+' '+p.source).toLowerCase()}); });
+  IDENTIFICATION.forEach(function(i){ idx.push({tag:'Identification', title:i.title, snippet:i.when, tab:'ident', text:(i.title+' '+i.when+' '+i.how).toLowerCase()}); });
+  SPCOP.forEach(function(s){ idx.push({tag:'SPCoP '+s.code, title:s.title, snippet:s.body, tab:'reference', text:(s.code+' '+s.title+' '+s.body+' '+s.points.join(' ')).toLowerCase()}); });
+  customStore.reference.forEach(function(r){ idx.push({tag:'Reference', title:r.title, snippet:r.content.slice(0,120), tab:'reference', text:(r.title+' '+r.source+' '+r.content).toLowerCase()}); });
+  CHECKLIST_HUB.forEach(function(c){ idx.push({tag:'Checklist', title:c.title, snippet:c.arr[0]||'', tab:'checklists', text:(c.title+' '+c.arr.join(' ')).toLowerCase()}); });
+  EVIDENCE_TYPES.forEach(function(e){ idx.push({tag:'Evidence', title:e.title, snippet:e.consider, tab:'evidence', text:(e.title+' '+e.consider+' '+e.preserve).toLowerCase()}); });
+  idx.push({tag:'Safeguarding', title:'Safeguarding contacts and signposting', snippet:'Aurora New Dawn, VWCU, BFSWS and other referral contacts.', tab:'safeguard', text:'aurora new dawn victim witness care unit bfsws safeguarding referral'});
   return idx;
 }
-function runAssistantSearch(query){
-  var resultsEl = document.getElementById('assistResults');
+function runGlobalSearch(query){
+  var resultsEl = document.getElementById('globalSearchResults');
   resultsEl.innerHTML = '';
-  var q = (query || '').trim().toLowerCase();
-  if(!q){
-    resultsEl.innerHTML = '<div class="assist-empty">Type a question, or tap a quick action above, to search everything in this app at once.</div>';
-    return;
-  }
-  var terms = q.split(/\s+/).filter(function(w){ return w.length > 2; });
-  if(terms.length === 0) terms = [q];
+  var q = (query||'').trim().toLowerCase();
+  if(!q){ resultsEl.innerHTML = '<div class="note">Type a search term above.</div>'; return; }
+  var terms = q.split(/\s+/).filter(function(w){ return w.length>2; });
+  if(terms.length===0) terms=[q];
   var idx = buildSearchIndex();
   var scored = idx.map(function(item){
-    var score = 0;
-    terms.forEach(function(t){ if(item.text.indexOf(t) !== -1) score++; });
-    return { item:item, score:score };
-  }).filter(function(r){ return r.score > 0; });
-  scored.sort(function(a,b){ return b.score - a.score; });
-  if(scored.length === 0){
-    resultsEl.innerHTML = '<div class="assist-empty">Nothing in the guide matches that. Try different words, or check the relevant tab directly.</div>';
-    return;
-  }
-  scored.slice(0, 12).forEach(function(r){
-    var card = document.createElement('div');
-    card.className = 'assist-result-card';
-    card.innerHTML = '<div class="assist-result-tag">'+r.item.tag+'</div><div class="assist-result-title">'+r.item.title+'</div><div class="assist-result-snippet">'+r.item.snippet+'</div>';
-    card.addEventListener('click', function(){
-      var tabEl = document.querySelector('.tab[data-tab="'+r.item.tab+'"]');
-      if(tabEl) tabEl.click();
-    });
+    var score=0; terms.forEach(function(t){ if(item.text.indexOf(t)!==-1) score++; });
+    return {item:item, score:score};
+  }).filter(function(r){ return r.score>0; });
+  scored.sort(function(a,b){ return b.score-a.score; });
+  if(scored.length===0){ resultsEl.innerHTML = '<div class="note">Nothing in the guide matches that. Try different words.</div>'; return; }
+  scored.slice(0,20).forEach(function(r){
+    var card = document.createElement('div'); card.className='recent-item';
+    card.innerHTML = '<div><div class="tag">'+r.item.tag+'</div>'+r.item.title+'</div><div class="chev">\u203a</div>';
+    card.addEventListener('click', function(){ goToTab(r.item.tab); });
     resultsEl.appendChild(card);
+  });
+}
+
+/* ===================== HOME ===================== */
+var HOME_SECTIONS = [
+  ['1','AFA 2006','afa'],['2','Civilian Offences','civ'],['3','Military Police Powers','powers'],
+  ['4','Identification / VIPER','ident'],['5',"I'm At A Job",'job'],['6','Investigation','invest'],
+  ['7','Evidence','evidence'],['8','Arrest & Custody','arrest'],['9','Checklists','checklists'],
+  ['10','Safeguarding','safeguard'],['11','SPCoP / JSP / Reference','reference'],['12','Search Everything','search']
+];
+function renderHome(){
+  var grid = document.getElementById('homeGrid'); grid.innerHTML='';
+  HOME_SECTIONS.forEach(function(s){
+    var tile = document.createElement('div'); tile.className='home-tile';
+    tile.innerHTML = '<div class="num">'+s[0]+'</div><div class="lbl">'+s[1]+'</div>';
+    tile.addEventListener('click', function(){ goToTab(s[2]); });
+    grid.appendChild(tile);
+  });
+  var favList = document.getElementById('favList'); favList.innerHTML='';
+  if(favourites.length===0){ favList.innerHTML='<div class="empty-row">Nothing favourited yet — tap the star on any item to save it here.</div>'; }
+  else favourites.slice(0,10).forEach(function(f){
+    var row = document.createElement('div'); row.className='fav-item';
+    row.innerHTML = '<div><div class="tag">'+f.tag+'</div>'+f.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(f.tab); });
+    favList.appendChild(row);
+  });
+  var recentList = document.getElementById('recentList'); recentList.innerHTML='';
+  if(recent.length===0){ recentList.innerHTML='<div class="empty-row">Nothing viewed yet.</div>'; }
+  else recent.forEach(function(r){
+    var row = document.createElement('div'); row.className='recent-item';
+    row.innerHTML = '<div><div class="tag">'+r.tag+'</div>'+r.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(r.tab); });
+    recentList.appendChild(row);
   });
 }
 
 /* ===================== REFRESH / EXPORT / IMPORT ===================== */
 function refreshAllLists(){
   var activeAfaChip = document.querySelector('#afaChips .chip.active');
-  renderOffenceList(document.getElementById('afaList'), AFA, customStore.afa, 'afa', activeAfaChip ? activeAfaChip.textContent : 'All', document.getElementById('afaSearch').value);
+  renderOffenceList(document.getElementById('afaList'), AFA, customStore.afa, 'afa', activeAfaChip?activeAfaChip.textContent:'All', document.getElementById('afaSearch').value);
   var activeCivChip = document.querySelector('#civChips .chip.active');
-  renderOffenceList(document.getElementById('civList'), CIV, customStore.civ, 'civ', activeCivChip ? activeCivChip.textContent : 'All', document.getElementById('civSearch').value);
-  var activeTplChip = document.querySelector('#tplChips .chip.active');
-  renderTemplates(activeTplChip ? activeTplChip.textContent : 'All', document.getElementById('tplSearch').value);
+  renderOffenceList(document.getElementById('civList'), CIV, customStore.civ, 'civ', activeCivChip?activeCivChip.textContent:'All', document.getElementById('civSearch').value);
+  renderRefList();
+  renderHome();
 }
 
 document.getElementById('exportBtn').addEventListener('click', function(){
-  var blob = new Blob([JSON.stringify(customStore, null, 2)], { type:'application/json' });
+  var blob = new Blob([JSON.stringify(customStore, null, 2)], {type:'application/json'});
   var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'mp-policing-guide-backup.json';
-  a.click();
+  var a = document.createElement('a'); a.href=url; a.download='mp-policing-guide-backup.json'; a.click();
   URL.revokeObjectURL(url);
 });
-document.getElementById('importBtn').addEventListener('click', function(){
-  document.getElementById('importFile').click();
-});
+document.getElementById('importBtn').addEventListener('click', function(){ document.getElementById('importFile').click(); });
 document.getElementById('importFile').addEventListener('change', function(e){
-  var file = e.target.files[0];
-  if(!file) return;
+  var file = e.target.files[0]; if(!file) return;
   var reader = new FileReader();
   reader.onload = function(ev){
     try{
       var data = JSON.parse(ev.target.result);
       customStore.afa = (customStore.afa||[]).concat(data.afa||[]);
       customStore.civ = (customStore.civ||[]).concat(data.civ||[]);
-      customStore.templates = (customStore.templates||[]).concat(data.templates||[]);
-      saveCustomStore();
-      refreshAllLists();
+      customStore.reference = (customStore.reference||[]).concat(data.reference||[]);
+      saveCustomStore(); refreshAllLists();
       alert('Backup imported.');
-    }catch(err){
-      alert('Could not read that file — make sure it is a backup exported from this app.');
-    }
+    }catch(err){ alert('Could not read that file — make sure it is a backup exported from this app.'); }
   };
   reader.readAsText(file);
 });
 
 /* ===================== INIT ===================== */
+renderHome();
+
 var AFA_CATS = uniqueCats(AFA.concat(customStore.afa));
 var afaList = document.getElementById('afaList');
-renderChips(document.getElementById('afaChips'), AFA_CATS, function(cat){
-  renderOffenceList(afaList, AFA, customStore.afa, 'afa', cat, document.getElementById('afaSearch').value);
-});
+renderChips(document.getElementById('afaChips'), AFA_CATS, function(cat){ renderOffenceList(afaList, AFA, customStore.afa, 'afa', cat, document.getElementById('afaSearch').value); });
 renderOffenceList(afaList, AFA, customStore.afa, 'afa', 'All', '');
 document.getElementById('afaSearch').addEventListener('input', function(e){
-  var activeChip = document.querySelector('#afaChips .chip.active');
-  renderOffenceList(afaList, AFA, customStore.afa, 'afa', activeChip ? activeChip.textContent : 'All', e.target.value);
+  var c = document.querySelector('#afaChips .chip.active');
+  renderOffenceList(afaList, AFA, customStore.afa, 'afa', c?c.textContent:'All', e.target.value);
 });
 document.getElementById('afaAddToggle').addEventListener('click', function(){
   var f = document.getElementById('afaAddForm');
-  if(!f.classList.contains('open')){ buildOffenceAddForm(f, 'afa'); }
+  if(!f.classList.contains('open')) buildOffenceAddForm(f, 'afa');
   f.classList.toggle('open');
 });
 
 var CIV_CATS = uniqueCats(CIV.concat(customStore.civ));
 var civList = document.getElementById('civList');
-renderChips(document.getElementById('civChips'), CIV_CATS, function(cat){
-  renderOffenceList(civList, CIV, customStore.civ, 'civ', cat, document.getElementById('civSearch').value);
-});
+renderChips(document.getElementById('civChips'), CIV_CATS, function(cat){ renderOffenceList(civList, CIV, customStore.civ, 'civ', cat, document.getElementById('civSearch').value); });
 renderOffenceList(civList, CIV, customStore.civ, 'civ', 'All', '');
 document.getElementById('civSearch').addEventListener('input', function(e){
-  var activeChip = document.querySelector('#civChips .chip.active');
-  renderOffenceList(civList, CIV, customStore.civ, 'civ', activeChip ? activeChip.textContent : 'All', e.target.value);
+  var c = document.querySelector('#civChips .chip.active');
+  renderOffenceList(civList, CIV, customStore.civ, 'civ', c?c.textContent:'All', e.target.value);
 });
 document.getElementById('civAddToggle').addEventListener('click', function(){
   var f = document.getElementById('civAddForm');
-  if(!f.classList.contains('open')){ buildOffenceAddForm(f, 'civ'); }
+  if(!f.classList.contains('open')) buildOffenceAddForm(f, 'civ');
   f.classList.toggle('open');
 });
 
-var TPL_CATS = uniqueCats(TEMPLATES.concat(customStore.templates));
-renderChips(document.getElementById('tplChips'), TPL_CATS, function(cat){
-  renderTemplates(cat, document.getElementById('tplSearch').value);
-});
-renderTemplates('All', '');
-document.getElementById('tplSearch').addEventListener('input', function(e){
-  var activeChip = document.querySelector('#tplChips .chip.active');
-  renderTemplates(activeChip ? activeChip.textContent : 'All', e.target.value);
-});
-document.getElementById('tplAddToggle').addEventListener('click', function(){
-  var f = document.getElementById('tplAddForm');
-  if(!f.classList.contains('open')){ buildTemplateAddForm(); }
-  f.classList.toggle('open');
-});
+renderPowers('');
+document.getElementById('powersSearch').addEventListener('input', function(e){ renderPowers(e.target.value); });
 
-document.getElementById('assistGoBtn').addEventListener('click', function(){
-  runAssistantSearch(document.getElementById('assistInput').value);
-});
-document.getElementById('assistInput').addEventListener('keydown', function(e){
-  if(e.key === 'Enter'){ runAssistantSearch(this.value); }
-});
-document.querySelectorAll('.quick-tile').forEach(function(tile){
-  tile.addEventListener('click', function(){
-    var q = tile.getAttribute('data-q');
-    document.getElementById('assistInput').value = q;
-    runAssistantSearch(q);
-  });
-});
+renderIdent('');
+document.getElementById('identSearch').addEventListener('input', function(e){ renderIdent(e.target.value); });
 
-var SPCOP_CATS = ['All'];
-SPCOP.forEach(function(s){ SPCOP_CATS.push(s.code); });
-renderChips(document.getElementById('spcopChips'), SPCOP_CATS, function(code){
-  renderSpcop(code, document.getElementById('spcopSearch').value);
-});
-renderSpcop('All','');
-document.getElementById('spcopSearch').addEventListener('input', function(e){
-  var activeChip = document.querySelector('#spcopChips .chip.active');
-  renderSpcop(activeChip ? activeChip.textContent : 'All', e.target.value);
-});
+renderJobChips();
+renderJob(JOB_TYPES[0]);
 
-var SG_CATS = uniqueCats(SAFEGUARD);
-renderChips(document.getElementById('sgChips'), SG_CATS, function(cat){ renderSafeguard(cat); });
-renderSafeguard('All');
+renderInvestList('');
+document.getElementById('investSearch').addEventListener('input', function(e){ renderInvestList(e.target.value); });
+buildChecklist(document.getElementById('cl-casefile'), CASEFILE_REVIEW_CL);
+
+renderEvidence();
 
 buildChecklist(document.getElementById('cl-necessity'), NECESSITY_CL);
 buildChecklist(document.getElementById('cl-atarrest'), ATARREST_CL);
 buildChecklist(document.getElementById('cl-custody'), CUSTODY_CL);
 buildChecklist(document.getElementById('cl-timelimits'), TIMELIMITS_CL);
 buildChecklist(document.getElementById('cl-vulnerable'), VULNERABLE_CL);
-buildChecklist(document.getElementById('cl-safety'), SAFETY_CL, updateNotes);
-buildChecklist(document.getElementById('cl-referral'), REFERRAL_CL, updateNotes);
-updateNotes();
 
-buildChecklist(document.getElementById('cl-da-arrival'), DA_ARRIVAL_CL);
-buildChecklist(document.getElementById('cl-da-risk'), DA_RISK_CL);
-buildChecklist(document.getElementById('cl-da-evidence'), DA_EVIDENCE_CL);
-buildChecklist(document.getElementById('cl-da-children'), DA_CHILDREN_CL);
-buildChecklist(document.getElementById('cl-da-suspect'), DA_SUSPECT_CL);
-buildChecklist(document.getElementById('cl-da-referral'), DA_REFERRAL_DA_CL);
+renderChecklistHub('');
+document.getElementById('checklistSearch').addEventListener('input', function(e){ renderChecklistHub(e.target.value); });
 
-document.getElementById('copyNotesBtn').addEventListener('click', function(){
-  var ta = document.getElementById('caseNotes');
-  ta.select();
-  document.execCommand('copy');
+var SG_CATS = uniqueCats(SAFEGUARD);
+renderChips(document.getElementById('sgChips'), SG_CATS, function(cat){ renderSafeguard(cat); });
+renderSafeguard('All');
+
+var SPCOP_CATS = ['All']; SPCOP.forEach(function(s){ SPCOP_CATS.push(s.code); });
+renderChips(document.getElementById('spcopChips'), SPCOP_CATS, function(code){ renderSpcop(code, document.getElementById('spcopSearch').value); });
+renderSpcop('All','');
+document.getElementById('spcopSearch').addEventListener('input', function(e){
+  var c = document.querySelector('#spcopChips .chip.active');
+  renderSpcop(c?c.textContent:'All', e.target.value);
 });
+renderRefList();
+
+document.getElementById('globalSearchBtn').addEventListener('click', function(){ runGlobalSearch(document.getElementById('globalSearchInput').value); });
+document.getElementById('globalSearchInput').addEventListener('keydown', function(e){ if(e.key==='Enter') runGlobalSearch(this.value); });
+
+document.querySelectorAll('.quick-pill').forEach(function(p){ p.addEventListener('click', function(){ goToTab(p.dataset.goto); }); });
 
 var tabs = document.querySelectorAll('.tab');
 for(var t=0;t<tabs.length;t++){
   tabs[t].addEventListener('click', function(){
-    var all = document.querySelectorAll('.tab');
-    for(var k=0;k<all.length;k++){ all[k].classList.remove('active'); }
+    var all = document.querySelectorAll('.tab'); for(var k=0;k<all.length;k++) all[k].classList.remove('active');
     this.classList.add('active');
-    var views = document.querySelectorAll('.panel-view');
-    for(var v=0;v<views.length;v++){ views[v].classList.remove('active'); }
-    document.getElementById('view-' + this.dataset.tab).classList.add('active');
+    var views = document.querySelectorAll('.panel-view'); for(var v=0;v<views.length;v++) views[v].classList.remove('active');
+    document.getElementById('view-'+this.dataset.tab).classList.add('active');
   });
-}if('serviceWorker' in navigator){
+}
+
+if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('service-worker.js').catch(function(err){
-      console.log('Service worker registration failed:', err);
-    });
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
   });
 }
 </script>

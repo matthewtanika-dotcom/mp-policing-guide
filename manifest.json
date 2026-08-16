@@ -1,7 +1,7 @@
 {
   "name": "MP Policing Guide",
   "short_name": "MP Guide",
-  "description": "MP Policing Guide by Majestiko — Service Police reference: AFA 2006, civilian offences, statement templates, SPCoP, safeguarding, MP Assistant search.",
+  "description": "Unofficial Service Police pocket reference: AFA 2006, civilian offences, MP powers, identification, checklists, safeguarding and reference material.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
