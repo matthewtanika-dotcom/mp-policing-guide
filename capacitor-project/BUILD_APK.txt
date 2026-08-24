@@ -1,13 +1,55 @@
-MP POLICING GUIDE - ANDROID BUILD
+BUILDING THE APK LOCALLY (OPTIONAL — GITHUB ACTIONS DOES THIS FOR YOU)
+=========================================================================
 
-This folder contains the Capacitor Android app configuration.
+If you push this repo to GitHub with the included workflows, you do
+NOT need any of this — GitHub's own servers build the APK for you
+automatically. See the root README.md.
 
-GitHub Actions automatically builds the Android APK.
+This file is only for building on your own computer as well.
 
-The main web application files are kept in the repository root.
+WHAT YOU NEED
+------------------------------------------------------
+1. Node.js (v18+) — https://nodejs.org
+2. Android Studio — https://developer.android.com/studio
 
-The GitHub workflow copies those files into the Capacitor www folder,
-creates the Android project and builds the APK.
+STEPS
+------------------------------------------------------
+Run these from inside the capacitor-project folder.
 
-Do not manually create the android folder in GitHub.
-GitHub Actions creates it during the build.
+1. Copy the current web app into this project (root index.html etc.
+   is the single source of truth — always run this after editing
+   anything at the repo root):
+   npm run copy-web
+
+2. Install dependencies:
+   npm install
+
+3. Add the Android platform (only needed the first time):
+   npx cap add android
+
+4. Generate the Android app icon and splash screen from the assets
+   in capacitor-project/assets/ (this is what fixes the default blue
+   Capacitor icon — skipping this step means the app installs with
+   the generic placeholder icon instead of the MP badge):
+   npm run generate-icons
+
+5. Sync the web app into the native project:
+   npx cap sync android
+
+6. Open in Android Studio:
+   npx cap open android
+
+7. Build a debug APK — in Android Studio: Build menu -> Build App
+   Bundle(s) / APK(s) -> Build APK(s).
+   Output: android/app/build/outputs/apk/debug/app-debug.apk
+
+8. Install it on your phone: copy the .apk across and open it,
+   allowing "install unknown apps" when prompted.
+
+RELEASE (SIGNED) BUILDS
+------------------------------------------------------
+The GitHub Actions release workflow produces a debug-signed APK,
+fine for sideloading but not for the Play Store. For a properly
+signed release build later, generate a signing key with keytool and
+use Android Studio's Build -> Generate Signed Bundle / APK option.
+Keep the keystore file and its passwords safe and out of the repo.
