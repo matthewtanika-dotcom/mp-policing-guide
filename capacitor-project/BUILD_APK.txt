@@ -1,0 +1,13 @@
+MP POLICING GUIDE - ANDROID BUILD
+
+This folder contains the Capacitor Android app configuration.
+
+GitHub Actions automatically builds the Android APK.
+
+The main web application files are kept in the repository root.
+
+The GitHub workflow copies those files into the Capacitor www folder,
+creates the Android project and builds the APK.
+
+Do not manually create the android folder in GitHub.
+GitHub Actions creates it during the build.
