@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MP Policing Guide</title>
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MP Guide">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap');
+
+  html{ font-size:16px; }
+  html[data-fontsize="small"]{ font-size:14px; }
+  html[data-fontsize="large"]{ font-size:19px; }
+
+  :root{
+    --bg:#0A0A0A; --bg2:#050505; --panel:#161616; --panel2:#1C1C1C;
+    --line:rgba(255,255,255,0.10); --red:#C8102E; --red-l:#F03A46; --red-dark:#7A0D13;
+    --amber:#D8A13A; --text:#F2F2F2; --muted:#9A9A9A; --gap:#4CAF50;
+    --headfont:'Barlow Condensed',sans-serif; --bodyfont:'Inter',sans-serif;
+  }
+  html[data-theme="gold"]{
+    --red:#D8A13A; --red-l:#F0C97A; --red-dark:#8A6F2F; --amber:#C8102E;
+  }
+  html[data-theme="dyslexic"]{
+    --bg:#1B1810; --bg2:#131108; --panel:#26221A; --panel2:#2E291F;
+    --line:rgba(245,239,224,0.14); --red:#B8863A; --red-l:#D9AE6E; --red-dark:#7A5A22;
+    --text:#F5EFE0; --muted:#C9BFA8;
+    --headfont:'Lexend',sans-serif; --bodyfont:'Lexend',sans-serif;
+  }
+  html[data-theme="dyslexic"] body{ line-height:1.75; letter-spacing:0.2px; }
+  html[data-theme="dyslexic"] .card-title, html[data-theme="dyslexic"] .card-sub,
+  html[data-theme="dyslexic"] ul.cl li, html[data-theme="dyslexic"] .definition,
+  html[data-theme="dyslexic"] .field-val, html[data-theme="dyslexic"] .note{ line-height:1.8; }
+  html[data-motion="reduced"] *{ transition:none !important; }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:var(--bodyfont); min-height:100vh; padding-bottom:60px;
+  }
+  h1,h2,h3,.disp{ font-family:var(--headfont); text-transform:uppercase; }
+
+  .topbar{
+    background:linear-gradient(180deg, var(--bg2), var(--bg));
+    border-bottom:2px solid var(--red);
+    padding:14px 18px 0;
+    position:sticky; top:0; z-index:20;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+  .crest{
+    width:34px; height:34px; border-radius:8px;
+    background:linear-gradient(135deg, var(--red), var(--red-dark));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--headfont); font-weight:700; font-size:0.9375rem; color:#fff;
+    border:1px solid rgba(255,255,255,0.25);
+  }
+  .brand-text .t1{ font-size:1.125rem; font-weight:700; letter-spacing:0.5px; line-height:1.1; }
+  .microdisclaimer{
+    font-size:0.65625rem; color:var(--muted); line-height:1.4; margin:0 0 10px 44px;
+  }
+
+  .tabs{ display:flex; gap:2px; overflow-x:auto; padding-bottom:0; }
+  .tab{
+    padding:9px 11px; font-size:0.71875rem; font-weight:600; color:var(--muted);
+    border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; letter-spacing:0.2px;
+  }
+  .tab.active{ color:#fff; border-color:var(--red); }
+
+  .wrap{ max-width:760px; margin:0 auto; padding:0 16px; }
+  .panel-view{ display:none; padding-top:16px; }
+  .panel-view.active{ display:block; }
+
+  .search{
+    width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line);
+    background:var(--panel); color:var(--text); font-size:0.90625rem; margin-bottom:14px; outline:none;
+  }
+  .search:focus{ border-color:var(--red-l); }
+
+  .chipbar{ display:flex; gap:8px; overflow-x:auto; margin-bottom:16px; }
+  .chip{
+    padding:7px 13px; border-radius:20px; background:var(--panel); border:1px solid var(--line);
+    font-size:0.75rem; color:var(--muted); white-space:nowrap; cursor:pointer;
+  }
+  .chip.active{ background:var(--red); border-color:var(--red); color:#fff; }
+
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
+  .card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; cursor:pointer; }
+  .card-title{ font-size:1rem; font-weight:600; line-height:1.35; }
+  .card-sub{ font-size:0.75rem; color:var(--red-l); margin-top:5px; font-weight:600; letter-spacing:0.3px; }
+  .card-body{ display:none; margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
+  .card.open .card-body{ display:block; }
+  .chev{ color:var(--muted); font-size:1.125rem; transition:.15s; }
+  .card.open .chev{ transform:rotate(180deg); }
+  .headctrls{ display:flex; align-items:center; gap:4px; }
+  .fav-btn{ background:none; border:none; font-size:1.0625rem; cursor:pointer; color:var(--muted); padding:2px 4px; }
+  .fav-btn.faved{ color:var(--amber); }
+  .del-btn{ background:none; border:none; color:var(--muted); font-size:1rem; cursor:pointer; padding:2px 6px; }
+  .del-btn:hover{ color:var(--red-l); }
+  .custom-badge{
+    font-size:0.59375rem; letter-spacing:1px; text-transform:uppercase; color:#fff;
+    background:var(--red); padding:2px 7px; border-radius:5px; margin-left:6px; vertical-align:middle;
+  }
+  .verify-badge{
+    font-size:0.59375rem; letter-spacing:1px; text-transform:uppercase; color:#241a05;
+    background:var(--amber); padding:2px 7px; border-radius:5px; margin-left:6px; vertical-align:middle;
+  }
+
+  .cl-title{ font-size:0.6875rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:12px 0 6px; }
+  .cl-title:first-child{ margin-top:0; }
+  ul.cl{ margin:0; padding:0; list-style:none; }
+  ul.cl li{ display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:0.84375rem; line-height:1.5; cursor:pointer; }
+  ul.cl li::before{
+    content:''; width:16px; height:16px; margin-top:2px; border-radius:5px; flex:none;
+    border:1.5px solid var(--muted); background:transparent;
+  }
+  ul.cl li.done::before{ background:var(--red); border-color:var(--red); }
+
+  ul.points{ margin:0; padding:0; list-style:none; }
+  ul.points li{ font-size:0.84375rem; line-height:1.6; padding:5px 0 5px 16px; position:relative; color:#DADADA; }
+  ul.points li::before{ content:'—'; position:absolute; left:0; color:var(--red-l); }
+
+  .definition{
+    font-size:0.84375rem; line-height:1.65; color:#DADADA; padding:12px 13px;
+    background:rgba(255,255,255,0.035); border-left:3px solid var(--red); border-radius:6px; margin-bottom:4px;
+  }
+  .note{ font-size:0.75rem; color:var(--muted); line-height:1.6; margin-top:10px; padding:10px; background:rgba(255,255,255,0.03); border-radius:8px; }
+  .field-row{ margin-bottom:10px; }
+  .field-label{ font-size:0.65625rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--red-l); font-weight:700; margin-bottom:3px; }
+  .field-val{ font-size:0.84375rem; line-height:1.6; color:#DADADA; }
+  .field-val.needverify{ color:var(--amber); font-style:italic; }
+
+  .sg-card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px; }
+  .sg-name{ font-size:1rem; font-weight:700; margin-bottom:3px; }
+  .sg-role{ font-size:0.78125rem; color:var(--muted); margin-bottom:10px; line-height:1.5; }
+  .sg-contact{ display:flex; gap:8px; flex-wrap:wrap; }
+  .sg-btn{
+    font-size:0.78125rem; padding:8px 12px; border-radius:8px; border:1px solid var(--line);
+    color:var(--text); background:rgba(255,255,255,0.03); text-decoration:none; display:flex; align-items:center; gap:6px;
+  }
+  .sg-btn.primary{ background:var(--red); border-color:var(--red); color:#fff; font-weight:600; }
+
+  .copybox{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:6px; }
+  .copybox textarea{
+    width:100%; min-height:110px; background:rgba(255,255,255,0.03); border:1px solid var(--line);
+    border-radius:8px; color:var(--text); font-family:'Inter',sans-serif; font-size:0.78125rem; padding:10px; resize:vertical;
+  }
+  .copy-btn{ margin-top:8px; padding:9px 14px; border-radius:8px; border:none; background:var(--red); color:#fff; font-weight:600; font-size:0.78125rem; cursor:pointer; }
+
+  .add-btn{
+    display:block; width:100%; padding:10px; margin-bottom:14px; border-radius:10px;
+    border:1px dashed var(--line); background:transparent; color:var(--red-l); font-size:0.8125rem; font-weight:600; cursor:pointer;
+  }
+  .add-btn:hover{ border-color:var(--red); background:rgba(200,16,46,0.06); }
+  .add-form{ display:none; background:var(--panel2); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:16px; }
+  .add-form.open{ display:block; }
+  .add-form label{ display:block; font-size:0.65625rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:10px 0 5px; }
+  .add-form label:first-child{ margin-top:0; }
+  .add-form input[type=text], .add-form textarea{
+    width:100%; padding:10px 12px; border-radius:8px; border:1px solid var(--line);
+    background:rgba(255,255,255,0.04); color:var(--text); font-family:'Inter',sans-serif; font-size:0.84375rem; outline:none;
+  }
+  .add-form textarea{ min-height:70px; resize:vertical; }
+  .add-form input:focus, .add-form textarea:focus{ border-color:var(--red-l); }
+  .add-form .form-btns{ display:flex; gap:8px; margin-top:14px; }
+  .add-form .form-btns button{ flex:1; padding:11px; border-radius:8px; border:none; font-weight:600; font-size:0.8125rem; cursor:pointer; }
+  .form-save{ background:var(--red); color:#fff; }
+  .form-cancel{ background:rgba(255,255,255,0.06); color:var(--muted); }
+
+  .section-h{ font-size:1.3125rem; font-weight:600; margin:4px 0 4px; }
+  .section-p{ font-size:0.78125rem; color:var(--muted); margin-bottom:14px; line-height:1.6; }
+  .errbox{ display:none; background:#3a1113; border:1px solid #7a2126; color:#ffc9cc; padding:12px; border-radius:10px; font-size:0.78125rem; margin-bottom:14px; }
+
+  .databar{
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:space-between;
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:30px;
+  }
+  .databar-text{ font-size:0.71875rem; color:var(--muted); line-height:1.5; flex:1; min-width:180px; }
+  .databar-btns{ display:flex; gap:8px; }
+  .db-btn{ padding:8px 12px; border-radius:8px; border:1px solid var(--line); background:rgba(255,255,255,0.04); color:var(--text); font-size:0.75rem; cursor:pointer; }
+  .db-btn:hover{ border-color:var(--red-l); }
+
+  /* HOME */
+  .home-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px; }
+  .home-tile{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 12px;
+    cursor:pointer; display:flex; flex-direction:column; gap:6px;
+  }
+  .home-tile:hover{ border-color:var(--red-l); }
+  .home-tile .num{ font-size:0.6875rem; color:var(--red-l); font-weight:700; }
+  .home-tile .lbl{ font-size:0.90625rem; font-weight:700; line-height:1.25; }
+  .quick-row{ display:flex; gap:8px; overflow-x:auto; margin-bottom:22px; }
+  .quick-pill{
+    flex:none; padding:9px 14px; border-radius:20px; background:var(--panel); border:1px solid var(--line);
+    font-size:0.78125rem; font-weight:600; cursor:pointer; white-space:nowrap;
+  }
+  .quick-pill:hover{ border-color:var(--red-l); }
+  .home-sub{ font-size:0.6875rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin:20px 0 10px; font-weight:700; }
+  .empty-row{ font-size:0.78125rem; color:var(--muted); padding:8px 0; }
+  .recent-item, .fav-item{
+    display:flex; justify-content:space-between; align-items:center; background:var(--panel); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; margin-bottom:8px; cursor:pointer; font-size:0.84375rem;
+  }
+  .recent-item:hover, .fav-item:hover{ border-color:var(--red-l); }
+  .recent-item .tag, .fav-item .tag{ font-size:0.625rem; color:var(--red-l); text-transform:uppercase; font-weight:700; letter-spacing:0.5px; }
+
+  footer{ text-align:center; font-size:0.6875rem; color:var(--muted); padding:30px 20px 0; line-height:1.7; }
+
+  /* SETTINGS */
+  .setting-block{ margin-bottom:26px; }
+  .setting-label{ font-size:0.6875rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:10px; }
+  .theme-row{ display:flex; gap:10px; margin-bottom:6px; }
+  .theme-swatch{
+    flex:1; border-radius:14px; padding:14px 10px; cursor:pointer; text-align:center;
+    border:2px solid var(--line); background:var(--panel);
+  }
+  .theme-swatch.active{ border-color:var(--red); }
+  .theme-swatch .dot{ width:30px; height:30px; border-radius:50%; margin:0 auto 8px; }
+  .theme-swatch .lbl{ font-size:0.75rem; font-weight:600; }
+  .fontsize-row{ display:flex; gap:8px; }
+  .fontsize-btn{
+    flex:1; padding:12px; border-radius:10px; border:1px solid var(--line); background:var(--panel);
+    color:var(--text); cursor:pointer; font-weight:600;
+  }
+  .fontsize-btn.active{ background:var(--red); border-color:var(--red); color:#fff; }
+  .toggle-row{
+    display:flex; justify-content:space-between; align-items:center; background:var(--panel);
+    border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin-bottom:10px;
+  }
+  .toggle-row .lbl{ font-size:0.875rem; font-weight:600; }
+  .toggle-row .desc{ font-size:0.75rem; color:var(--muted); margin-top:2px; }
+  .switch{ position:relative; width:46px; height:26px; flex:none; }
+  .switch input{ opacity:0; width:0; height:0; }
+  .switch .slider{
+    position:absolute; inset:0; background:var(--line); border-radius:26px; cursor:pointer; transition:.15s;
+  }
+  .switch .slider::before{
+    content:''; position:absolute; width:20px; height:20px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.15s;
+  }
+  .switch input:checked + .slider{ background:var(--red); }
+  .switch input:checked + .slider::before{ transform:translateX(20px); }
+  .settings-btn{
+    width:100%; padding:13px; border-radius:10px; border:1px solid var(--line); background:var(--panel);
+    color:var(--text); font-weight:600; cursor:pointer; margin-bottom:10px; font-size:0.875rem;
+  }
+  .settings-btn.danger{ border-color:rgba(200,16,46,0.4); color:var(--red-l); }
+
+  /* NDM */
+  .ndm-hub{
+    text-align:center; background:var(--panel2); border:2px solid var(--red); border-radius:16px;
+    padding:18px; margin-bottom:16px;
+  }
+  .ndm-hub .lbl{ font-family:var(--headfont); text-transform:uppercase; font-size:1.1rem; font-weight:700; }
+  .ndm-hub .sub{ font-size:0.75rem; color:var(--muted); margin-top:4px; }
+  .ndm-stage{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:12px;
+    border-left:4px solid var(--red);
+  }
+  .ndm-stage .n{ font-size:0.6875rem; color:var(--red-l); font-weight:700; letter-spacing:1px; text-transform:uppercase; }
+  .ndm-stage .t{ font-size:1rem; font-weight:700; margin:3px 0 8px; }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="crest">MP</div>
+    <div class="brand-text"><div class="t1">MP Policing Guide</div></div>
+  </div>
+  <div class="microdisclaimer">Unofficial reference and training aid. Verify current legislation, JSPs, SPCoP and official guidance before relying on this operationally.</div>
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-tab="home">Home</div>
+    <div class="tab" data-tab="afa">AFA 2006</div>
+    <div class="tab" data-tab="civ">Civilian Offences</div>
+    <div class="tab" data-tab="powers">MP Powers</div>
+    <div class="tab" data-tab="ident">Identification</div>
+    <div class="tab" data-tab="job">I'm At A Job</div>
+    <div class="tab" data-tab="invest">Investigation</div>
+    <div class="tab" data-tab="evidence">Evidence</div>
+    <div class="tab" data-tab="arrest">Arrest &amp; Custody</div>
+    <div class="tab" data-tab="checklists">Checklists</div>
+    <div class="tab" data-tab="safeguard">Safeguarding</div>
+    <div class="tab" data-tab="reference">Reference</div>
+    <div class="tab" data-tab="search">Search</div>
+    <div class="tab" data-tab="ndm">NDM</div>
+    <div class="tab" data-tab="settings">Settings</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HOME -->
+  <div class="panel-view active" id="view-home">
+    <div class="errbox" id="jsErrBox"></div>
+    <div class="quick-row">
+      <div class="quick-pill" data-goto="search">Search</div>
+      <div class="quick-pill" data-goto="afa">AFA 2006</div>
+      <div class="quick-pill" data-goto="civ">Civilian Offences</div>
+      <div class="quick-pill" data-goto="powers">Search Powers</div>
+      <div class="quick-pill" data-goto="ident">Identification</div>
+      <div class="quick-pill" data-goto="job">I'm At A Job</div>
+      <div class="quick-pill" data-goto="arrest">Arrest</div>
+      <div class="quick-pill" data-goto="evidence">Evidence</div>
+      <div class="quick-pill" data-goto="checklists">Checklists</div>
+    </div>
+    <div class="home-grid" id="homeGrid"></div>
+
+    <div class="home-sub">My Favourites</div>
+    <div id="favList"></div>
+
+    <div class="home-sub">Recently Viewed</div>
+    <div id="recentList"></div>
+  </div>
+
+  <!-- AFA 2006 -->
+  <div class="panel-view" id="view-afa">
+    <div class="section-h">Armed Forces Act 2006 — Part 1 offences</div>
+    <div class="section-p">Service disciplinary offences under AFA 2006. Definition, then what to establish, then an investigation checklist and evidence to consider.</div>
+    <input class="search" id="afaSearch" placeholder="Search AFA offences or section numbers">
+    <div class="chipbar" id="afaChips"></div>
+    <button class="add-btn" id="afaAddToggle">+ Add your own offence</button>
+    <div class="add-form" id="afaAddForm"></div>
+    <div id="afaList"></div>
+  </div>
+
+  <!-- CIVILIAN OFFENCES -->
+  <div class="panel-view" id="view-civ">
+    <div class="section-h">Civilian offences (applied via s.42)</div>
+    <div class="section-p">Common civilian offences under the law of England and Wales, which become service offences via section 42 AFA 2006. Not exhaustive — check current CPS charging standards for elements and thresholds.</div>
+    <input class="search" id="civSearch" placeholder="Search civilian offences, e.g. assault, theft, stalking">
+    <div class="chipbar" id="civChips"></div>
+    <button class="add-btn" id="civAddToggle">+ Add your own offence</button>
+    <div class="add-form" id="civAddForm"></div>
+    <div id="civList"></div>
+  </div>
+
+  <!-- MP POWERS -->
+  <div class="panel-view" id="view-powers">
+    <div class="section-h">Military Police powers</div>
+    <div class="section-p">Stop/search, entry, seizure and retention powers, kept separate from individual offences so you can find the power itself quickly. Fields marked <b style="color:var(--amber)">NEEDS VERIFICATION</b> are not something this app can confirm — check your current JSP 830 / SPCoP before relying on them.</div>
+    <input class="search" id="powersSearch" placeholder="Search powers, e.g. search, seizure, retention">
+    <div id="powersList"></div>
+  </div>
+
+  <!-- IDENTIFICATION -->
+  <div class="panel-view" id="view-ident">
+    <div class="section-h">Identification / VIPER</div>
+    <div class="section-p">General identification-procedure principles. Service Police Code D may differ from civilian PACE Code D in its exact requirements — items here are general practice, flagged where the exact current SPCoP Code D wording needs checking locally.</div>
+    <input class="search" id="identSearch" placeholder="Search identification procedures">
+    <div id="identList"></div>
+  </div>
+
+  <!-- I'M AT A JOB -->
+  <div class="panel-view" id="view-job">
+    <div class="section-h">I'm at a job</div>
+    <div class="section-p">Pick what you're dealing with for a structured operational checklist across safety, victim, suspect, powers, scene, evidence, witnesses, identification, safeguarding, investigation, recording and further enquiries.</div>
+    <div class="chipbar" id="jobChips"></div>
+    <div id="jobList"></div>
+  </div>
+
+  <!-- INVESTIGATION -->
+  <div class="panel-view" id="view-invest">
+    <div class="section-h">Investigation</div>
+    <div class="section-p">Pick an offence to jump to its points to prove and evidence checklist, then use the case file check below before moving the case on.</div>
+    <input class="search" id="investSearch" placeholder="Search offences to start an investigation">
+    <div id="investList"></div>
+    <div class="home-sub">Case file check</div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">Potential gaps to consider</div></div>
+      <div class="card-body"><ul class="cl" id="cl-casefile"></ul></div>
+    </div>
+  </div>
+
+  <!-- EVIDENCE -->
+  <div class="panel-view" id="view-evidence">
+    <div class="section-h">Evidence</div>
+    <div class="section-p">By evidence type: what to consider, preserve, record, and how continuity and disclosure apply.</div>
+    <div id="evidenceList"></div>
+  </div>
+
+  <!-- ARREST & CUSTODY -->
+  <div class="panel-view" id="view-arrest">
+    <div class="section-h">Arrest &amp; custody</div>
+    <div class="section-p"><b>Power to arrest:</b> section 67 AFA 2006 is the main service power of arrest for a service offence. <b>Necessity / procedural requirements:</b> SPCoP Code G (arrest) and Code C (detention, treatment and questioning) govern how that power must be used. The two are kept separate below. Wording here is a plain-language prompt, not the verbatim legal caution — confirm exact current wording in Code C before using it operationally.</div>
+
+    <div class="cl-title" style="margin-top:0;">Power to arrest — necessity</div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">Before you arrest</div></div>
+      <div class="card-body"><ul class="cl" id="cl-necessity"></ul></div>
+    </div>
+
+    <div class="cl-title">Necessity / procedural requirements</div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">At the point of arrest — legally required disclosures</div></div>
+      <div class="card-body">
+        <div class="note">Under Code G, at the time of arrest (or as soon as practicable after) you must make clear to the person: the fact that they are under arrest, and the grounds and reason for the arrest, even if these seem obvious. Failure to do this may make the arrest unlawful.</div>
+        <ul class="cl" id="cl-atarrest"></ul>
+      </div>
+    </div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">On arrival at service custody — entitlements to explain</div></div>
+      <div class="card-body"><ul class="cl" id="cl-custody"></ul></div>
+    </div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">Time limits and reviews</div></div>
+      <div class="card-body">
+        <div class="note">Section 98 AFA 2006: a person arrested under section 67 must not be kept in service custody without charge except in accordance with the further provisions of the Act. Confirm current review periods and authorisation levels with your custody officer/SOPs.</div>
+        <ul class="cl" id="cl-timelimits"></ul>
+      </div>
+    </div>
+    <div class="card open">
+      <div class="card-head"><div class="card-title">Vulnerable suspects</div></div>
+      <div class="card-body"><ul class="cl" id="cl-vulnerable"></ul></div>
+    </div>
+  </div>
+
+  <!-- CHECKLISTS -->
+  <div class="panel-view" id="view-checklists">
+    <div class="section-h">Checklists</div>
+    <div class="section-p">Every checklist in the app, in one searchable place, plus general ones below.</div>
+    <input class="search" id="checklistSearch" placeholder="Search checklists">
+    <div id="checklistHubList"></div>
+  </div>
+
+  <!-- SAFEGUARDING -->
+  <div class="panel-view" id="view-safeguard">
+    <div class="section-h">Safeguarding and signposting</div>
+    <div class="section-p">Have these ready before speaking to a victim. Filter by concern type. Each card has a one-tap call/WhatsApp link where a number is available. See also the Domestic abuse checklist under Checklists, and job-specific prompts under I'm At A Job.</div>
+    <div class="chipbar" id="sgChips"></div>
+    <div id="sgList"></div>
+  </div>
+
+  <!-- REFERENCE -->
+  <div class="panel-view" id="view-reference">
+    <div class="section-h">SPCoP / JSP / reference</div>
+    <div class="section-p">Codes A to G, issued under section 113 PACE 1984 for powers under Part 3 AFA 2006, summarised in plain language — confirm against the current published SPCoP edition. JSP 830 is not a public document, so no JSP content is included by default; add verified extracts yourself below.</div>
+    <input class="search" id="spcopSearch" placeholder="Search codes, e.g. search, detention, arrest">
+    <div class="chipbar" id="spcopChips"></div>
+    <div id="spcopList"></div>
+    <div class="home-sub">Your reference library</div>
+    <div class="note" style="margin-bottom:14px;">Add verified extracts from JSP 830 or other current orders here — this app does not include any by default, since these are not public documents.</div>
+    <button class="add-btn" id="refAddToggle">+ Add a reference entry</button>
+    <div class="add-form" id="refAddForm"></div>
+    <div id="refList"></div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="panel-view" id="view-search">
+    <div class="section-h">Search everything</div>
+    <div class="section-p">Searches offences, powers, identification procedures, checklists, safeguarding and reference content already in this app. This is plain local search, not a connected AI, and it does not access the internet.</div>
+    <div style="display:flex; gap:8px; margin-bottom:16px;">
+      <input type="text" id="globalSearchInput" class="search" style="margin-bottom:0;" placeholder="e.g. section 69, assault, retention, VIPER">
+      <button id="globalSearchBtn" style="padding:0 18px; border-radius:10px; border:none; background:var(--red); color:#fff; font-weight:600; cursor:pointer;">Go</button>
+    </div>
+    <div id="globalSearchResults"></div>
+  </div>
+
+  <!-- NATIONAL DECISION MODEL -->
+  <div class="panel-view" id="view-ndm">
+    <div class="section-h">National Decision Model</div>
+    <div class="section-p">The College of Policing's National Decision Model — a five-stage cycle used to structure decision-making under pressure, with the Code of Ethics as the constant reference point throughout. Confirm against current College of Policing / JSP guidance if your force has adapted it for Service Police use.</div>
+
+    <div class="ndm-hub">
+      <div class="lbl">Code of Ethics</div>
+      <div class="sub">Accountability &middot; Fairness &middot; Honesty &middot; Integrity &middot; Leadership &middot; Objectivity &middot; Openness &middot; Respect &middot; Selflessness</div>
+    </div>
+
+    <div id="ndmList"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="panel-view" id="view-settings">
+    <div class="section-h">Settings</div>
+    <div class="section-p">Colour scheme, text size and your saved data all live here.</div>
+
+    <div class="setting-block">
+      <div class="setting-label">Colour scheme</div>
+      <div class="theme-row" id="themeRow">
+        <div class="theme-swatch" data-theme="red"><div class="dot" style="background:linear-gradient(135deg,#C8102E,#0A0A0A)"></div><div class="lbl">Black &amp; Red</div></div>
+        <div class="theme-swatch" data-theme="gold"><div class="dot" style="background:linear-gradient(135deg,#D8A13A,#0A0A0A)"></div><div class="lbl">Black &amp; Gold</div></div>
+        <div class="theme-swatch" data-theme="dyslexic"><div class="dot" style="background:linear-gradient(135deg,#B8863A,#1B1810)"></div><div class="lbl">Dyslexic friendly</div></div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-label">Text size</div>
+      <div class="fontsize-row" id="fontsizeRow">
+        <div class="fontsize-btn" data-size="small">Small</div>
+        <div class="fontsize-btn" data-size="medium">Medium</div>
+        <div class="fontsize-btn" data-size="large">Large</div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-label">Accessibility</div>
+      <div class="toggle-row">
+        <div><div class="lbl">Reduce animations</div><div class="desc">Turns off card open/close and hover transitions.</div></div>
+        <label class="switch"><input type="checkbox" id="reduceMotionToggle"><span class="slider"></span></label>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-label">Your data</div>
+      <div class="note" style="margin-bottom:12px;">Custom offences, reference entries, favourites and recently viewed are all saved on this device only. Back them up before switching phones or reinstalling.</div>
+      <button class="settings-btn" id="exportBtn">Export my additions (backup)</button>
+      <button class="settings-btn" id="importBtn">Import backup</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+      <button class="settings-btn danger" id="clearFavBtn">Clear favourites &amp; recently viewed</button>
+      <button class="settings-btn danger" id="clearCustomBtn">Clear all custom offences &amp; reference entries</button>
+    </div>
+
+    <div class="setting-block">
+      <div class="setting-label">About</div>
+      <div class="note">MP Policing Guide — unofficial reference and training aid. Not affiliated with or endorsed by the MOD, RMP, RNP, RAFP or Defence Serious Crime Command. Always verify content against current legislation, JSPs, SPCoP and official guidance before relying on it operationally.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>MP Policing Guide is an unofficial field reference and training aid. Not affiliated with or endorsed by the MOD, RMP, RNP, RAFP or Defence Serious Crime Command.<br>Always verify content against current legislation, JSPs, SPCoP and official guidance before relying on it operationally.</footer>
+
+<script>
+var AFA = [
+  { cat:'Operations', title:'Assisting an enemy', ref:'AFA 2006 s.1',
+    def:'Covers conduct that assists an enemy, including surrendering, giving up a position that should have been defended, or otherwise aiding the enemy, without lawful excuse.',
+    checklist:['Establish operational context and orders in force at the time','Identify and secure witness statements from the unit chain of command','Seize and preserve orders, logs and communications records relevant to the incident','Consider referral to Defence Serious Crime Command given severity','Notify Service Prosecuting Authority liaison at the earliest opportunity'] },
+  { cat:'Operations', title:'Misconduct on operations', ref:'AFA 2006 s.2',
+    def:'Behaving in a manner prejudicial to the operation, before the enemy, without reasonable excuse — for example failing to engage or carry out a lawful order in an operational setting.',
+    checklist:['Record precise time and location relative to the operation','Identify the order or standard allegedly breached','Take statements from the immediate supervisor and witnesses','Preserve any radio, log or CCTV evidence'] },
+  { cat:'Operations', title:'Obstructing operations', ref:'AFA 2006 s.3',
+    def:'Intentionally or recklessly obstructing an operation being carried out by any of Her Majesty\u2019s forces or a force co-operating with them.',
+    checklist:['Establish what operation was obstructed and how','Identify intent or recklessness','Secure documentary evidence of the operation order'] },
+  { cat:'Property', title:'Looting', ref:'AFA 2006 s.4',
+    def:'Stealing property from a person killed, injured or captured in the course of operations, or from a place or ship taken as part of operations.',
+    checklist:['Recover and exhibit the property allegedly looted','Establish ownership and provenance','Take statements from any local witnesses','Photograph the scene and property before seizure'] },
+  { cat:'Operations', title:'Failure to escape etc as a prisoner', ref:'AFA 2006 s.5',
+    def:'Failing, without reasonable excuse, to rejoin Her Majesty\u2019s forces after being captured by the enemy, where escape or rejoining was possible.',
+    checklist:['Establish circumstances of capture or detention','Obtain debrief accounts and any available intelligence reporting'] },
+  { cat:'Mutiny', title:'Mutiny', ref:'AFA 2006 s.6',
+    def:'Taking part in a combination of two or more persons subject to service law to overthrow or resist lawful authority, or to disobey authority in a way that undermines discipline.',
+    checklist:['Identify all persons alleged to be involved','Separate accounts to avoid collusion','Secure any recordings, orders or written material','Report immediately to the chain of command and consider DSCC referral'] },
+  { cat:'Mutiny', title:'Failure to suppress mutiny', ref:'AFA 2006 s.7',
+    def:'Failing to take reasonable steps to prevent or suppress a mutiny, or to report it, when aware that a mutiny is taking place or being planned.',
+    checklist:['Establish what the individual knew and when','Establish what steps were reasonably open to them'] },
+  { cat:'AWOL', title:'Desertion', ref:'AFA 2006 s.8',
+    def:'Being absent without leave with intent to remain permanently absent, or with intent to avoid a period of active service.',
+    checklist:['Confirm absence start date and time from unit records','Establish intent, permanent absence or avoidance of active service','Check welfare and safe-and-well status before any arrest action','Consider next of kin welfare notification','Liaise with admin or manning regarding forfeiture of service implications'] },
+  { cat:'AWOL', title:'Absence without leave (AWOL)', ref:'AFA 2006 s.9',
+    def:'Being absent from duty without permission. Can be committed negligently, recklessly, or intentionally.',
+    checklist:['Confirm the exact period of unauthorised absence','Obtain unit roll and attendance records','Establish whether negligent, reckless or intentional','Carry out a welfare and safe-and-well check','Record apprehension circumstances if applicable'] },
+  { cat:'AWOL', title:'Failure to cause apprehension of a deserter or absentee', ref:'AFA 2006 s.10',
+    def:'Failing to take reasonable steps to cause a known deserter or absentee to be apprehended.',
+    checklist:['Establish what the individual knew about the deserter or absentee','Establish what steps were reasonably open to them and were not taken'] },
+  { cat:'Insubordination', title:'Misconduct towards a superior officer', ref:'AFA 2006 s.11',
+    def:'Behaving with contempt, or using threatening or insulting words or behaviour, towards a superior officer.',
+    checklist:['Confirm the complainant rank or status as a superior officer at the time','Obtain independent witness accounts','Record the exact words or actions alleged'] },
+  { cat:'Insubordination', title:'Disobedience to lawful commands', ref:'AFA 2006 s.12',
+    def:'Disobeying a lawful command given by a superior officer, without reasonable excuse.',
+    checklist:['Establish the command given, by whom, and its lawfulness','Confirm the order was clearly communicated and understood','Obtain witness accounts of the refusal or failure to comply'] },
+  { cat:'Insubordination', title:'Contravention of standing orders', ref:'AFA 2006 s.13',
+    def:'Contravening, or failing to comply with, a standing order that applied to the person at the time.',
+    checklist:['Identify the specific standing order allegedly breached','Confirm the order was in force and promulgated to the individual'] },
+  { cat:'Insubordination', title:'Using force against a sentry etc', ref:'AFA 2006 s.14',
+    def:'Using or threatening force against a sentry, or a person on watch or exercising authority on behalf of a provost officer.',
+    checklist:['Confirm sentry or provost status at the time','Establish nature and degree of force used','Secure medical evidence of any injury'] },
+  { cat:'Neglect & Misconduct', title:'Failure to attend for or perform duty', ref:'AFA 2006 s.15',
+    def:'Failing without reasonable excuse to attend for a parade, duty or task, or leaving a duty before being properly relieved.',
+    checklist:['Obtain duty rosters and orders','Confirm notice given to the individual','Establish the reason given for non-attendance'] },
+  { cat:'Neglect & Misconduct', title:'Malingering', ref:'AFA 2006 s.16',
+    def:'Feigning or producing disease or infirmity, or aggravating or delaying the cure of a genuine one, to avoid duty.',
+    checklist:['Obtain medical officer statement and records','Establish evidence of a feigned or self-induced condition'] },
+  { cat:'Neglect & Misconduct', title:'Disclosure of information useful to an enemy', ref:'AFA 2006 s.17',
+    def:'Disclosing information, without lawful authority, that would or might be useful to an enemy.',
+    checklist:['Identify precise information disclosed and to whom','Assess classification and sensitivity, consider referral for security investigation'] },
+  { cat:'Neglect & Misconduct', title:'Making false records etc', ref:'AFA 2006 s.18',
+    def:'Making, or being party to making, a false entry in, or destroying or altering, an official document or record, knowing it to be false.',
+    checklist:['Secure the original and falsified document or record','Establish who created or altered the record and when','Identify any downstream reliance on the false record'] },
+  { cat:'Neglect & Misconduct', title:'Conduct prejudicial to good order and discipline', ref:'AFA 2006 s.19',
+    def:'A broad offence covering conduct, of whatever kind, that is prejudicial to good order and service discipline and is not more specifically covered elsewhere in the Act.',
+    checklist:['Clearly particularise the conduct alleged','Obtain witness accounts','Consider whether a more specific offence applies instead'] },
+  { cat:'Neglect & Misconduct', title:'Unfitness or misconduct through alcohol or drugs', ref:'AFA 2006 s.20',
+    def:'Being unfit for duty, or behaving in an unacceptable manner, as a result of the voluntary consumption of alcohol or a drug.',
+    checklist:['Obtain an evidential breath, blood or urine sample per current procedure where applicable','Record observed signs of impairment in speech, coordination and behaviour','Secure CCTV and witness accounts','Consider duty status and any safety-critical role involved'] },
+  { cat:'Violence', title:'Fighting or threatening behaviour', ref:'AFA 2006 s.21',
+    def:'Fighting another person, or using threatening or abusive words or behaviour with intent to cause fear of violence.',
+    checklist:['Separate all parties immediately','Obtain individual accounts without cross-contamination','Photograph any injuries and the scene','Identify and preserve CCTV'] },
+  { cat:'Violence', title:'Ill-treatment of subordinates', ref:'AFA 2006 s.22',
+    def:'A person who is subject to service law and senior in rank ill-treating a subordinate, in a way that is more than merely a lawful exercise of authority.',
+    checklist:['Confirm the rank relationship between parties','Take a detailed victim account away from the alleged perpetrator','Consider welfare and safeguarding referral, see the Safeguarding tab','Preserve any written orders, messages or social media evidence'] },
+  { cat:'Violence', title:'Disgraceful conduct of a cruel or indecent kind', ref:'AFA 2006 s.23',
+    def:'Cruel or indecent conduct is an offence under this section where the circumstances, motive or other factors render it disgraceful, rather than merely unpleasant or regrettable.',
+    checklist:['Particularise conduct and context precisely','Obtain independent witness accounts','Consider whether a Schedule 2 civilian sexual offence also applies'] },
+  { cat:'Property', title:'Damage to or loss of public or service property', ref:'AFA 2006 s.24',
+    def:'Causing damage to, or the loss of, public or service property, or the property of another member of the armed forces, through the person\u2019s own fault.',
+    checklist:['Identify and value the property','Obtain custody and accountability records showing who held it and when','Photograph damage before repair or disposal'] },
+  { cat:'Property', title:'Misapplying or wasting public or service property', ref:'AFA 2006 s.25',
+    def:'Applying public or service property to a use for which it is not authorised, or wastefully using it.',
+    checklist:['Establish authorised use of the property or resource','Obtain financial or quartermaster records'] },
+  { cat:'Justice System', title:'Obstructing or failing to assist a service policeman', ref:'AFA 2006 s.27',
+    def:'Obstructing a service policeman, or a person exercising authority on behalf of a provost officer, or failing to assist them when called upon, in the execution of their duty.',
+    checklist:['Record the precise words or actions of obstruction','Confirm the service policeman was acting in the execution of duty','Obtain independent witness accounts'] },
+  { cat:'Justice System', title:'Resistance to arrest etc', ref:'AFA 2006 s.28',
+    def:'Resisting or intentionally obstructing a lawful arrest of oneself or another person by anyone authorised to make it.',
+    checklist:['Confirm lawfulness of the arrest itself first, see the Arrest and Rights tab','Record force used and injuries to any party','Secure body-worn or CCTV footage if available'] },
+  { cat:'Justice System', title:'Offences in relation to service custody', ref:'AFA 2006 s.29',
+    def:'Escaping from service custody, or assisting another person to do so, or otherwise misconducting oneself in relation to custody arrangements.',
+    checklist:['Obtain custody record entries','Identify custody staff on duty at the relevant time'] },
+  { cat:'Justice System', title:'Allowing escape or unlawful release of prisoners', ref:'AFA 2006 s.30',
+    def:'Negligently or intentionally allowing the escape of a prisoner in one\u2019s charge, or unlawfully releasing them.',
+    checklist:['Obtain the custody record and handover logs','Establish the authorisation basis for any release'] },
+  { cat:'Ships & Aircraft', title:'Hazarding of a ship', ref:'AFA 2006 s.31',
+    def:'Intentionally, or through neglect of duty, hazarding or endangering a Her Majesty\u2019s ship, or failing to take reasonable steps to prevent this.',
+    checklist:['Obtain the ships log and navigational records','Interview the officer of the watch and bridge team','Preserve chart or ECDIS data if available'] },
+  { cat:'Ships & Aircraft', title:'Dangerous flying etc', ref:'AFA 2006 s.33',
+    def:'Flying, or causing an aircraft to fly, in a manner or state that causes unnecessary danger to any person or property.',
+    checklist:['Secure flight data or voice recorder material if applicable','Obtain flying orders and the authorisation sheet','Interview crew separately'] },
+  { cat:'Ships & Aircraft', title:'Low flying', ref:'AFA 2006 s.34',
+    def:'Flying an aircraft at a height lower than is authorised, without lawful excuse.',
+    checklist:['Obtain radar or track data and authorised low-flying area details','Interview crew and any ground witnesses'] }
+];
+
+
+var CIV = [
+  { cat:'Violence', title:'Common assault', ref:'Criminal Justice Act 1988 s.39',
+    def:'Intentionally or recklessly applying unlawful force to another person, or causing another person to apprehend immediate unlawful force. Summary-only offence at common law level.',
+    checklist:['Separate the parties immediately and take first accounts individually, before they have a chance to speak to each other or align their stories','Photograph any visible injury, and just as importantly photograph and note the absence of injury where none is visible','Identify and preserve CCTV or body-worn footage before it is overwritten, checking retention periods with the site or system holder','Take independent witness statements as soon as possible, while memories are fresh'] },
+  { cat:'Violence', title:'Assault occasioning actual bodily harm (ABH)', ref:'Offences Against the Person Act 1861 s.47',
+    def:'An assault or battery that causes actual bodily harm — an injury that is more than transient or trifling, including psychiatric injury supported by medical evidence.',
+    checklist:['Obtain medical evidence or a statement from the treating clinician describing the injury and how it is consistent with the account given','Photograph injuries as soon as practicable, and again after a few days once bruising has developed, since injuries often look worse later','Establish the mechanism of injury from every account taken, and note where accounts differ','Preserve any weapon or object used as an exhibit, packaged correctly to avoid contamination'] },
+  { cat:'Violence', title:'Wounding or grievous bodily harm (GBH)', ref:'Offences Against the Person Act 1861 s.20',
+    def:'Unlawfully and maliciously wounding a person, or inflicting grievous (serious) bodily harm, without an intent to cause that level of harm.',
+    checklist:['Obtain full medical records and a prognosis, since the seriousness of the injury is central to this offence','Establish precisely what weapon or mechanism caused the injury, from medical and witness evidence together','Consider forensic recovery from the scene and any exhibits before they are lost or cleaned away','Assess whether the more serious s.18 offence, which requires proof of intent, may be more appropriate on the facts'] },
+  { cat:'Violence', title:'Wounding or GBH with intent', ref:'Offences Against the Person Act 1861 s.18',
+    def:'Unlawfully and maliciously wounding or causing grievous bodily harm with intent to cause grievous bodily harm, or with intent to resist or prevent a lawful arrest.',
+    checklist:['Establish evidence of intent specifically, not just recklessness — look at what was said beforehand, the weapon chosen, and the target area of any blows','Obtain full medical records and a prognosis','Preserve weapon and forensic evidence without delay, given how central this will be to proving intent','Consider referral to Defence Serious Crime Command given the severity of this offence'] },
+  { cat:'Sexual Offences', title:'Rape', ref:'Sexual Offences Act 2003 s.1',
+    def:'Intentional penile penetration of the vagina, anus or mouth of another person, without that person\u2019s consent, where the accused does not reasonably believe the person consents.',
+    checklist:['Offer a specially trained officer or ISVA referral immediately, before any detailed account is taken, so the victim has support in place from the outset — see the Safeguarding tab','Consider early evidence capture and a forensic strategy without delay, since perishable evidence can be lost within hours','Consider whether Sexual Assault Referral Centre attendance is appropriate, and explain to the victim what this involves so the choice is genuinely informed','Notify Defence Serious Crime Command per current Schedule 2 procedures as soon as practicable','Preserve clothing and any digital evidence per current policy, avoiding unnecessary handling that could affect forensic recovery','Avoid pressing for a full detailed account yourself — let a trained interviewer lead an ABE-style interview where required, and focus on safety and initial account only'] },
+  { cat:'Sexual Offences', title:'Assault by penetration', ref:'Sexual Offences Act 2003 s.2',
+    def:'Intentionally penetrating the vagina or anus of another person with a part of the body or anything else, without consent and without reasonable belief in consent.',
+    checklist:['Offer an ISVA or specially trained officer referral immediately','Consider a forensic and medical strategy without delay, given the time-sensitivity of this type of evidence','Notify Defence Serious Crime Command as soon as practicable'] },
+  { cat:'Sexual Offences', title:'Sexual assault', ref:'Sexual Offences Act 2003 s.3',
+    def:'Intentionally touching another person sexually, without consent and without reasonable belief in consent.',
+    checklist:['Take a detailed, victim-led account at the victim\u2019s own pace, rather than working through a fixed list of questions','Consider forensic recovery from clothing or skin where relevant, and preserve items without unnecessary handling','Offer ISVA referral and the wider safeguarding signposting available on the Safeguarding tab'] },
+  { cat:'Sexual Offences', title:'Causing a person to engage in sexual activity without consent', ref:'Sexual Offences Act 2003 s.4',
+    def:'Intentionally causing another person to engage in a sexual activity, without that person\u2019s consent and without reasonable belief in consent.',
+    checklist:['Establish exactly what activity was caused and by what means, for example threats, deception or coercion','Offer ISVA referral and safeguarding signposting','Preserve any messages, images or communications relevant to the offence before they can be deleted'] },
+  { cat:'Property', title:'Theft', ref:'Theft Act 1968 s.1',
+    def:'Dishonestly appropriating property belonging to another, with the intention of permanently depriving the other of it.',
+    checklist:['Identify and value the property precisely, with a receipt or valuation where possible','Obtain CCTV and access records covering the relevant period before they are overwritten','Establish ownership and consider any claim of right the accused may raise, for example a genuine belief the property was theirs','Preserve any recovered property as an exhibit, logged with a clear chain of custody'] },
+  { cat:'Property', title:'Robbery', ref:'Theft Act 1968 s.8',
+    def:'Theft accompanied by the use of force, or the threat of force, immediately before or during the theft, in order to steal.',
+    checklist:['Establish the exact nature of the force or threat used, and whether it was used specifically to enable the theft','Secure CCTV and forensic evidence from the scene as a priority, given how quickly it can be lost','Preserve any weapon used as an exhibit','Take an early, detailed victim account while the sequence of events is still fresh'] },
+  { cat:'Property', title:'Burglary', ref:'Theft Act 1968 s.9',
+    def:'Entering a building, or part of a building, as a trespasser with intent to steal, cause grievous bodily harm, or cause criminal damage, or having entered, doing so.',
+    checklist:['Establish the point and method of entry, and photograph it before any repair work begins','Preserve forensic evidence at the point of entry, such as tool marks, fingerprints or DNA','Identify precisely what, if anything, was taken or damaged, with a full inventory from the occupier','Obtain CCTV covering likely approach and escape routes, not just the immediate scene'] },
+  { cat:'Property', title:'Fraud by false representation', ref:'Fraud Act 2006 s.2',
+    def:'Dishonestly making a false representation, intending to make a gain or cause a loss, or expose another to a risk of loss.',
+    checklist:['Obtain documentary or digital evidence of the representation made, in its original form wherever possible','Establish what gain or loss resulted, or was intended, even if the fraud was not ultimately successful','Preserve financial records and transaction history before accounts can be closed or altered'] },
+  { cat:'Property', title:'Handling stolen goods', ref:'Theft Act 1968 s.22',
+    def:'Dishonestly receiving, or arranging to receive, stolen goods, or dishonestly undertaking or assisting in their retention, removal, disposal or realisation, knowing or believing them to be stolen.',
+    checklist:['Establish the provenance of the goods and exactly how the accused says they were obtained','Assess what the accused knew or believed about their origin at the time, not just what turned out to be true','Preserve the goods as exhibits with a clear chain of custody back to the original theft where possible'] },
+  { cat:'Property', title:'Criminal damage', ref:'Criminal Damage Act 1971 s.1',
+    def:'Intentionally or recklessly destroying or damaging property belonging to another, without lawful excuse.',
+    checklist:['Photograph damage before any repair or cleanup takes place','Obtain a repair or replacement valuation to support any charging decision','Identify and preserve any tool or means used to cause the damage'] },
+  { cat:'Drugs', title:'Possession of a controlled drug', ref:'Misuse of Drugs Act 1971 s.5(2)',
+    def:'Having a controlled drug in one\u2019s possession, without lawful authority or a defence under the Act.',
+    checklist:['Seize and exhibit the substance per current forensic packaging procedure, sealing it in the presence of the person where practicable','Establish the drug class and approximate quantity, and arrange testing where required','Consider whether indicators of supply are present rather than simple possession, and refer to the supply entry below if so'] },
+  { cat:'Drugs', title:'Possession with intent to supply', ref:'Misuse of Drugs Act 1971 s.5(3)',
+    def:'Possessing a controlled drug with the intention of supplying it to another person.',
+    checklist:['Look for supply indicators such as scales, multiple individually wrapped deals, quantities of cash, or messages referring to sales','Seize and exhibit devices such as phones per current digital forensics policy, since messages are often central to proving intent to supply','Establish the drug class and total quantity, and how this compares with typical personal-use amounts'] },
+  { cat:'Drugs', title:'Supply of a controlled drug', ref:'Misuse of Drugs Act 1971 s.4(3)',
+    def:'Supplying, or offering to supply, a controlled drug to another person.',
+    checklist:['Establish evidence of the transaction itself, whether through direct observation, messages, or a test purchase carried out under current authorisation procedures','Seize and exhibit any drugs, cash or packaging recovered, with a clear note of exactly where each item was found'] },
+  { cat:'Road Traffic', title:'Driving with excess alcohol or drugs', ref:'Road Traffic Act 1988 s.5 / s.5A',
+    def:'Driving, attempting to drive, or being in charge of a motor vehicle with alcohol or a specified controlled drug above the prescribed limit.',
+    checklist:['Obtain an evidential breath, blood or urine sample per current procedure, and record the exact time each stage of the process happened','Record the driving pattern observed prior to the stop, since this can support the case independently of the sample result','Secure any dashcam or CCTV footage of the driving and the stop itself'] },
+  { cat:'Road Traffic', title:'Dangerous driving', ref:'Road Traffic Act 1988 s.2',
+    def:'Driving that falls far below the standard expected of a competent and careful driver, and where it would be obvious to such a driver that driving in that way was dangerous.',
+    checklist:['Obtain dashcam, CCTV or vehicle telematics data if available, before it is overwritten or lost','Record the road layout, weather and lighting conditions at the time, since these affect what standard of driving was reasonable','Take independent witness accounts describing exactly what they saw the vehicle do','Photograph vehicle damage and the wider scene, including skid marks or debris'] },
+  { cat:'Road Traffic', title:'Careless or inconsiderate driving', ref:'Road Traffic Act 1988 s.3',
+    def:'Driving without due care and attention, or without reasonable consideration for other road users.',
+    checklist:['Record the manner of driving observed in specific, factual terms rather than general impressions','Obtain any available footage covering the manoeuvre in question','Take witness accounts as soon as possible after the incident'] },
+  { cat:'Public Order', title:'Affray', ref:'Public Order Act 1986 s.3',
+    def:'Using or threatening unlawful violence towards another, in a way that would cause a person of reasonable firmness present at the scene to fear for their personal safety.',
+    checklist:['Obtain independent witness accounts describing what a bystander would have seen and felt, since the test is judged from their perspective','Secure CCTV or body-worn footage covering the whole incident, not just the flashpoint','Record the exact words and behaviour used and the wider context, including numbers of people involved'] },
+  { cat:'Public Order', title:'Causing harassment, alarm or distress', ref:'Public Order Act 1986 s.4A / s.5',
+    def:'Using threatening, abusive or insulting words, behaviour, or writing, within sight or hearing of a person likely to be caused harassment, alarm or distress.',
+    checklist:['Obtain independent witness accounts, including anyone who was caused harassment, alarm or distress even if not the primary target','Secure CCTV or body-worn footage where available','Record the exact words or behaviour alleged, rather than a paraphrase or summary'] },
+  { cat:'Harassment & Stalking', title:'Harassment', ref:'Protection from Harassment Act 1997 s.2',
+    def:'Pursuing a course of conduct, on at least two occasions, which amounts to harassment of another person and which the person knew or ought to have known amounted to harassment.',
+    checklist:['Establish a course of conduct with dates for each separate incident, since a single incident alone will not usually be enough','Preserve messages, call logs, or other communications as they are received, rather than relying on the victim to keep them','Consider a risk assessment and safety planning for the victim at the earliest opportunity, not just after a formal report is made'] },
+  { cat:'Harassment & Stalking', title:'Stalking', ref:'Protection from Harassment Act 1997 s.2A / s.4A',
+    def:'A course of conduct amounting to harassment which also involves acts associated with stalking, such as following, monitoring, or unwanted contact, and which causes fear of violence or serious alarm or distress.',
+    checklist:['Establish a course of conduct with dates and specific stalking-type acts, such as following, loitering, or unwanted gifts or contact','Preserve digital evidence, location data, messages and social media activity, which is often central to proving a pattern','Complete a current stalking risk assessment per force policy, since risk in stalking cases can escalate quickly and unpredictably','Consider immediate safety planning for the victim, including changes to routine where appropriate'] },
+  { cat:'Domestic Abuse', title:'Controlling or coercive behaviour', ref:'Serious Crime Act 2015 s.76',
+    def:'Repeated or continuous controlling or coercive behaviour by a person towards another to whom they are personally connected, that has a serious effect on the victim, for example causing fear of violence or serious alarm or distress that affects day-to-day activities.',
+    checklist:['Establish a pattern of behaviour over time, not a single incident, by asking open questions about how the relationship works day to day','Complete a current risk assessment per force policy, and treat this offence with the same seriousness as physical violence','Offer Aurora New Dawn Armed Forces Helpline referral, see the Safeguarding tab','Notify British Forces Social Work Service if overseas or dependants are involved','Check for children in the household and consider their exposure to the controlling behaviour, not just direct harm to them'] },
+  { cat:'Justice', title:'Perverting the course of justice', ref:'Common law offence',
+    def:'An act, or series of acts, that has a tendency to and is intended to obstruct, prevent, pervert or defeat the course of public justice — for example destroying evidence or making a false statement to police.',
+    checklist:['Identify the specific act alleged to interfere with justice, and when it occurred relative to any ongoing investigation or proceedings','Preserve the original evidence said to have been interfered with, or the best available record of it','Establish intent from the accounts and surrounding circumstances, since an innocent explanation should also be considered'] },
+  { cat:'Weapons', title:'Possession of a bladed article', ref:'Criminal Justice Act 1988 s.139',
+    def:'Having an article with a blade or point in a public place, without good reason or lawful authority.',
+    checklist:['Seize and exhibit the article safely, following current handling procedures','Establish the exact location and circumstances the person was found in','Ask about, and record verbatim, any reason given for possession before it can be reconsidered or changed'] },
+  { cat:'Weapons', title:'Possession of an offensive weapon', ref:'Prevention of Crime Act 1953 s.1',
+    def:'Having an offensive weapon in a public place without lawful authority or reasonable excuse.',
+    checklist:['Seize and exhibit the weapon safely','Establish whether it is offensive by its nature, such as a knuckleduster, or only became offensive through its intended use','Record the circumstances of possession in the person\u2019s own words at the time'] },
+  { cat:'Weapons', title:'Possession of a firearm without a certificate', ref:'Firearms Act 1968 s.1',
+    def:'Possessing, purchasing or acquiring a firearm or ammunition to which section 1 applies, without holding a valid firearm certificate.',
+    checklist:['Seize and exhibit the firearm and any ammunition safely','Check certificate status through the relevant firearms licensing authority','Establish how and when the firearm was obtained'] },
+  { cat:'Weapons', title:'Possession of a firearm with intent to endanger life', ref:'Firearms Act 1968 s.16',
+    def:'Possessing a firearm or ammunition with intent, by means of it, to endanger life or enable another person to do so.',
+    checklist:['Establish evidence of intent from words, actions or circumstances','Seize and exhibit the firearm safely, following current armed procedures','Consider immediate risk to any named or identifiable person and safeguard them'] },
+  { cat:'Violence', title:'Murder', ref:'Common law offence',
+    def:'Unlawfully causing the death of another person with an intention to kill or to cause grievous bodily harm.',
+    checklist:['Preserve the scene and restrict access immediately','Notify Defence Serious Crime Command without delay','Do not move or disturb the body other than for life-saving intervention','Secure CCTV, witnesses and any weapon at the earliest opportunity'] },
+  { cat:'Violence', title:'Manslaughter', ref:'Common law offence',
+    def:'Unlawfully causing the death of another person without the intent required for murder, for example through an unlawful and dangerous act, gross negligence, or loss of control.',
+    checklist:['Preserve the scene and restrict access immediately','Notify Defence Serious Crime Command without delay','Obtain full medical and forensic evidence on cause of death','Secure witness accounts as early as possible'] },
+  { cat:'Violence', title:'Threats to kill', ref:'Offences Against the Person Act 1861 s.16',
+    def:'Making a threat, without lawful excuse, to kill another person, intending that person to fear the threat would be carried out.',
+    checklist:['Record the exact words or message used','Preserve any written, text or voice evidence of the threat','Assess immediate risk to the person threatened and consider protective action'] },
+  { cat:'Sexual Offences', title:'Rape of a child under 13', ref:'Sexual Offences Act 2003 s.5',
+    def:'Intentional penile penetration of the vagina, anus or mouth of a child under 13. Consent is not a defence to this offence.',
+    checklist:['Notify Defence Serious Crime Command and child safeguarding leads immediately','Follow current ABE (Achieving Best Evidence) interview procedures for child witnesses','Do not delay a joint referral with children\u2019s social care/BFSWS','Preserve any digital or physical evidence per current policy'] },
+  { cat:'Sexual Offences', title:'Sexual assault of a child under 13', ref:'Sexual Offences Act 2003 s.7',
+    def:'Intentionally touching a child under 13 sexually. Consent is not a defence to this offence.',
+    checklist:['Notify Defence Serious Crime Command and child safeguarding leads immediately','Follow current ABE interview procedures for child witnesses','Make a joint referral with children\u2019s social care/BFSWS without delay'] },
+  { cat:'Sexual Offences', title:'Sexual activity with a child', ref:'Sexual Offences Act 2003 s.9',
+    def:'An adult intentionally engaging in sexual activity with, or in the presence of, a person under 16, in specified circumstances set out in the Act.',
+    checklist:['Notify Defence Serious Crime Command and child safeguarding leads immediately','Establish the ages of those involved and any position of trust','Follow current ABE interview procedures'] },
+  { cat:'Sexual Offences', title:'Meeting a child following sexual grooming', ref:'Sexual Offences Act 2003 s.15',
+    def:'An adult who has communicated with a child on at least one earlier occasion, then travelling to meet or arranging to meet the child, intending to commit a relevant sexual offence.',
+    checklist:['Preserve all messages, call logs and platform data','Notify child safeguarding leads and Defence Serious Crime Command','Establish the full communication history and any travel or meeting arrangements'] },
+  { cat:'Sexual Offences', title:'Indecent images of a child', ref:'Protection of Children Act 1978 s.1 / Criminal Justice Act 1988 s.160',
+    def:'Taking, making, distributing, showing, or possessing an indecent photograph or pseudo-photograph of a child.',
+    checklist:['Do not view or forward any suspected material beyond what is necessary to confirm a report','Preserve devices unexamined and seize per current digital forensics policy','Notify Defence Serious Crime Command and child safeguarding leads immediately'] },
+  { cat:'Sexual Offences', title:'Voyeurism', ref:'Sexual Offences Act 2003 s.67',
+    def:'Observing, or recording, another person doing a private act, for the purpose of sexual gratification, without that person\u2019s consent.',
+    checklist:['Seize and preserve any recording device or images as an exhibit','Establish how and when the observation or recording took place','Offer victim safeguarding and support referral'] },
+  { cat:'Sexual Offences', title:'Exposure', ref:'Sexual Offences Act 2003 s.66',
+    def:'Intentionally exposing one\u2019s genitals, intending that another person will see them and be caused alarm or distress.',
+    checklist:['Obtain a detailed description and any CCTV of the incident','Take an independent witness account','Consider whether this forms part of a wider pattern of offending'] },
+  { cat:'Sexual Offences', title:'Trafficking for sexual exploitation', ref:'Sexual Offences Act 2003 s.59A / Modern Slavery Act 2015',
+    def:'Arranging or facilitating the travel of another person with a view to that person being sexually exploited.',
+    checklist:['Treat the trafficked person primarily as a victim and consider the National Referral Mechanism','Notify Defence Serious Crime Command','Preserve travel, financial and communication records'] },
+  { cat:'Property', title:'Making off without payment', ref:'Theft Act 1978 s.3',
+    def:'Dishonestly leaving without paying, knowing payment is required or expected, and intending to permanently avoid payment.',
+    checklist:['Obtain CCTV and till or billing records','Establish what was consumed or received and the amount owed','Take a statement from the person owed payment'] },
+  { cat:'Property', title:'Blackmail', ref:'Theft Act 1968 s.21',
+    def:'Making an unwarranted demand with menaces, with a view to gain for oneself or another, or with intent to cause loss to another.',
+    checklist:['Preserve the exact demand, in writing, message or recorded form where possible','Establish the nature of the menace used','Take a detailed account from the victim of the impact and any payment made'] },
+  { cat:'Property', title:'Aggravated burglary', ref:'Theft Act 1968 s.10',
+    def:'Committing burglary while having with them a firearm, imitation firearm, weapon of offence, or explosive.',
+    checklist:['Seize and exhibit any weapon or article carried','Establish it was carried at the time of entry, not obtained afterwards','Follow the burglary checklist for entry and scene evidence'] },
+  { cat:'Property', title:'Going equipped', ref:'Theft Act 1968 s.25',
+    def:'Being not at one\u2019s place of abode and having an article with one for use in the course of, or in connection with, a burglary, theft or cheat.',
+    checklist:['Seize and exhibit the article found','Establish the location and circumstances the person was found in','Assess evidence of intended use'] },
+  { cat:'Property', title:'Arson', ref:'Criminal Damage Act 1971 s.1(3)',
+    def:'Intentionally or recklessly destroying or damaging property by fire, without lawful excuse.',
+    checklist:['Preserve the scene for fire investigation before entry where safe to do so','Establish seat and suspected cause of the fire with specialist input','Obtain CCTV of the area before and after the fire started'] },
+  { cat:'Property', title:'Fraud by failing to disclose information', ref:'Fraud Act 2006 s.3',
+    def:'Dishonestly failing to disclose information one is under a legal duty to disclose, intending to make a gain or cause a loss.',
+    checklist:['Establish the source and nature of the legal duty to disclose','Obtain documentary evidence of what was and was not disclosed'] },
+  { cat:'Property', title:'Fraud by abuse of position', ref:'Fraud Act 2006 s.4',
+    def:'Dishonestly abusing a position in which one is expected to safeguard, or not act against, the financial interests of another, intending to make a gain or cause a loss.',
+    checklist:['Establish the position of trust or responsibility held','Obtain financial and access records covering the relevant period'] },
+  { cat:'Public Order', title:'Riot', ref:'Public Order Act 1986 s.1',
+    def:'Twelve or more people present together using or threatening unlawful violence for a common purpose, such that the conduct would cause a person of reasonable firmness to fear for their safety.',
+    checklist:['Obtain CCTV and body-worn footage covering the whole incident','Identify individual participants and their specific conduct','Preserve any objects used or thrown'] },
+  { cat:'Public Order', title:'Violent disorder', ref:'Public Order Act 1986 s.2',
+    def:'Three or more people present together using or threatening unlawful violence, such that the conduct would cause a person of reasonable firmness to fear for their safety.',
+    checklist:['Obtain CCTV and body-worn footage','Identify individual participants and their specific conduct','Take independent witness accounts'] },
+  { cat:'Justice', title:'Perjury', ref:'Perjury Act 1911 s.1',
+    def:'Wilfully making a false statement, material to the proceedings, while lawfully sworn as a witness or interpreter in judicial proceedings.',
+    checklist:['Obtain the transcript or record of the statement made under oath','Identify the specific matter that is alleged to be false','Preserve evidence contradicting the sworn statement'] },
+  { cat:'Financial Crime', title:'Money laundering', ref:'Proceeds of Crime Act 2002 s.327-329',
+    def:'Concealing, disguising, converting, transferring, or acquiring, using or possessing criminal property, or entering an arrangement to facilitate this.',
+    checklist:['Establish the origin of the property or funds and the predicate offence','Obtain financial records and transaction history','Consider a referral for financial investigation support'] },
+  { cat:'Financial Crime', title:'Bribery', ref:'Bribery Act 2010 s.1 / s.2',
+    def:'Offering, promising or giving a financial or other advantage to induce or reward improper performance, or requesting, agreeing to receive, or accepting such an advantage.',
+    checklist:['Obtain records of the payment, gift or advantage offered or given','Establish what improper performance was sought or rewarded','Consider referral for financial investigation support'] },
+  { cat:'Communications', title:'Malicious communications', ref:'Malicious Communications Act 1988 s.1',
+    def:'Sending a letter, electronic communication, or article which is indecent, grossly offensive, threatening, or false, with the intention of causing distress or anxiety.',
+    checklist:['Preserve the message or communication in its original form','Identify the sender and delivery method','Take a victim impact account'] },
+  { cat:'Communications', title:'Improper use of a communications network', ref:'Communications Act 2003 s.127',
+    def:'Sending, by means of a public electronic communications network, a message that is grossly offensive, indecent, obscene or menacing, or causing such a message to be sent.',
+    checklist:['Preserve the message and platform/account details','Identify the sender and any recipients','Take a victim impact account'] },
+  { cat:'Human Trafficking', title:'Human trafficking / modern slavery', ref:'Modern Slavery Act 2015 s.1 / s.2',
+    def:'Arranging or facilitating the travel of a person with a view to their exploitation, or holding a person in slavery, servitude, or requiring them to perform forced or compulsory labour.',
+    checklist:['Treat the potential victim primarily as a victim and consider the National Referral Mechanism','Notify Defence Serious Crime Command','Preserve travel documents, financial and communication records'] },
+  { cat:'Road Traffic', title:'Causing death by dangerous driving', ref:'Road Traffic Act 1988 s.1',
+    def:'Causing the death of another person by driving a mechanically propelled vehicle dangerously on a road or public place.',
+    checklist:['Preserve the scene for a full collision investigation','Obtain dashcam, CCTV and telematics data','Secure vehicle(s) for forensic examination','Notify Defence Serious Crime Command given severity'] },
+  { cat:'Road Traffic', title:'Failing to stop or report an accident', ref:'Road Traffic Act 1988 s.170',
+    def:'Failing to stop after a road accident involving injury or damage, or failing to report it to police as soon as reasonably practicable and in any case within 24 hours.',
+    checklist:['Identify the vehicle through CCTV, witnesses or debris left at scene','Establish the driver was aware an accident had occurred','Record the time and method of any later report made'] },
+  { cat:'Road Traffic', title:'Driving while disqualified', ref:'Road Traffic Act 1988 s.103',
+    def:'Driving a motor vehicle on a road while disqualified from holding or obtaining a driving licence.',
+    checklist:['Confirm disqualification status and dates through DVLA or current licensing check','Establish the person was driving or attempting to drive','Record how the vehicle was identified and stopped'] },
+  { cat:'Violence', title:'Kidnapping', ref:'Common law offence',
+    def:'Taking or carrying away another person, by force or fraud, without their consent and without lawful excuse.',
+    checklist:['Establish exactly how the person was taken and moved, including timings and locations','Identify and preserve any vehicle, restraint or route evidence','Take a full, unhurried account from the victim once they are safe, without rushing them','Consider whether this also amounts to false imprisonment or a separate sexual or violent offence'] },
+  { cat:'Violence', title:'False imprisonment', ref:'Common law offence',
+    def:'Unlawfully and intentionally restricting another person\u2019s freedom of movement, without their consent and without lawful authority.',
+    checklist:['Establish how long the restriction lasted and by what means, for example a locked room, restraint, or threats','Identify the location and preserve any physical evidence of confinement','Take a detailed account of what was said or done to prevent the person leaving'] },
+  { cat:'Violence', title:'Child abduction', ref:'Child Abduction Act 1984',
+    def:'A parent or other connected person taking or sending a child under 16 out of the United Kingdom without the appropriate consent, or a person without lawful authority taking or detaining a child so as to remove them from a person with lawful control of them.',
+    checklist:['Establish who has parental responsibility or lawful control of the child, and what consents were or were not given','Act urgently if travel out of the jurisdiction is imminent or has already happened, including port alert or equivalent action where available','Notify child safeguarding leads and British Forces Social Work Service without delay','Preserve travel bookings, messages and any other evidence of intent'] },
+  { cat:'Violence', title:'Assault of an emergency worker', ref:'Assault on Emergency Workers (Offences) Act 2018',
+    def:'Common assault or battery committed against an emergency worker acting in the exercise of their functions, which carries an aggravated maximum sentence compared with ordinary common assault.',
+    checklist:['Confirm the victim\u2019s status as an emergency worker at the time and that they were acting in that role','Follow the general common assault checklist for evidence gathering','Note this aggravating factor clearly in the crime report so it is not lost at charging stage'] },
+  { cat:'Cyber & Data', title:'Unauthorised access to computer material', ref:'Computer Misuse Act 1990 s.1',
+    def:'Causing a computer to perform a function with intent to secure unauthorised access to any program or data held on it, knowing at the time that the access is unauthorised.',
+    checklist:['Preserve system and access logs before they can be overwritten','Identify which account, device or system was accessed and by what method','Establish whether the accused had any authorised access that was then exceeded, as opposed to no access at all','Consider whether a separate data protection or service disciplinary matter also applies'] },
+  { cat:'Cyber & Data', title:'Unauthorised access with intent to commit further offences', ref:'Computer Misuse Act 1990 s.2',
+    def:'Unauthorised access to a computer system committed with the further intent of enabling the commission of another offence, such as fraud.',
+    checklist:['Establish the further offence intended and any evidence of that intent, such as messages or search history','Preserve system and access logs before they can be overwritten','Coordinate digital forensic seizure with a specialist per current policy'] },
+  { cat:'Cyber & Data', title:'Unauthorised modification of computer material', ref:'Computer Misuse Act 1990 s.3',
+    def:'Doing an unauthorised act in relation to a computer, intending to impair its operation, prevent or hinder access to a program or data, or impair the operation of a program or the reliability of data, and knowing the act is unauthorised.',
+    checklist:['Identify exactly what was changed, deleted or disrupted, and obtain a technical assessment of the impact','Preserve logs and any affected systems before further changes can occur','Establish who had the technical means and opportunity to make the change'] },
+  { cat:'Justice', title:'Failing to surrender to bail', ref:'Bail Act 1976 s.6',
+    def:'Failing, without reasonable cause, to surrender to custody at the time and place appointed, having been released on bail.',
+    checklist:['Confirm the exact bail conditions and the date, time and place the person was due to surrender','Establish whether any reasonable cause has been offered for the failure and record it','Take action to locate and arrest the person per current force policy for bail absconders'] },
+  { cat:'Justice', title:'Contempt of court', ref:'Contempt of Court Act 1981 and common law',
+    def:'Conduct that interferes with the proper administration of justice, for example breaching a reporting restriction, disobeying a court order, or disrupting proceedings.',
+    checklist:['Identify the specific order, restriction or duty said to have been breached','Preserve evidence of the breach, for example a publication, message or recording','Notify Service Prosecuting Authority or the relevant civilian court liaison as appropriate'] },
+  { cat:'Sexual Offences', title:'Forced marriage', ref:'Anti-social Behaviour, Crime and Policing Act 2014 s.121',
+    def:'Using violence, threats, or any other form of coercion for the purpose of causing another person to enter into a marriage without their free and full consent, or marrying, or attempting to marry, a person who lacks capacity to consent.',
+    checklist:['Speak to the potential victim alone, away from family members who may be involved','Consider a referral to the Forced Marriage Unit and to British Forces Social Work Service','Do not contact family members to verify the account before the victim\u2019s safety has been assessed, as this can increase risk','Consider immediate protective options if travel overseas is planned or imminent'] },
+  { cat:'Sexual Offences', title:'Female genital mutilation', ref:'Female Genital Mutilation Act 2003',
+    def:'Excising, infibulating or otherwise mutilating the whole or part of a girl\u2019s or woman\u2019s labia majora, labia minora or clitoris, except for specified medical or surgical purposes.',
+    checklist:['Treat any disclosure or suspicion as a child or adult safeguarding matter and act without delay','Consider a referral to British Forces Social Work Service and, in the UK, to the relevant civilian safeguarding lead','Be aware of mandatory reporting duties that may apply to regulated professionals who identify FGM in a girl under 18','Avoid contacting family members to verify the account before a safeguarding assessment has been completed'] }
+];
+
+
+var SPCOP = [
+  { code:'Code A', title:'Stop and search',
+    body:'Criteria for exercising the power of stop and search under section 75 AFA 2006, including Misuse of Drugs Act and other prescribed grounds.',
+    points:[
+      'Reasonable suspicion must relate to the specific person or vehicle, not generalised assumptions based on appearance, background or a protected characteristic',
+      'Reasonable suspicion cannot be based on generalisations or stereotypical images of certain groups being more likely to be involved in criminal activity',
+      'Searches in public should be no more than an outer clothing search unless a higher-level power applies, such as an arrest and search',
+      'A more thorough search, or removal of more than outer clothing, should be conducted out of public view where required',
+      'Before searching, the officer must give their name (or service number where names are withheld for safety), station, the legal power used, and the object of the search',
+      'A search record must be completed for every person and vehicle searched, whether or not anything is found',
+      'Self-defined ethnicity must be recorded, and a copy of the record offered to the person searched',
+      'Use of the power should be regularly monitored for disproportionality and reviewed by supervisors'
+    ],
+    checklist:['State grounds for reasonable suspicion before searching','Give your name or service number, station and reason for search','Record ethnicity as self-defined by the person searched','Complete a search record for every person and vehicle searched'] },
+  { code:'Code B', title:'Entry, search and seizure',
+    body:'Powers of entry, search of premises and seizure of property.',
+    points:[
+      'Entry and search should be conducted with due consideration for the property and privacy of the occupier, and at a reasonable hour where possible',
+      'Reasonable force may only be used where necessary, after a request for entry has failed or is impracticable',
+      'The occupier should be told the purpose of the search and the legal authority relied on, and shown that authority if requested',
+      'Search should be conducted with due regard to the property searched and the privacy and dignity of those on the premises',
+      'Seized items must be recorded and, where practicable, a receipt or notice given to the occupier detailing what has been taken',
+      'Legally privileged material is subject to special protection and should not be seized without specific authority',
+      'Premises should be left secure after a search, and the occupier informed where they were not present'
+    ],
+    checklist:['Confirm the legal basis, warrant, consent or statutory power','Explain the purpose of the search to the occupier before starting','Keep a record of what is seized and from where','Provide the occupier with a copy of the search record or notice'] },
+  { code:'Code C', title:'Detention, treatment and questioning',
+    body:'Safeguards for suspects in service police detention, including rights, welfare and interview conduct.',
+    points:[
+      'A custody record must be opened as soon as practicable after arrival at a service police establishment',
+      'The detained person must be informed of their rights, including the right to legal advice and to have someone informed, on arrival and periodically thereafter',
+      'Interviews under caution must not begin until rights have been explained and any requested legal advice obtained or clearly waived',
+      'The detained person must be told they are not under arrest and are free to leave, if that is the case, at the start of a voluntary interview',
+      'Rest periods, meals and welfare checks must be provided at defined intervals, and any special needs or vulnerabilities recorded',
+      'Reviews of continued detention must be carried out by an officer not directly involved in the investigation, at defined intervals',
+      'Vulnerable detainees, including juveniles, require an appropriate adult before interview',
+      'Use of force, restraint or any incident affecting welfare in custody must be fully recorded'
+    ],
+    checklist:['Caution given and understood before questioning starts','Right to legal advice explained and offered','Appropriate adult considered where required','Custody record opened and kept contemporaneously','Welfare checks carried out at required intervals','Rest and refreshment breaks provided'] },
+  { code:'Code D', title:'Identification of persons',
+    body:'Procedures for identification, for example video identification, parades or photographs.',
+    points:[
+      'The identification procedure used should be appropriate to the circumstances and should be conducted fairly',
+      'Wherever practicable, identification procedures should be conducted independently of the investigating officer, using an officer with no direct involvement in the case',
+      'Video identification is generally the preferred method where the suspect\u2019s identity is not known to the witness',
+      'The suspect should be told in advance which procedure will be used and given the opportunity to raise objections',
+      'Records must be kept of the procedure used, who was present, and the outcome, including any comments made by the witness',
+      'A suspect should generally be given the opportunity to have a solicitor or friend present as an observer'
+    ],
+    checklist:['Confirm which identification procedure is appropriate and why','Ensure identification is conducted independently of the investigating officer where required','Record the procedure and outcome accurately'] },
+  { code:'Code E', title:'Audio recording of interviews',
+    body:'Requirements for audio recording interviews with suspects.',
+    points:[
+      'Interviews with a suspect cautioned in relation to a service offence should normally be audio recorded',
+      'Recording must capture the entirety of the interview without interruption, other than authorised breaks, which should also be recorded',
+      'The interviewing officer must state, on the recording, the time, date, location and identity of everyone present at the start',
+      'At the end of the interview, the recording should be sealed in the suspect\u2019s presence and both parties invited to sign the seal',
+      'The suspect should be told how to access a copy of the recording if required later, for example for legal proceedings',
+      'A written record or summary should also be made in line with current force procedure'
+    ],
+    checklist:['Confirm recording equipment tested and working before the interview','State time, date, location and all persons present at the start of recording','Seal and label the master recording per exhibit procedure at the conclusion'] },
+  { code:'Code F', title:'Visual recording of interviews',
+    body:'Requirements for visual, video, recording of interviews where used.',
+    points:[
+      'Applies where a decision has been made to visually record an interview instead of, or alongside, audio recording',
+      'The recording should show both the interviewing officer and the interviewee clearly throughout',
+      'Continuity and exhibit-handling requirements mirror those for audio recordings under Code E',
+      'Visual recording is commonly used for vulnerable witnesses and suspects, and for Achieving Best Evidence (ABE) interviews with children'
+    ],
+    checklist:['Confirm the camera framing captures all parties','Follow the same continuity and exhibit procedure as audio recordings'] },
+  { code:'Code G', title:'Statutory power of arrest',
+    body:'Criteria service police must consider when exercising the power of arrest under sections 67, 69, 303, 110 and 111 AFA 2006.',
+    points:[
+      'Arrest must be necessary, not merely convenient, and the necessity ground relied on should be recorded at the time',
+      'The person must be told they are under arrest and the grounds for it, even where this may seem obvious',
+      'The caution must be given at the point of arrest unless it is impracticable to do so at that time, in which case it must be given as soon as practicable afterwards',
+      'Reasonable force may only be used where necessary to effect the arrest, and any force used should be recorded',
+      'The arresting person should identify themselves, unless it is unsafe to do so',
+      'The time, place and circumstances of the arrest should be accurately recorded as soon as possible'
+    ],
+    checklist:['Necessity, confirm arrest is necessary and record why other options were not sufficient','Grounds for suspicion clearly articulated and recorded','Caution given at the point of arrest','Reason for arrest explained in terms the person understands','Notify custody as soon as practicable after arrest'] }
+];
+
+
+var SAFEGUARD = [
+  { cat:'Domestic Abuse / Sexual Violence / Stalking', name:'Aurora New Dawn — Armed Forces Helpline', role:'Independent, confidential support for domestic abuse, sexual violence and stalking. For serving personnel, reservists, veterans and family members, UK and overseas. Not a 24/7 emergency line.', phone:'0333 091 2527', note:'Also available via WhatsApp on the same number.' },
+  { cat:'Domestic Abuse / Sexual Violence / Stalking', name:'Defence Victim Witness Care Unit (VWCU)', role:'Central point of contact, independent of the single-Service chains of command, for victims and witnesses of serious crime committed by persons subject to service law. Provides enhanced entitlement support under the JSP 839 code of practice.', phone:'07974 074259', note:'Staffed 8am to 4pm Monday to Thursday, 8am to 3.30pm Friday, excluding public and stand-down days. Confirm current hours.' },
+  { cat:'Serious Crime Investigation', name:'Defence Serious Crime Command (DSCC) / Defence Serious Crime Unit (DSCU)', role:'The tri-Service serious crime investigative unit, formed in December 2022. It replaced the single-Service Special Investigation Branches (SIB), which no longer exist as separate units. Investigates Schedule 2 and other serious offences involving persons subject to service law.', phone:'', note:'Route Schedule 2 and serious crime referrals here, not to a legacy SIB desk — SIB has been disbanded and folded into the DSCU.' },
+  { cat:'Family / Social Welfare', name:'British Forces Social Work Service (BFSWS)', role:'Social work service for the whole overseas service community, serving personnel, families and civilian staff, including child and adult safeguarding concerns. Operates across British Forces overseas locations, including Cyprus (British Forces Cyprus) and other overseas garrisons, not only continental Europe.', phone:'0800 724 3176', note:'Confirm the correct regional/theatre referral line, as BFSWS numbers and teams vary by overseas location.' },
+  { cat:'Family / Social Welfare', name:'SSAFA', role:'Tri-service charity providing welfare support, including domestic abuse support, safe accommodation referrals and overseas casework, for example in Cyprus.', phone:'', note:'Contact via local SSAFA branch or the relevant overseas Service Hub for your area.' },
+  { cat:'Emergency', name:'Local Service Police duty desk or on-call DSCU', role:'For active incidents, always contact your own force duty desk first, and route serious/Schedule 2 crime to the Defence Serious Crime Unit, in line with local SOPs.', phone:'', note:'Insert your unit current duty number here before deploying this app operationally.' },
+  { cat:'Child Safeguarding', name:'NSPCC Helpline', role:'Advice and support for adults concerned about a child welfare, including reporting concerns.', phone:'0808 800 5000', note:'For children themselves, signpost to Childline on 0800 1111.' },
+  { cat:'Sexual Violence', name:'Independent Sexual Violence Adviser (ISVA) referral', role:'Specialist support for victims of sexual violence through the criminal justice process. Referral can be made via VWCU or Aurora New Dawn.', phone:'', note:'Route referral through VWCU or Aurora New Dawn above.' },
+  { cat:'Mental Health / Welfare', name:'Combat Stress', role:'Mental health support charity for veterans.', phone:'0800 138 1619', note:'24-hour helpline.' },
+  { cat:'Mental Health / Welfare', name:'Samaritans', role:'24-hour emotional support for anyone in crisis or distress.', phone:'116 123', note:'Free, confidential, available any time.' },
+  { cat:'General Victim Support', name:'Victim Support', role:'Independent charity offering practical and emotional support to victims of crime, free and confidential.', phone:'0808 168 9111', note:'Also offers live chat via their website.' }
+];
+
+
+var NECESSITY_CL = [
+  'Ask whether summons, a fixed penalty, voluntary attendance for interview, or reporting for consideration of charge would achieve the same result without depriving the person of their liberty',
+  'Consider whether arrest is necessary to enable the prompt and effective investigation of the offence or of the conduct of the person, for example because evidence would otherwise be lost or contaminated',
+  'Consider whether arrest is necessary to obtain evidence by questioning, where interview under caution is genuinely required and could not reasonably be arranged voluntarily',
+  'Consider whether arrest is necessary to prevent physical injury to the suspect or another person, or loss of or damage to property',
+  'Consider whether arrest is necessary to protect a child or other vulnerable person from the suspect',
+  'Consider whether arrest is necessary to prevent the person causing a breach of the peace, or from disappearing before their attendance can be secured',
+  'Consider whether arrest is necessary to allow prompt and effective investigation of the offence or the person\u2019s conduct',
+  'Record in your notebook or on the system, in your own words at the time, which specific necessity ground applies and why the alternatives were not sufficient — this record is what will be tested later if the lawfulness of the arrest is challenged'
+];
+var ATARREST_CL = [
+  'Tell the person clearly and in plain language that they are under arrest — do not assume this is obvious just because you have taken hold of them or they can see other officers present',
+  'State the grounds and the reason for the arrest in terms the person can understand, even where the reason may seem obvious to you as the arresting officer',
+  'Give the caution in full, slowly enough to be understood, and check understanding rather than simply reciting it and moving on',
+  'Confirm and note the exact time and place the arrest was made, since this starts the clock for detention time limits and reviews',
+  'Record who made the arrest and the identity of any other officers, witnesses, or bystanders present, in case their account is needed later',
+  'Use no more force than is reasonably necessary to effect the arrest, and record precisely what force was used and why, including any resistance offered'
+];
+var CUSTODY_CL = [
+  'Explain the right to have a named person informed of the arrest and of where they are being held, and act on this without unreasonable delay once requested',
+  'Explain the right to consult privately with a solicitor or other legal adviser, including how to contact one if they do not already have one in mind',
+  'Explain the right to consult the Codes of Practice at a time that will not unreasonably delay the investigation',
+  'Explain the right to an interpreter if English is not the person\u2019s first language, or if they have a hearing or speech impairment, before any substantive questioning begins',
+  'Explain the right to medical attention if injured, unwell, or showing signs of being under the influence of alcohol or drugs, and act on this promptly rather than waiting for the person to ask twice',
+  'Explain that a custody record will be opened and kept for the duration of their detention, and that they can ask to see it',
+  'Explain the review process, including who will review the detention and roughly when, so the person is not left wondering what happens next',
+  'Check understanding at each stage rather than assuming it — ask the person to explain back to you what they have been told if there is any doubt'
+];
+var TIMELIMITS_CL = [
+  'Confirm the custody officer has personally authorised continued detention, and that the specific grounds relied on have been recorded in the custody record, not just a generic statement',
+  'Diarise or otherwise flag the next scheduled review point so it is not missed under operational pressure',
+  'If, at any point, the grounds for continued custody cease to apply, escalate immediately for a decision on release rather than waiting for the next scheduled review',
+  'Confirm the correct charge decision routing for this offence — unit chain of command, Service Prosecuting Authority, or civilian police/CPS where concurrent jurisdiction applies — and do not assume the default route without checking'
+];
+var VULNERABLE_CL = [
+  'Consider whether an appropriate adult is required — this includes anyone under 18, and anyone who appears to have a mental health condition, learning difficulty, or other impairment that could affect their understanding of what is happening or their ability to communicate',
+  'Slow down and check understanding at each stage of the process, rather than assuming comprehension because the person is nodding or saying yes',
+  'Consider whether next of kin or unit welfare notification is appropriate, separate from the statutory right to have someone informed of the arrest',
+  'Record any vulnerability indicators you notice and the specific actions taken in response, in the custody record, so the reasoning is visible to anyone reviewing the case later'
+];
+var SAFETY_CL = [
+  'Confirm the victim is currently safe before doing anything else — if they are not, remove them from immediate risk first and deal with everything else afterwards',
+  'Ask specifically whether anyone else, including any children, is at risk and needs safeguarding, rather than assuming the incident only affects the person in front of you',
+  'Check for injuries requiring medical attention before continuing with any questioning, even minor-looking ones, since some injuries such as strangulation can be more serious than they first appear',
+  'Establish whether the suspect knows, or could reasonably find out, the victim\u2019s current location, and treat this as a live risk factor rather than a background detail',
+  'Consider immediate protective options such as a move to alternative service accommodation, a MARAC referral for high-risk cases, or advice on applying for a non-molestation or occupation order, and explain these options in terms the victim will understand'
+];
+var REFERRAL_CL = [
+  'Offer a referral to the Aurora New Dawn Armed Forces Helpline for domestic abuse, sexual violence or stalking, and explain what kind of support they provide rather than just giving a name and number',
+  'Notify the Victim Witness Care Unit where enhanced entitlement applies, so the victim is not left to navigate the system without a dedicated point of contact',
+  'Notify British Forces Social Work Service where the victim is overseas or where dependants, especially children, are involved',
+  'Consider an ISVA referral for sexual violence cases, and explain that this support continues through the criminal justice process, not just at this one contact',
+  'Signpost to Samaritans or Combat Stress if the victim shows signs of crisis or severe distress, and consider staying with them until support is engaged rather than leaving a leaflet behind',
+  'Record exactly what was offered and what the victim consented to, including anything they declined, so the next officer who picks up the case knows what has already happened'
+];
+
+/* ===================== DOMESTIC ABUSE — FIRST RESPONSE ===================== */
+var DA_ARRIVAL_CL = [
+  'Approach quietly where safe to do so and assess the scene before entering',
+  'Separate all parties immediately on arrival, in different rooms or locations if possible',
+  'Establish whether anyone needs urgent medical attention and call for it without delay',
+  'Check the whole address for other people present, including anyone hiding or leaving as you arrive',
+  'Note the demeanour, environment and any visible damage before it can be altered',
+  'Consider whether body-worn video should be activated per your force policy'
+];
+var DA_RISK_CL = [
+  'Ask directly about strangulation or choking, this incident and any previous occasion',
+  'Ask whether the abuse is escalating in frequency or severity',
+  'Ask about pregnancy, recent separation or attempts to leave the relationship',
+  'Ask about any use, threat, or access to weapons',
+  'Ask about previous incidents, whether reported or not, and any existing protective orders',
+  'Complete a current DASH or force-equivalent risk assessment and grade the risk formally',
+  'Consider a MARAC referral where the risk level meets the local threshold'
+];
+var DA_EVIDENCE_CL = [
+  'Take a first, spontaneous account from the victim in their own words before any prompting',
+  'Photograph injuries, damage and the general scene as early as possible',
+  'Preserve any 999 call recording and note any spontaneous comments made (res gestae)',
+  'Identify and preserve CCTV, doorbell camera or body-worn footage covering the address',
+  'Seize any relevant messages, voicemails or social media evidence with consent or under appropriate authority',
+  'Record demeanour, injuries and environment even where the victim later declines to support action'
+];
+var DA_CHILDREN_CL = [
+  'Identify every child or dependant normally resident at, or present in, the address',
+  'Assess whether any child witnessed or was in a position to witness the incident',
+  'Consider immediate safeguarding needs separately from the adult victim\u2019s needs',
+  'Make a joint referral with British Forces Social Work Service where a child safeguarding concern is identified',
+  'Record what the children saw, heard or were told, using age-appropriate, non-leading questions only'
+];
+var DA_SUSPECT_CL = [
+  'Apply your force positive action policy when deciding on arrest',
+  'Consider necessity grounds under Code G, including protecting the victim and preventing further offending',
+  'Search for and seize any weapon used or referred to',
+  'Consider bail conditions or service equivalent restrictions to protect the victim pending investigation',
+  'Record the suspect\u2019s demeanour and any comments made at the scene'
+];
+var DA_REFERRAL_DA_CL = [
+  'Offer Aurora New Dawn Armed Forces Helpline before you leave the scene, not just as a follow-up',
+  'Notify British Forces Social Work Service where children or overseas welfare needs are involved',
+  'Notify the Victim Witness Care Unit where enhanced entitlement applies',
+  'Give the victim a safety plan and information on target hardening or a service accommodation move if needed',
+  'Arrange a follow-up welfare visit and record the date agreed',
+  'Record everything offered and the victim response, even if support is declined at this stage'
+];
+
+/* ===================== ADDITIONAL GENERIC CHECKLISTS ===================== */
+var INITIAL_ATTENDANCE_CL = [
+  'Confirm you have the correct location and are dealing with the right incident before committing resources',
+  'Assess immediate risk to yourself, colleagues, the public, victim and suspect before doing anything else',
+  'Identify everyone present and their role — victim, witness, suspect, bystander',
+  'Establish what has already happened, and what is still ongoing, in the first few sentences from whoever meets you',
+  'Consider whether other agencies or specialist support are needed and request them early rather than late',
+  'Note the exact time you arrived and the time of first contact with each party'
+];
+var SCENE_PRESERVATION_CL = [
+  'Identify the scene boundary before people start moving through it',
+  'Consider whether a cordon is needed and where its edges should sit',
+  'Restrict entry to those who need to be there, and log who enters and leaves',
+  'Identify anything time-limited — weather affecting outdoor evidence, CCTV due to be overwritten, perishable forensic opportunities',
+  'Photograph the scene before anything is moved, including wide shots for context and close-ups of detail',
+  'Consider whether specialist forensic or scene examination support is needed before anyone else disturbs the scene'
+];
+var BEFORE_LEAVING_CL = [
+  'Has the victim been given clear information on what happens next and how to get support?',
+  'Have all exhibits been correctly seized, labelled and logged?',
+  'Have you checked for outstanding safeguarding concerns, not just the immediate incident?',
+  'Have you recorded everyone\u2019s details while they are still present, rather than trying to trace them later?',
+  'Is there anything time-critical that must happen before you leave — CCTV request, medical examination, urgent referral?',
+  'Have you made a note of what you still need to follow up?'
+];
+var HANDOVER_CL = [
+  'Is the person receiving the handover clear on what has and has not been done so far?',
+  'Have all exhibits, statements and contact details been physically or digitally handed over, not just described verbally?',
+  'Are there any outstanding risks the next person needs to know about immediately?',
+  'Has the victim been told who to contact next, so they are not left without a point of contact?',
+  'Is there a written record of the handover itself, not just the incident?'
+];
+var CASEFILE_REVIEW_CL = [
+  'Is the correct offence identified, including whether it should be an AFA 2006 offence, a civilian offence via s.42, or both?',
+  'Have the points to prove for that offence actually been addressed by the evidence gathered?',
+  'Has victim evidence been obtained and recorded?',
+  'Has witness evidence been considered and followed up?',
+  'Has CCTV been considered, requested, and either obtained or ruled out?',
+  'Has BWV been considered, downloaded, and correctly exhibited?',
+  'Has digital evidence — phones, messages, social media — been considered?',
+  'Have photographs been obtained where relevant?',
+  'Have forensic opportunities been considered, even if ultimately not pursued?',
+  'Has identification been considered where the suspect is disputed or unknown?',
+  'Has a suspect account been obtained or the absence of one recorded?',
+  'Are all exhibits accounted for with continuity maintained throughout?',
+  'Has safeguarding been completed and recorded, not just considered?',
+  'Have disclosure considerations been addressed, including material that does not support the prosecution case?',
+  'Are outstanding enquiries clearly identified and tasked?'
+];
+
+/* ===================== MILITARY POLICE POWERS ===================== */
+var POWERS = [
+  { key:'stopsearch', title:'Stop and search a person', legalPower:'Powers under section 75 AFA 2006 and the Armed Forces (Powers of Stop and Search, Search, Seizure and Retention) Order 2009. Exact current article numbers are NEEDS VERIFICATION — confirm with your unit.',
+    who:'Service police, and other persons authorised under the Order.',
+    when:'Where reasonable grounds for suspicion exist that a person is in possession of a prohibited or relevant item, for example controlled drugs, stolen property, or an offensive weapon.',
+    threshold:'Reasonable suspicion relating to the specific person, not generalisations or a protected characteristic. See SPCoP Code A.',
+    allows:'A search of outer clothing in public; a fuller search out of public view where a higher-level power applies.',
+    limitations:'Cannot be based on stereotyping. Must be proportionate and no more intrusive than necessary for the circumstances.',
+    recorded:'Officer identity or number, grounds, object of the search, outcome, and the person\u2019s self-defined ethnicity.',
+    spcop:'Code A', jsp:'NEEDS VERIFICATION — confirm relevant JSP 830 chapter with your unit',
+    source:'AFA 2006 s.75; SPCoP Code A', verify:true },
+  { key:'entrysearch', title:'Enter and search premises', legalPower:'Powers of entry and search under the Armed Forces (Powers of Stop and Search, Search, Seizure and Retention) Order 2009 and associated warrant provisions. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'Service police, and other authorised persons where specified.',
+    when:'With a warrant, with consent, or under a specific statutory power such as a search incident to arrest.',
+    threshold:'A clear legal basis must be identified before entry — warrant, consent, or statutory power, not assumed.',
+    allows:'Entry and search of premises for evidence, and seizure of relevant items found.',
+    limitations:'Reasonable force only where necessary; privacy and property of the occupier must be respected; legally privileged material has special protection and should not be seized without specific authority.',
+    recorded:'Legal basis relied on, what was searched, what was seized and from where, with a copy of the record given to the occupier.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION — confirm relevant JSP 830 chapter with your unit',
+    source:'SPCoP Code B', verify:true },
+  { key:'seizure', title:'Seize property', legalPower:'Seizure powers connected to a lawful search under the 2009 Order. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'Service police conducting a lawful search.',
+    when:'Where an item is reasonably believed to be evidence of an offence, or is itself unlawful to possess.',
+    threshold:'The item must be reasonably believed relevant to the search being conducted, or its possession itself unlawful — not seized simply because it is present.',
+    allows:'Removal of the item from the premises or person for further investigation.',
+    limitations:'Legally privileged material generally cannot be seized without specific authority.',
+    recorded:'A full exhibit continuity record from the point of seizure — see Evidence.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION',
+    source:'SPCoP Code B', verify:true },
+  { key:'retention', title:'Retain seized property', legalPower:'Retention powers under the 2009 Order. This app does not hold a verified article number for this power — do not rely on any specific article number (including "Article 12") without confirming it against the current Order yourself.',
+    who:'Service police / relevant authority holding the item.',
+    when:'While the item remains necessary for the investigation, for use as evidence, or pending a decision on its return.',
+    threshold:'Retention must remain necessary — items should be returned once no longer required, not held by default.',
+    allows:'Continued possession of seized property for investigative or evidential purposes.',
+    limitations:'Not indefinite. Retention should be kept under active review, not left open-ended.',
+    recorded:'The retention decision, the reason, and a review date in the exhibit record.',
+    spcop:'Code B', jsp:'NEEDS VERIFICATION',
+    source:'NEEDS VERIFICATION — confirm exact statutory basis and article number locally before citing it', verify:true },
+  { key:'searcharrest', title:'Search following arrest', legalPower:'Search powers connected to a lawful arrest under AFA 2006 and the 2009 Order. Exact current article numbers are NEEDS VERIFICATION.',
+    who:'The arresting officer or other service police.',
+    when:'On or shortly after arrest, where necessary.',
+    threshold:'Necessary to search for anything that might be used to cause harm, to aid escape, or that is evidence of an offence — not routine.',
+    allows:'A search of the arrested person and items in their possession.',
+    limitations:'Should be no more intrusive than necessary. A strip search requires specific higher-level authority — confirm current thresholds locally.',
+    recorded:'What was searched, what was found, and the time and location — see Arrest and Custody.',
+    spcop:'Code C / Code G', jsp:'NEEDS VERIFICATION',
+    source:'SPCoP Code C, Code G', verify:true },
+  { key:'emergency', title:'Emergency powers', legalPower:'NEEDS VERIFICATION — this app does not hold verified detail on any specific emergency powers provision.',
+    who:'NEEDS VERIFICATION', when:'NEEDS VERIFICATION', threshold:'NEEDS VERIFICATION',
+    allows:'NEEDS VERIFICATION', limitations:'NEEDS VERIFICATION', recorded:'NEEDS VERIFICATION',
+    spcop:'NEEDS VERIFICATION', jsp:'NEEDS VERIFICATION',
+    source:'Add from your current JSP 830 / SPCoP once verified, using the reference library under Reference', verify:true }
+];
+
+/* ===================== IDENTIFICATION / VIPER ===================== */
+var IDENTIFICATION = [
+  { title:'Street / immediate identification',
+    when:'Used shortly after an offence where a witness may be able to identify a suspect who is still nearby.',
+    how:'The witness is taken to view the person as soon as practicable, in a way that avoids suggesting who the suspect is.',
+    requirements:'Should be conducted fairly with no leading of the witness. More formal procedures are usually needed if the case will rely heavily on this identification.',
+    record:'Time, location, exact words used by the witness, and who was present.',
+    avoid:'Any suggestion, even unintentional, of who the suspect is before the witness makes their own identification.',
+    spcop:'Code D', verify:true },
+  { title:'Video identification (VIPER)',
+    when:'The standard formal identification method where the suspect is not known to the witness and a suspect is available.',
+    how:'The witness is shown a set of moving images including the suspect and a number of others of similar appearance, and asked if they recognise anyone.',
+    requirements:'Should be arranged and conducted independently of the investigating officer wherever practicable.',
+    record:'Who was shown the images, the images used, and the exact outcome including any comments made.',
+    avoid:'The investigating officer conducting or being present for the procedure where independence is required.',
+    spcop:'Code D', verify:true },
+  { title:'Identification parade',
+    when:'A formal, in-person identification procedure, now less commonly used than video identification.',
+    how:'The witness views a line of people including the suspect and a number of others of similar appearance.',
+    requirements:'Conducted independently and fairly. The suspect is normally given the chance to raise objections to the composition of the parade.',
+    record:'Composition of the parade, any objections raised, and the outcome.',
+    avoid:'Unfair composition, for example where the suspect obviously stands out from the others.',
+    spcop:'Code D', verify:true },
+  { title:'Group identification',
+    when:'Used where a formal parade or video identification is not practicable.',
+    how:'The witness views the suspect within an informal group of other people in an everyday setting.',
+    requirements:'Should still be conducted fairly and, wherever practicable, independently.',
+    record:'Location, composition of the group, and the outcome.',
+    avoid:'This becoming, in effect, a suggestive one-person identification.',
+    spcop:'Code D', verify:true },
+  { title:'Photograph identification',
+    when:'Used where the suspect is not available for a video identification or parade.',
+    how:'The witness is shown a set of photographs, including one of a known suspect where relevant, alongside a number of others.',
+    requirements:'Should be conducted by an officer independent of the investigation wherever practicable.',
+    record:'The photographs shown, who conducted the procedure, and the outcome.',
+    avoid:'Showing a single photograph in isolation, which can taint any later formal procedure.',
+    spcop:'Code D', verify:true },
+  { title:'Fingerprints and biometrics',
+    when:'Taken to confirm identity or to compare against evidence recovered from a scene.',
+    how:'Taken per current force procedure, usually following arrest.',
+    requirements:'Requires appropriate legal authority — confirm the current basis and retention rules locally.',
+    record:'When taken, by whom, and consent status where relevant.',
+    avoid:'Taking without first confirming current legal authority and retention rules.',
+    spcop:'NEEDS VERIFICATION', verify:true }
+];
+
+/* ===================== I'M AT A JOB ===================== */
+var JOB_TYPES = ['Assault','Domestic abuse','Sexual offence','Theft','Criminal damage','Public order','Weapons','Drugs','Service offence','Safeguarding','Other'];
+
+var JOB_BASE = {
+  'Safety':['Any immediate threat to you, colleagues or the public?','Any weapons present or reported?','Any further risk once this immediate incident is dealt with?','Any children or vulnerable people present?','Any medical emergency needing immediate attention?','Is the scene itself safe to remain in?'],
+  'Victim':['What are their immediate needs — medical, safety, welfare?','Any visible or reported injuries?','Have you taken an initial account in their own words?','Any safeguarding concerns to flag?','Are there other witnesses to identify?','What evidence might support their account?'],
+  'Suspect':['Is the suspect identified, located, or still outstanding?','Any immediate safety considerations in dealing with them?','Any injuries needing medical attention?','Any comments made — have you recorded them verbatim?','Any grounds to consider arrest? See Arrest and Custody.'],
+  'Powers':['What power, if any, do you need to use — see MP Powers?','Is the power\u2019s threshold actually met, or are you assuming it is?','Have you considered a search power, and is it necessary?','Have you recorded the legal basis relied on?'],
+  'Scene':['Has the scene been preserved from contamination?','Does it need to be secured or cordoned?','Are there time-limited opportunities, for example weather affecting outdoor evidence?','Who else needs to attend — DSCU, medical, safeguarding?'],
+  'Evidence':['CCTV in the area — identified and preserved?','BWV — activated and correctly labelled?','Photographs of the scene, injuries or damage?','Digital evidence — phones, messages, social media?','Any forensic opportunities that could be lost if not acted on now?','Documents or paperwork relevant to the incident?'],
+  'Witnesses':['Have all potential witnesses been identified?','Initial accounts taken before memories fade or accounts are shared between them?','Contact details recorded for follow-up?'],
+  'Identification':['Is identification of the suspect actually in dispute in this case?','If so, which identification procedure is likely to be appropriate? See Identification / VIPER.'],
+  'Safeguarding':['Any children or vulnerable adults affected, directly or indirectly?','Any referral needed? See Safeguarding.','Any repeat victimisation or escalating risk pattern?'],
+  'Investigation':['What offence, or offences, are you actually investigating? See AFA 2006 / Civilian Offences.','What are the evidential gaps at this early stage?','What are the immediate next steps?'],
+  'Recording':['Notes made contemporaneously, not from memory later?','Times, locations and exact words recorded accurately?','Exhibit references allocated correctly? See Evidence.'],
+  'Further enquiries':['What further enquiries are outstanding?','Who needs to be updated or tasked?','What is the plan for following up with the victim?']
+};
+var JOB_EXTRAS = {
+  'Assault': {
+    'Safety':['Establish whether this was a single blow/act or a sustained assault — sustained assaults carry higher ongoing risk.'],
+    'Victim':['Photograph injuries as soon as practicable, and again in a few days once bruising develops.','Ask specifically about any loss of consciousness, dizziness or breathing difficulty — these can indicate a more serious injury than first apparent.'],
+    'Suspect':['Note whether any weapon or object was used, even improvised — this affects whether s.20/s.18 rather than common assault applies.'],
+    'Evidence':['Obtain medical evidence or a treating clinician statement describing the injury.','Preserve any weapon or object used as an exhibit.'],
+    'Investigation':['Consider whether the correct offence is common assault, ABH, or GBH/wounding based on injury severity — see Civilian Offences.']
+  },
+  'Domestic abuse': {
+    'Safety':['Ask directly about strangulation or choking, this incident and previously — a recognised high-risk indicator.','Ask about escalation, pregnancy, recent separation, and access to weapons.'],
+    'Victim':['Take a first, spontaneous account before any prompting.','Explain enhanced entitlement and the Victim Witness Care Unit where relevant.'],
+    'Suspect':['Apply your force positive action policy when deciding on arrest.'],
+    'Scene':['Separate all parties immediately, in different rooms or locations if possible.'],
+    'Evidence':['Preserve the 999 call recording and any spontaneous comments (res gestae).','Photograph injuries, damage and the scene before anything is tidied or repaired.'],
+    'Safeguarding':['Complete a current DASH-style risk assessment before leaving the scene.','Identify every child normally resident at or present in the address, not just those visible.'],
+    'Further enquiries':['Arrange a follow-up welfare visit and record the date agreed.']
+  },
+  'Sexual offence': {
+    'Victim':['Offer a specially trained officer or ISVA referral before a detailed account is taken.','Let a trained interviewer lead any detailed account — focus on safety and a first account only.'],
+    'Evidence':['Consider early evidence capture and a forensic strategy without delay — some evidence is time-critical.','Consider whether Sexual Assault Referral Centre attendance is appropriate.','Preserve clothing per current policy, avoiding unnecessary handling.'],
+    'Investigation':['Notify Defence Serious Crime Command per current Schedule 2 procedures.'],
+    'Identification':['If the suspect is not known to the victim, consider which identification procedure will be needed later — see Identification / VIPER.']
+  },
+  'Weapons': {
+    'Safety':['Confirm the weapon has been made safe and is not accessible to anyone at the scene.','Consider whether specialist/armed support is needed before approaching further.'],
+    'Evidence':['Seize and exhibit the weapon safely, following current handling procedures.'],
+    'Investigation':['Establish whether the weapon is offensive per se, or only offensive by its use or the intent behind carrying it — see Civilian Offences.']
+  },
+  'Drugs': {
+    'Evidence':['Seize and exhibit per current forensic packaging procedure.','Look for supply indicators — scales, multiple wraps, cash, or messages referring to sales.'],
+    'Investigation':['Consider whether possession, possession with intent to supply, or supply is the more accurate offence — see Civilian Offences.']
+  },
+  'Service offence': {
+    'Investigation':['Confirm jurisdiction — is this a Service offence, a civilian offence via s.42, or both? See AFA 2006.','Identify the specific AFA 2006 section that applies before treating this as a general conduct matter.']
+  },
+  'Public order': {
+    'Evidence':['Prioritise CCTV and body-worn footage — public order incidents are often contested and footage is decisive.','Record the exact words and behaviour alleged, not a paraphrase.'],
+    'Witnesses':['Identify anyone who was caused harassment, alarm or distress, even if not the primary target.']
+  },
+  'Criminal damage': {
+    'Evidence':['Photograph damage before any repair or cleanup takes place.','Obtain a repair or replacement valuation to support any charging decision.'],
+    'Investigation':['Check whether damage by fire should be treated as arson rather than standard criminal damage — see Civilian Offences.']
+  },
+  'Theft': {
+    'Evidence':['Identify and value the property precisely, and check CCTV/access records before they are overwritten.'],
+    'Investigation':['Establish ownership and consider any claim of right the accused may raise.']
+  },
+  'Safeguarding': {
+    'Safety':['Confirm whether the person is currently safe before doing anything else.'],
+    'Safeguarding':['Identify the specific concern type — child, vulnerable adult, repeat victimisation, or escalating risk — and route accordingly.','Consider referral to British Forces Social Work Service and, in the UK, the relevant civilian safeguarding lead.'],
+    'Recording':['Record concerns factually and specifically — avoid vague statements that are hard to act on later.']
+  },
+  'Other': {
+    'Investigation':['If unsure which offence applies, search AFA 2006 / Civilian Offences by keyword before committing to a course of action.']
+  }
+};
+
+/* ===================== NATIONAL DECISION MODEL ===================== */
+var NDM_STAGES = [
+  { n:'Stage 1', t:'Gather information and intelligence', items:[
+      'What do you actually know, as opposed to what you are assuming?',
+      'What information is missing, and how could you get it?',
+      'Is the information reliable, and from how many independent sources?',
+      'What has changed since you last reviewed the situation?'
+    ]},
+  { n:'Stage 2', t:'Assess threat and risk, and develop a working strategy', items:[
+      'Who is at risk, and how serious and how immediate is that risk?',
+      'What is your working strategy for this incident, in one sentence?',
+      'What resources do you actually have, and what do you need?',
+      'What could go wrong, and what would you do if it did?'
+    ]},
+  { n:'Stage 3', t:'Consider powers and policy', items:[
+      'What legal powers are actually available — see MP Powers, Arrest & Custody?',
+      'What policy, SPCoP or JSP applies, and have you checked the current version?',
+      'Is the threshold for any power you are considering actually met?'
+    ]},
+  { n:'Stage 4', t:'Identify options and contingencies', items:[
+      'What are the realistic options, not just the first one that comes to mind?',
+      'What are the likely consequences of each option, for everyone involved?',
+      'What is your contingency if the preferred option is not available or fails?'
+    ]},
+  { n:'Stage 5', t:'Take action and review what happened', items:[
+      'Was the action proportionate, legal, accountable and necessary?',
+      'What actually happened, compared with what you expected?',
+      'What would you do differently, and what needs to be recorded or handed over?'
+    ]}
+];
+
+/* ===================== EVIDENCE TYPES ===================== */
+var EVIDENCE_TYPES = [
+  { title:'CCTV', consider:'Is there CCTV covering the scene, or the approach and escape routes?', preserve:'Request footage before automatic overwrite — check the retention period with the system holder.', record:'Source, exact time range requested, and who provided it.', continuity:'Log onto a standard exhibit continuity record once obtained.', disclosure:'Retain even if not used in the case — it may still be disclosable.' },
+  { title:'Body-worn video (BWV)', consider:'Was it activated, and does it cover the material part of the incident?', preserve:'Download and secure per current force procedure before it is auto-deleted.', record:'Officer, device ID, and start/end times.', continuity:'Treat as an exhibit in its own right from the point of download.', disclosure:'Retain in full, including anything unhelpful to the case.' },
+  { title:'Mobile phones / digital evidence', consider:'Is a phone or device relevant to proving or disproving the offence?', preserve:'Seize per current digital forensics policy — avoid using the device yourself.', record:'Make, model, IMEI where visible, and who seized it.', continuity:'Full exhibit continuity from seizure through to forensic examination.', disclosure:'Consider material on the device that may undermine as well as support the case.' },
+  { title:'Messages / social media', consider:'Are there messages, posts or communications relevant to the incident?', preserve:'Screenshot or export before content can be deleted, with timestamps visible.', record:'Platform, account, and exact date/time captured.', continuity:'Note how the capture was made and by whom.', disclosure:'Include material that contradicts the account being pursued, not just supporting material.' },
+  { title:'Photographs', consider:'Injuries, damage, the scene, and anything time-limited such as weather-affected evidence.', preserve:'Take photographs before anything is moved, cleaned, or repaired.', record:'Date, time, location, and who took them.', continuity:'Exhibit the original files, not edited copies.', disclosure:'Retain all photographs taken, not only the clearest ones.' },
+  { title:'Medical evidence', consider:'Does an injury need clinical description or a prognosis to support the case?', preserve:'Request medical records or a statement promptly, before recollection fades.', record:'Treating clinician, date of examination, and findings.', continuity:'Not usually a physical exhibit, but keep the source clearly referenced.', disclosure:'Include findings that do not clearly support the alleged mechanism, not only those that do.' },
+  { title:'Forensic evidence', consider:'DNA, fingerprints or other forensic opportunities at the scene or on exhibits.', preserve:'Avoid contamination — use correct packaging and handling procedures from the outset.', record:'Who recovered it, when, and from where exactly.', continuity:'Unbroken chain of custody from recovery to laboratory and back.', disclosure:'Include results that do not support the case as well as those that do.' },
+  { title:'Documents', consider:'Records, orders, receipts or other paperwork relevant to the offence.', preserve:'Obtain originals where possible, and note if only a copy is available.', record:'Source, date obtained, and who provided it.', continuity:'Exhibit as with any other physical item.', disclosure:'Include documents that could support an innocent explanation.' },
+  { title:'Victim, witness and suspect evidence', consider:'Accounts should be obtained as early as practicable, before memories fade or accounts are shared.', preserve:'Record contemporaneous notes even before a formal statement is taken.', record:'Exact words where significant, not paraphrases.', continuity:'Not applicable in the exhibit sense, but note who was present when each account was taken.', disclosure:'Any account that conflicts with the main narrative must still be retained and considered.' },
+  { title:'Exhibits and continuity (general)', consider:'Every physical item seized needs a clear, unique reference from the moment it is recovered.', preserve:'Package and seal correctly for the type of item — ask a supervisor if unsure.', record:'Who seized it, exactly where and when, and a full description.', continuity:'Log every single transfer, however brief — a gap can undermine the evidential value of the exhibit.', disclosure:'Exhibits not ultimately used still need to be accounted for.' }
+];
+
+
+/* ===================== SHARED HELPERS ===================== */
+window.addEventListener('error', function(e){
+  var box = document.getElementById('jsErrBox');
+  if(box){ box.style.display='block'; box.textContent = 'A script error occurred: ' + e.message; }
+});
+
+var CUSTOM_KEY = 'mpgCustomData_v2';
+function loadCustomStore(){
+  try{
+    var raw = localStorage.getItem(CUSTOM_KEY);
+    if(!raw) return { afa:[], civ:[], reference:[] };
+    var p = JSON.parse(raw);
+    return { afa:p.afa||[], civ:p.civ||[], reference:p.reference||[] };
+  }catch(e){ return { afa:[], civ:[], reference:[] }; }
+}
+function saveCustomStore(){ try{ localStorage.setItem(CUSTOM_KEY, JSON.stringify(customStore)); }catch(e){} }
+var customStore = loadCustomStore();
+
+var FAV_KEY = 'mpgFavourites_v1';
+function loadFavs(){ try{ return JSON.parse(localStorage.getItem(FAV_KEY)) || []; }catch(e){ return []; } }
+function saveFavs(){ try{ localStorage.setItem(FAV_KEY, JSON.stringify(favourites)); }catch(e){} }
+var favourites = loadFavs();
+function isFaved(id){ return favourites.some(function(f){ return f.id === id; }); }
+function toggleFav(id, title, tag, tab){
+  if(isFaved(id)){ favourites = favourites.filter(function(f){ return f.id !== id; }); }
+  else { favourites.unshift({ id:id, title:title, tag:tag, tab:tab }); }
+  saveFavs();
+  renderHome();
+}
+
+var RECENT_KEY = 'mpgRecent_v1';
+function loadRecent(){ try{ return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; }catch(e){ return []; } }
+function saveRecent(){ try{ localStorage.setItem(RECENT_KEY, JSON.stringify(recent)); }catch(e){} }
+var recent = loadRecent();
+function logRecent(id, title, tag, tab){
+  recent = recent.filter(function(r){ return r.id !== id; });
+  recent.unshift({ id:id, title:title, tag:tag, tab:tab });
+  recent = recent.slice(0, 15);
+  saveRecent();
+}
+
+function goToTab(tabName){
+  var el = document.querySelector('.tab[data-tab="'+tabName+'"]');
+  if(el) el.click();
+}
+
+function buildChecklist(ul, items, onToggle){
+  ul.innerHTML = '';
+  items.forEach(function(item){
+    var li = document.createElement('li');
+    li.textContent = item;
+    li.addEventListener('click', function(){ li.classList.toggle('done'); if(onToggle) onToggle(); });
+    ul.appendChild(li);
+  });
+}
+
+function uniqueCats(arr){
+  var out = ['All'];
+  arr.forEach(function(o){ if(out.indexOf(o.cat)===-1) out.push(o.cat); });
+  return out;
+}
+function renderChips(container, cats, onSelect){
+  container.innerHTML = '';
+  cats.forEach(function(c,i){
+    var el = document.createElement('div');
+    el.className = 'chip' + (i===0 ? ' active' : '');
+    el.textContent = c;
+    el.addEventListener('click', function(){
+      var chips = container.querySelectorAll('.chip');
+      for(var j=0;j<chips.length;j++){ chips[j].classList.remove('active'); }
+      el.classList.add('active');
+      onSelect(c);
+    });
+    container.appendChild(el);
+  });
+}
+function favButtonHtml(id){
+  return '<button class="fav-btn'+(isFaved(id)?' faved':'')+'" data-fav="'+id+'">'+(isFaved(id)?'\u2605':'\u2606')+'</button>';
+}
+function wireFavButton(head, id, title, tag, tab){
+  var btn = head.querySelector('[data-fav]');
+  if(btn){
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      toggleFav(id, title, tag, tab);
+      btn.textContent = isFaved(id) ? '\u2605' : '\u2606';
+      btn.classList.toggle('faved', isFaved(id));
+    });
+  }
+}
+
+/* ===================== OFFENCE CARDS (AFA / CIV) ===================== */
+function mapOffenceToJobType(o, type){
+  var t = (o.title+' '+o.cat).toLowerCase();
+  if(/assault|wound|grievous|murder|manslaughter|kidnap|false imprisonment|threat/.test(t)) return 'Assault';
+  if(/sexual|rape|voyeurism|exposure|grooming/.test(t)) return 'Sexual offence';
+  if(/domestic|coercive/.test(t)) return 'Domestic abuse';
+  if(/drug/.test(t)) return 'Drugs';
+  if(/weapon|firearm|blade/.test(t)) return 'Weapons';
+  if(/theft|burglary|robbery|fraud|handling|blackmail/.test(t)) return 'Theft';
+  if(/damage|arson/.test(t)) return 'Criminal damage';
+  if(/public order|affray|riot|harassment|stalking/.test(t)) return 'Public order';
+  if(type==='afa') return 'Service offence';
+  return 'Other';
+}
+function offenceCard(o, type, onDelete){
+  var id = type+':'+o.title;
+  var card = document.createElement('div');
+  card.className = 'card';
+  var head = document.createElement('div');
+  head.className = 'card-head';
+  var badge = o.custom ? '<span class="custom-badge">Custom</span>' : '';
+  var delHtml = o.custom ? '<button class="del-btn" data-del="1">\u00d7</button>' : '';
+  head.innerHTML = '<div><div class="card-title">'+o.title+badge+'</div><div class="card-sub">'+o.ref+'</div></div><div class="headctrls">'+favButtonHtml(id)+delHtml+'<div class="chev">v</div></div>';
+  var body = document.createElement('div');
+  body.className = 'card-body';
+  var jobType = mapOffenceToJobType(o, type);
+  body.innerHTML =
+    '<div class="cl-title">Definition</div><div class="definition">'+o.def+'</div>' +
+    '<div class="cl-title">Investigation checklist / evidence to consider</div>';
+  var ul = document.createElement('ul'); ul.className = 'cl'; body.appendChild(ul);
+  buildChecklist(ul, o.checklist);
+  var jobBtn = document.createElement('button');
+  jobBtn.className = 'settings-btn';
+  jobBtn.style.marginTop = '12px';
+  jobBtn.textContent = 'Open incident checklist for this offence (' + jobType + ')';
+  jobBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    goToTab('job');
+    setTimeout(function(){
+      var chip = Array.prototype.find.call(document.querySelectorAll('#jobChips .chip'), function(c){ return c.textContent===jobType; });
+      if(chip) chip.click();
+    }, 50);
+  });
+  body.appendChild(jobBtn);
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, o.title, type==='afa'?'AFA 2006':'Civilian offence', type);
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-del')){ e.stopPropagation(); if(onDelete) onDelete(); return; }
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, o.title, type==='afa'?'AFA 2006':'Civilian offence', type);
+  });
+  return card;
+}
+function renderOffenceList(listEl, builtIn, customArr, customType, filterCat, query){
+  listEl.innerHTML = '';
+  var q = (query||'').toLowerCase();
+  var data = builtIn.concat(customArr);
+  var results = data.filter(function(o){
+    var catOk = (filterCat==='All' || o.cat===filterCat);
+    var textOk = (!q || (o.title+' '+o.ref+' '+o.cat+' '+o.def).toLowerCase().indexOf(q)!==-1);
+    return catOk && textOk;
+  });
+  if(results.length===0){ var e=document.createElement('div'); e.className='note'; e.textContent='No offences match that search.'; listEl.appendChild(e); return; }
+  results.forEach(function(o){
+    var onDelete = o.custom ? function(){
+      customStore[customType] = customStore[customType].filter(function(x){ return x.id !== o.id; });
+      saveCustomStore(); refreshAllLists();
+    } : null;
+    listEl.appendChild(offenceCard(o, customType, onDelete));
+  });
+}
+function buildOffenceAddForm(container, type){
+  container.innerHTML =
+    '<label>Category</label><input type="text" id="'+type+'NewCat" placeholder="e.g. Fraud, Violence">' +
+    '<label>Title</label><input type="text" id="'+type+'NewTitle" placeholder="Offence name">' +
+    '<label>Reference</label><input type="text" id="'+type+'NewRef" placeholder="e.g. Theft Act 1968 s.1">' +
+    '<label>Definition</label><textarea id="'+type+'NewDef"></textarea>' +
+    '<label>Checklist (one item per line)</label><textarea id="'+type+'NewChecklist"></textarea>' +
+    '<div class="form-btns"><button class="form-save" id="'+type+'NewSave">Save</button><button class="form-cancel" id="'+type+'NewCancel">Cancel</button></div>';
+  document.getElementById(type+'NewSave').addEventListener('click', function(){
+    var title = document.getElementById(type+'NewTitle').value.trim();
+    if(!title){ alert('Please enter a title.'); return; }
+    var checklistRaw = document.getElementById(type+'NewChecklist').value.trim();
+    var checklist = checklistRaw ? checklistRaw.split('\n').map(function(s){return s.trim();}).filter(Boolean) : [];
+    customStore[type].push({ id:'c'+Date.now(), cat:document.getElementById(type+'NewCat').value.trim()||'Custom', title:title,
+      ref:document.getElementById(type+'NewRef').value.trim()||'User-added', def:document.getElementById(type+'NewDef').value.trim()||'', checklist:checklist, custom:true });
+    saveCustomStore();
+    document.getElementById(type+'AddForm').classList.remove('open');
+    refreshAllLists();
+  });
+  document.getElementById(type+'NewCancel').addEventListener('click', function(){ document.getElementById(type+'AddForm').classList.remove('open'); });
+}
+
+/* ===================== MP POWERS ===================== */
+function powerCard(p){
+  var id = 'power:'+p.key;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+p.title+'</div><div class="card-sub">'+p.spcop+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  var fields = [['Legal power',p.legalPower],['Who can use it',p.who],['When it can be used',p.when],['Threshold / conditions',p.threshold],['What it allows',p.allows],['Limitations',p.limitations],['What must be recorded',p.recorded],['Relevant JSP',p.jsp],['Source',p.source]];
+  fields.forEach(function(f){
+    var needVerify = f[1] && f[1].indexOf('NEEDS VERIFICATION')!==-1;
+    body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val'+(needVerify?' needverify':'')+'">'+f[1]+'</div></div>';
+  });
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, p.title, 'MP Power', 'powers');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, p.title, 'MP Power', 'powers');
+  });
+  return card;
+}
+function renderPowers(query){
+  var list = document.getElementById('powersList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = POWERS.filter(function(p){ return !q || (p.title+' '+p.legalPower+' '+p.source).toLowerCase().indexOf(q)!==-1; });
+  if(results.length===0){ list.innerHTML='<div class="note">No powers match that search.</div>'; return; }
+  results.forEach(function(p){ list.appendChild(powerCard(p)); });
+}
+
+/* ===================== IDENTIFICATION ===================== */
+function identCard(it, idx){
+  var id = 'ident:'+idx;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+it.title+'</div><div class="card-sub">'+it.spcop+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  var fields = [['When it may be used',it.when],['How it works',it.how],['Key requirements',it.requirements],['What to record',it.record],['What to avoid',it.avoid]];
+  fields.forEach(function(f){ body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val">'+f[1]+'</div></div>'; });
+  body.innerHTML += '<div class="note">Confirm exact current SPCoP Code D wording locally — this entry describes general identification-procedure practice, not a verified quote from the current Code D.</div>';
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, it.title, 'Identification', 'ident');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, it.title, 'Identification', 'ident');
+  });
+  return card;
+}
+function renderIdent(query){
+  var list = document.getElementById('identList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  IDENTIFICATION.forEach(function(it, idx){
+    if(!q || (it.title+' '+it.when+' '+it.how).toLowerCase().indexOf(q)!==-1) list.appendChild(identCard(it, idx));
+  });
+  if(list.children.length===0) list.innerHTML='<div class="note">No identification procedures match that search.</div>';
+}
+
+/* ===================== I'M AT A JOB ===================== */
+function renderJobChips(){
+  renderChips(document.getElementById('jobChips'), JOB_TYPES, function(type){ renderJob(type); });
+}
+function renderJob(type){
+  var list = document.getElementById('jobList'); list.innerHTML='';
+  var extras = JOB_EXTRAS[type] || {};
+  Object.keys(JOB_BASE).forEach(function(section){
+    var items = JOB_BASE[section].slice();
+    if(extras[section]) items = items.concat(extras[section]);
+    var card = document.createElement('div'); card.className='card';
+    card.innerHTML = '<div class="card-head"><div class="card-title">'+section.toUpperCase()+'</div><div class="chev">v</div></div><div class="card-body"><ul class="cl"></ul></div>';
+    var ul = card.querySelector('ul.cl');
+    buildChecklist(ul, items);
+    card.querySelector('.card-head').addEventListener('click', function(){ card.classList.toggle('open'); });
+    list.appendChild(card);
+  });
+}
+
+/* ===================== INVESTIGATION ===================== */
+function renderInvestList(query){
+  var list = document.getElementById('investList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var all = AFA.concat(customStore.afa).map(function(o){ return {o:o,type:'afa'}; }).concat(CIV.concat(customStore.civ).map(function(o){ return {o:o,type:'civ'}; }));
+  var results = all.filter(function(x){ return !q || (x.o.title+' '+x.o.ref).toLowerCase().indexOf(q)!==-1; });
+  if(!q){ list.innerHTML = '<div class="note">Type an offence name to jump straight to its checklist, or search AFA 2006 / Civilian Offences directly.</div>'; return; }
+  if(results.length===0){ list.innerHTML='<div class="note">No offences match that search.</div>'; return; }
+  results.slice(0,15).forEach(function(x){
+    var row = document.createElement('div'); row.className='recent-item';
+    row.innerHTML = '<div><div class="tag">'+(x.type==='afa'?'AFA 2006':'Civilian offence')+'</div>'+x.o.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(x.type); });
+    list.appendChild(row);
+  });
+}
+
+/* ===================== EVIDENCE ===================== */
+function renderEvidence(){
+  var list = document.getElementById('evidenceList'); list.innerHTML='';
+  EVIDENCE_TYPES.forEach(function(e, idx){
+    var id = 'evidence:'+idx;
+    var card = document.createElement('div'); card.className='card';
+    var head = document.createElement('div'); head.className='card-head';
+    head.innerHTML = '<div class="card-title">'+e.title+'</div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+    var body = document.createElement('div'); body.className='card-body';
+    [['Consider',e.consider],['Preserve',e.preserve],['Record',e.record],['Continuity',e.continuity],['Disclosure',e.disclosure]].forEach(function(f){
+      body.innerHTML += '<div class="field-row"><div class="field-label">'+f[0]+'</div><div class="field-val">'+f[1]+'</div></div>';
+    });
+    card.appendChild(head); card.appendChild(body);
+    wireFavButton(head, id, e.title, 'Evidence', 'evidence');
+    head.addEventListener('click', function(ev){
+      if(ev.target && ev.target.getAttribute('data-fav')) return;
+      card.classList.toggle('open');
+      if(card.classList.contains('open')) logRecent(id, e.title, 'Evidence', 'evidence');
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ===================== CHECKLISTS HUB ===================== */
+var CHECKLIST_HUB = [
+  { title:'Initial attendance', arr:INITIAL_ATTENDANCE_CL },
+  { title:'Scene preservation', arr:SCENE_PRESERVATION_CL },
+  { title:'Arrest necessity', arr:NECESSITY_CL },
+  { title:'At the point of arrest', arr:ATARREST_CL },
+  { title:'Custody entitlements', arr:CUSTODY_CL },
+  { title:'Custody time limits', arr:TIMELIMITS_CL },
+  { title:'Vulnerable suspects', arr:VULNERABLE_CL },
+  { title:'Victim safety', arr:SAFETY_CL },
+  { title:'Victim referral', arr:REFERRAL_CL },
+  { title:'Domestic abuse — arrival and scene safety', arr:DA_ARRIVAL_CL },
+  { title:'Domestic abuse — risk identification', arr:DA_RISK_CL },
+  { title:'Domestic abuse — evidence capture', arr:DA_EVIDENCE_CL },
+  { title:'Domestic abuse — children in the household', arr:DA_CHILDREN_CL },
+  { title:'Domestic abuse — suspect handling', arr:DA_SUSPECT_CL },
+  { title:'Domestic abuse — referral and follow-up', arr:DA_REFERRAL_DA_CL },
+  { title:'Before leaving the scene', arr:BEFORE_LEAVING_CL },
+  { title:'Handover', arr:HANDOVER_CL },
+  { title:'Case file review', arr:CASEFILE_REVIEW_CL }
+];
+function renderChecklistHub(query){
+  var list = document.getElementById('checklistHubList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = CHECKLIST_HUB.filter(function(c){ return !q || (c.title+' '+c.arr.join(' ')).toLowerCase().indexOf(q)!==-1; });
+  if(results.length===0){ list.innerHTML='<div class="note">No checklists match that search.</div>'; return; }
+  results.forEach(function(c, idx){
+    var id = 'checklist:'+c.title;
+    var card = document.createElement('div'); card.className='card';
+    var head = document.createElement('div'); head.className='card-head';
+    head.innerHTML = '<div class="card-title">'+c.title+'</div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+    var body = document.createElement('div'); body.className='card-body';
+    var ul = document.createElement('ul'); ul.className='cl'; body.appendChild(ul);
+    buildChecklist(ul, c.arr);
+    card.appendChild(head); card.appendChild(body);
+    wireFavButton(head, id, c.title, 'Checklist', 'checklists');
+    head.addEventListener('click', function(e){
+      if(e.target && e.target.getAttribute('data-fav')) return;
+      card.classList.toggle('open');
+      if(card.classList.contains('open')) logRecent(id, c.title, 'Checklist', 'checklists');
+    });
+    list.appendChild(card);
+  });
+}
+
+/* ===================== SAFEGUARDING ===================== */
+function sgCard(s){
+  var card = document.createElement('div'); card.className='sg-card';
+  var tel = s.phone ? s.phone.replace(/\s+/g,'') : '';
+  var html = '<div class="sg-name">'+s.name+'</div><div class="sg-role">'+s.role+'</div>';
+  if(s.note) html += '<div class="note">'+s.note+'</div>';
+  html += '<div class="sg-contact">';
+  if(s.phone){ html += '<a class="sg-btn primary" href="tel:'+tel+'">Call '+s.phone+'</a><a class="sg-btn" href="https://wa.me/'+tel.replace('+','')+'" target="_blank">WhatsApp</a>'; }
+  html += '</div>';
+  card.innerHTML = html;
+  return card;
+}
+function renderSafeguard(filterCat){
+  var list = document.getElementById('sgList'); list.innerHTML='';
+  SAFEGUARD.filter(function(s){ return filterCat==='All' || s.cat===filterCat; }).forEach(function(s){ list.appendChild(sgCard(s)); });
+}
+
+/* ===================== SPCoP / REFERENCE ===================== */
+function spcopCard(s){
+  var id = 'spcop:'+s.code;
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+s.code+' — '+s.title+'</div><div class="card-sub">'+s.body+'</div></div><div class="headctrls">'+favButtonHtml(id)+'<div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  body.innerHTML = '<div class="cl-title">Key points</div>';
+  var pts = document.createElement('ul'); pts.className='points';
+  s.points.forEach(function(p){ var li=document.createElement('li'); li.textContent=p; pts.appendChild(li); });
+  body.appendChild(pts);
+  body.innerHTML += '<div class="cl-title">Field checklist</div>';
+  var ul = document.createElement('ul'); ul.className='cl'; body.appendChild(ul);
+  buildChecklist(ul, s.checklist);
+  card.appendChild(head); card.appendChild(body);
+  wireFavButton(head, id, s.code+' — '+s.title, 'SPCoP', 'reference');
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-fav')) return;
+    card.classList.toggle('open');
+    if(card.classList.contains('open')) logRecent(id, s.code+' — '+s.title, 'SPCoP', 'reference');
+  });
+  return card;
+}
+function renderSpcop(codeFilter, query){
+  var list = document.getElementById('spcopList'); list.innerHTML='';
+  var q=(query||'').toLowerCase();
+  var results = SPCOP.filter(function(s){
+    var codeOk = (!codeFilter || codeFilter==='All' || s.code===codeFilter);
+    if(!codeOk) return false;
+    if(!q) return true;
+    return (s.code+' '+s.title+' '+s.body+' '+s.points.join(' ')+' '+s.checklist.join(' ')).toLowerCase().indexOf(q)!==-1;
+  });
+  if(results.length===0){ list.innerHTML='<div class="note">No codes match that search.</div>'; return; }
+  results.forEach(function(s){ list.appendChild(spcopCard(s)); });
+}
+function refCard(r, onDelete){
+  var card = document.createElement('div'); card.className='card';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+r.title+'<span class="custom-badge">Custom</span></div><div class="card-sub">'+r.source+'</div></div><div class="headctrls"><button class="del-btn" data-del="1">\u00d7</button><div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  body.innerHTML = '<div class="definition">'+r.content+'</div>';
+  card.appendChild(head); card.appendChild(body);
+  head.addEventListener('click', function(e){
+    if(e.target && e.target.getAttribute('data-del')){ e.stopPropagation(); if(onDelete) onDelete(); return; }
+    card.classList.toggle('open');
+  });
+  return card;
+}
+function renderRefList(){
+  var list = document.getElementById('refList'); list.innerHTML='';
+  if(customStore.reference.length===0){ list.innerHTML=''; return; }
+  customStore.reference.forEach(function(r){
+    list.appendChild(refCard(r, function(){
+      customStore.reference = customStore.reference.filter(function(x){ return x.id!==r.id; });
+      saveCustomStore(); renderRefList();
+    }));
+  });
+}
+document.getElementById('refAddToggle').addEventListener('click', function(){
+  var f = document.getElementById('refAddForm');
+  if(!f.classList.contains('open')){
+    f.innerHTML = '<label>Title</label><input type="text" id="refNewTitle" placeholder="e.g. JSP 830 Ch.4 — Search of premises">' +
+      '<label>Source</label><input type="text" id="refNewSource" placeholder="e.g. JSP 830, current edition, Ch.4">' +
+      '<label>Content</label><textarea id="refNewContent" placeholder="Paste the verified extract or your own summary"></textarea>' +
+      '<div class="form-btns"><button class="form-save" id="refNewSave">Save</button><button class="form-cancel" id="refNewCancel">Cancel</button></div>';
+    document.getElementById('refNewSave').addEventListener('click', function(){
+      var title = document.getElementById('refNewTitle').value.trim();
+      if(!title){ alert('Please enter a title.'); return; }
+      customStore.reference.push({ id:'c'+Date.now(), title:title, source:document.getElementById('refNewSource').value.trim()||'User-added', content:document.getElementById('refNewContent').value.trim() });
+      saveCustomStore(); f.classList.remove('open'); renderRefList();
+    });
+    document.getElementById('refNewCancel').addEventListener('click', function(){ f.classList.remove('open'); });
+  }
+  f.classList.toggle('open');
+});
+
+/* ===================== GLOBAL SEARCH ===================== */
+function buildSearchIndex(){
+  var idx = [];
+  AFA.concat(customStore.afa).forEach(function(o){ idx.push({tag:'AFA 2006', title:o.title, snippet:o.def, tab:'afa', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase()}); });
+  CIV.concat(customStore.civ).forEach(function(o){ idx.push({tag:'Civilian offence', title:o.title, snippet:o.def, tab:'civ', text:(o.title+' '+o.ref+' '+o.def+' '+o.checklist.join(' ')).toLowerCase()}); });
+  POWERS.forEach(function(p){ idx.push({tag:'MP Power', title:p.title, snippet:p.legalPower, tab:'powers', text:(p.title+' '+p.legalPower+' '+p.source).toLowerCase()}); });
+  IDENTIFICATION.forEach(function(i){ idx.push({tag:'Identification', title:i.title, snippet:i.when, tab:'ident', text:(i.title+' '+i.when+' '+i.how).toLowerCase()}); });
+  SPCOP.forEach(function(s){ idx.push({tag:'SPCoP '+s.code, title:s.title, snippet:s.body, tab:'reference', text:(s.code+' '+s.title+' '+s.body+' '+s.points.join(' ')).toLowerCase()}); });
+  customStore.reference.forEach(function(r){ idx.push({tag:'Reference', title:r.title, snippet:r.content.slice(0,120), tab:'reference', text:(r.title+' '+r.source+' '+r.content).toLowerCase()}); });
+  CHECKLIST_HUB.forEach(function(c){ idx.push({tag:'Checklist', title:c.title, snippet:c.arr[0]||'', tab:'checklists', text:(c.title+' '+c.arr.join(' ')).toLowerCase()}); });
+  EVIDENCE_TYPES.forEach(function(e){ idx.push({tag:'Evidence', title:e.title, snippet:e.consider, tab:'evidence', text:(e.title+' '+e.consider+' '+e.preserve).toLowerCase()}); });
+  idx.push({tag:'Safeguarding', title:'Safeguarding contacts and signposting', snippet:'Aurora New Dawn, VWCU, BFSWS and other referral contacts.', tab:'safeguard', text:'aurora new dawn victim witness care unit bfsws safeguarding referral'});
+  return idx;
+}
+function runGlobalSearch(query){
+  var resultsEl = document.getElementById('globalSearchResults');
+  resultsEl.innerHTML = '';
+  var q = (query||'').trim().toLowerCase();
+  if(!q){ resultsEl.innerHTML = '<div class="note">Type a search term above.</div>'; return; }
+  var terms = q.split(/\s+/).filter(function(w){ return w.length>2; });
+  if(terms.length===0) terms=[q];
+  var idx = buildSearchIndex();
+  var scored = idx.map(function(item){
+    var score=0; terms.forEach(function(t){ if(item.text.indexOf(t)!==-1) score++; });
+    return {item:item, score:score};
+  }).filter(function(r){ return r.score>0; });
+  scored.sort(function(a,b){ return b.score-a.score; });
+  if(scored.length===0){ resultsEl.innerHTML = '<div class="note">Nothing in the guide matches that. Try different words.</div>'; return; }
+  scored.slice(0,20).forEach(function(r){
+    var card = document.createElement('div'); card.className='recent-item';
+    card.innerHTML = '<div><div class="tag">'+r.item.tag+'</div>'+r.item.title+'</div><div class="chev">\u203a</div>';
+    card.addEventListener('click', function(){ goToTab(r.item.tab); });
+    resultsEl.appendChild(card);
+  });
+}
+
+/* ===================== HOME ===================== */
+var HOME_SECTIONS = [
+  ['1','AFA 2006','afa'],['2','Civilian Offences','civ'],['3','Military Police Powers','powers'],
+  ['4','Identification / VIPER','ident'],['5',"I'm At A Job",'job'],['6','Investigation','invest'],
+  ['7','Evidence','evidence'],['8','Arrest & Custody','arrest'],['9','Checklists','checklists'],
+  ['10','Safeguarding','safeguard'],['11','SPCoP / JSP / Reference','reference'],['12','Search Everything','search']
+];
+function renderHome(){
+  var grid = document.getElementById('homeGrid'); grid.innerHTML='';
+  HOME_SECTIONS.forEach(function(s){
+    var tile = document.createElement('div'); tile.className='home-tile';
+    tile.innerHTML = '<div class="num">'+s[0]+'</div><div class="lbl">'+s[1]+'</div>';
+    tile.addEventListener('click', function(){ goToTab(s[2]); });
+    grid.appendChild(tile);
+  });
+  var favList = document.getElementById('favList'); favList.innerHTML='';
+  if(favourites.length===0){ favList.innerHTML='<div class="empty-row">Nothing favourited yet — tap the star on any item to save it here.</div>'; }
+  else favourites.slice(0,10).forEach(function(f){
+    var row = document.createElement('div'); row.className='fav-item';
+    row.innerHTML = '<div><div class="tag">'+f.tag+'</div>'+f.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(f.tab); });
+    favList.appendChild(row);
+  });
+  var recentList = document.getElementById('recentList'); recentList.innerHTML='';
+  if(recent.length===0){ recentList.innerHTML='<div class="empty-row">Nothing viewed yet.</div>'; }
+  else recent.forEach(function(r){
+    var row = document.createElement('div'); row.className='recent-item';
+    row.innerHTML = '<div><div class="tag">'+r.tag+'</div>'+r.title+'</div><div class="chev">\u203a</div>';
+    row.addEventListener('click', function(){ goToTab(r.tab); });
+    recentList.appendChild(row);
+  });
+}
+
+/* ===================== REFRESH / EXPORT / IMPORT ===================== */
+function refreshAllLists(){
+  var activeAfaChip = document.querySelector('#afaChips .chip.active');
+  renderOffenceList(document.getElementById('afaList'), AFA, customStore.afa, 'afa', activeAfaChip?activeAfaChip.textContent:'All', document.getElementById('afaSearch').value);
+  var activeCivChip = document.querySelector('#civChips .chip.active');
+  renderOffenceList(document.getElementById('civList'), CIV, customStore.civ, 'civ', activeCivChip?activeCivChip.textContent:'All', document.getElementById('civSearch').value);
+  renderRefList();
+  renderHome();
+}
+
+document.getElementById('exportBtn').addEventListener('click', function(){
+  var blob = new Blob([JSON.stringify(customStore, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href=url; a.download='mp-policing-guide-backup.json'; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('importBtn').addEventListener('click', function(){ document.getElementById('importFile').click(); });
+document.getElementById('importFile').addEventListener('change', function(e){
+  var file = e.target.files[0]; if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      var data = JSON.parse(ev.target.result);
+      customStore.afa = (customStore.afa||[]).concat(data.afa||[]);
+      customStore.civ = (customStore.civ||[]).concat(data.civ||[]);
+      customStore.reference = (customStore.reference||[]).concat(data.reference||[]);
+      saveCustomStore(); refreshAllLists();
+      alert('Backup imported.');
+    }catch(err){ alert('Could not read that file — make sure it is a backup exported from this app.'); }
+  };
+  reader.readAsText(file);
+});
+
+/* ===================== NDM RENDER ===================== */
+function renderNdm(){
+  var list = document.getElementById('ndmList');
+  list.innerHTML = '';
+  NDM_STAGES.forEach(function(s){
+    var div = document.createElement('div');
+    div.className = 'ndm-stage';
+    div.innerHTML = '<div class="n">'+s.n+'</div><div class="t">'+s.t+'</div>';
+    var ul = document.createElement('ul'); ul.className = 'cl'; div.appendChild(ul);
+    buildChecklist(ul, s.items);
+    list.appendChild(div);
+  });
+}
+
+/* ===================== SETTINGS ===================== */
+var SETTINGS_KEY = 'mpgSettings_v1';
+function loadSettings(){
+  try{ return JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; }catch(e){ return {}; }
+}
+function saveSettings(){ try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }catch(e){} }
+var settings = Object.assign({ theme:'red', fontsize:'medium', reduceMotion:false }, loadSettings());
+
+function applySettings(){
+  document.documentElement.setAttribute('data-theme', settings.theme);
+  document.documentElement.setAttribute('data-fontsize', settings.fontsize);
+  document.documentElement.setAttribute('data-motion', settings.reduceMotion ? 'reduced' : 'normal');
+  document.querySelectorAll('.theme-swatch').forEach(function(el){ el.classList.toggle('active', el.dataset.theme===settings.theme); });
+  document.querySelectorAll('.fontsize-btn').forEach(function(el){ el.classList.toggle('active', el.dataset.size===settings.fontsize); });
+  var mt = document.getElementById('reduceMotionToggle'); if(mt) mt.checked = !!settings.reduceMotion;
+}
+document.querySelectorAll('.theme-swatch').forEach(function(el){
+  el.addEventListener('click', function(){ settings.theme = el.dataset.theme; saveSettings(); applySettings(); });
+});
+document.querySelectorAll('.fontsize-btn').forEach(function(el){
+  el.addEventListener('click', function(){ settings.fontsize = el.dataset.size; saveSettings(); applySettings(); });
+});
+document.getElementById('reduceMotionToggle').addEventListener('change', function(e){
+  settings.reduceMotion = e.target.checked; saveSettings(); applySettings();
+});
+document.getElementById('clearFavBtn').addEventListener('click', function(){
+  if(!confirm('Clear all favourites and recently viewed? This cannot be undone.')) return;
+  favourites = []; recent = []; saveFavs(); saveRecent(); renderHome();
+  alert('Cleared.');
+});
+document.getElementById('clearCustomBtn').addEventListener('click', function(){
+  if(!confirm('Clear all custom offences and reference entries you have added? This cannot be undone — export a backup first if unsure.')) return;
+  customStore = { afa:[], civ:[], reference:[] }; saveCustomStore(); refreshAllLists();
+  alert('Cleared.');
+});
+applySettings();
+
+/* ===================== INIT ===================== */
+renderHome();
+renderNdm();
+
+var AFA_CATS = uniqueCats(AFA.concat(customStore.afa));
+var afaList = document.getElementById('afaList');
+renderChips(document.getElementById('afaChips'), AFA_CATS, function(cat){ renderOffenceList(afaList, AFA, customStore.afa, 'afa', cat, document.getElementById('afaSearch').value); });
+renderOffenceList(afaList, AFA, customStore.afa, 'afa', 'All', '');
+document.getElementById('afaSearch').addEventListener('input', function(e){
+  var c = document.querySelector('#afaChips .chip.active');
+  renderOffenceList(afaList, AFA, customStore.afa, 'afa', c?c.textContent:'All', e.target.value);
+});
+document.getElementById('afaAddToggle').addEventListener('click', function(){
+  var f = document.getElementById('afaAddForm');
+  if(!f.classList.contains('open')) buildOffenceAddForm(f, 'afa');
+  f.classList.toggle('open');
+});
+
+var CIV_CATS = uniqueCats(CIV.concat(customStore.civ));
+var civList = document.getElementById('civList');
+renderChips(document.getElementById('civChips'), CIV_CATS, function(cat){ renderOffenceList(civList, CIV, customStore.civ, 'civ', cat, document.getElementById('civSearch').value); });
+renderOffenceList(civList, CIV, customStore.civ, 'civ', 'All', '');
+document.getElementById('civSearch').addEventListener('input', function(e){
+  var c = document.querySelector('#civChips .chip.active');
+  renderOffenceList(civList, CIV, customStore.civ, 'civ', c?c.textContent:'All', e.target.value);
+});
+document.getElementById('civAddToggle').addEventListener('click', function(){
+  var f = document.getElementById('civAddForm');
+  if(!f.classList.contains('open')) buildOffenceAddForm(f, 'civ');
+  f.classList.toggle('open');
+});
+
+renderPowers('');
+document.getElementById('powersSearch').addEventListener('input', function(e){ renderPowers(e.target.value); });
+
+renderIdent('');
+document.getElementById('identSearch').addEventListener('input', function(e){ renderIdent(e.target.value); });
+
+renderJobChips();
+renderJob(JOB_TYPES[0]);
+
+renderInvestList('');
+document.getElementById('investSearch').addEventListener('input', function(e){ renderInvestList(e.target.value); });
+buildChecklist(document.getElementById('cl-casefile'), CASEFILE_REVIEW_CL);
+
+renderEvidence();
+
+buildChecklist(document.getElementById('cl-necessity'), NECESSITY_CL);
+buildChecklist(document.getElementById('cl-atarrest'), ATARREST_CL);
+buildChecklist(document.getElementById('cl-custody'), CUSTODY_CL);
+buildChecklist(document.getElementById('cl-timelimits'), TIMELIMITS_CL);
+buildChecklist(document.getElementById('cl-vulnerable'), VULNERABLE_CL);
+
+renderChecklistHub('');
+document.getElementById('checklistSearch').addEventListener('input', function(e){ renderChecklistHub(e.target.value); });
+
+var SG_CATS = uniqueCats(SAFEGUARD);
+renderChips(document.getElementById('sgChips'), SG_CATS, function(cat){ renderSafeguard(cat); });
+renderSafeguard('All');
+
+var SPCOP_CATS = ['All']; SPCOP.forEach(function(s){ SPCOP_CATS.push(s.code); });
+renderChips(document.getElementById('spcopChips'), SPCOP_CATS, function(code){ renderSpcop(code, document.getElementById('spcopSearch').value); });
+renderSpcop('All','');
+document.getElementById('spcopSearch').addEventListener('input', function(e){
+  var c = document.querySelector('#spcopChips .chip.active');
+  renderSpcop(c?c.textContent:'All', e.target.value);
+});
+renderRefList();
+
+document.getElementById('globalSearchBtn').addEventListener('click', function(){ runGlobalSearch(document.getElementById('globalSearchInput').value); });
+document.getElementById('globalSearchInput').addEventListener('keydown', function(e){ if(e.key==='Enter') runGlobalSearch(this.value); });
+
+document.querySelectorAll('.quick-pill').forEach(function(p){ p.addEventListener('click', function(){ goToTab(p.dataset.goto); }); });
+
+var tabs = document.querySelectorAll('.tab');
+for(var t=0;t<tabs.length;t++){
+  tabs[t].addEventListener('click', function(){
+    var all = document.querySelectorAll('.tab'); for(var k=0;k<all.length;k++) all[k].classList.remove('active');
+    this.classList.add('active');
+    var views = document.querySelectorAll('.panel-view'); for(var v=0;v<views.length;v++) views[v].classList.remove('active');
+    document.getElementById('view-'+this.dataset.tab).classList.add('active');
+  });
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
