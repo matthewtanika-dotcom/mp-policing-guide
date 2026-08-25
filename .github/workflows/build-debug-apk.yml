@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,11 +30,6 @@ jobs:
         run: |
           mkdir -p capacitor-project/www
           cp index.html manifest.json service-worker.js icon-192.png icon-512.png capacitor-project/www/
-
-      - name: Copy app assets
-        run: |
-          mkdir -p capacitor-project/assets
-          cp -r capacitor/assets/* capacitor-project/assets/
 
       - name: Install Capacitor dependencies
         working-directory: capacitor-project
