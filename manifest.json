@@ -1,0 +1,25 @@
+{
+  "name": "MP Policing Guide",
+  "short_name": "MP Guide",
+  "description": "Unofficial Service Police pocket reference: AFA 2006, civilian offences, MP powers, identification, I'm at a job, investigation, evidence, arrest & custody, checklists, safeguarding, National Decision Model with decision tools, Ask MP Guide local search, reference material, and settings (4 colour themes including Black & Blue and Light, plus font size).",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0A0A",
+  "theme_color": "#0A0A0A",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
