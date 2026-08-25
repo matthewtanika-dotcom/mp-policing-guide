@@ -100,6 +100,25 @@ card.
 **New icon**: a generic shield/badge design, not a copy of any
 official MOD/RMP crest or protected insignia.
 
+## What's in this update
+
+**Ask MP Guide** — a new tab with a local, offline question engine. Type something like "I've arrested someone for theft, what section is it?" and it extracts the offence and intent, then returns a structured answer (Act/section, definition, points to prove, links to the matching incident checklist and NDM). This is keyword matching against the app's own data, not a connected AI — it never sends anything off the device, and if it can't find a confident match it says so rather than guessing. A microphone button appears only if the device's browser genuinely supports speech recognition (untested inside the compiled APK's WebView — may not appear there at all). Answers can be read aloud via the browser's text-to-speech where supported.
+
+**National Decision Model** — the Code of Ethics and five NDM stages, plus interactive decision-record tools for Arrest, Person Search, Property Search, Premises Search, Seizure, Entry, Use of Force, Identification, Vehicle Search, Safeguarding, and Release/Bail. Each captures objective, facts, legal power, necessity, proportionality, risk, alternatives, decision and rationale, and saves the record on-device. It explicitly does not declare anything lawful — it's a structured way to record your own reasoning.
+
+**Home screen** — redesigned from a numbered grid to icon-based cards, with a search bar and an "Ask MP Guide" entry point at the top.
+
+**Two new colour themes** — Black & Blue and a genuine Light theme (not an inverted dark theme — proper light backgrounds, dark text, real contrast checking), alongside the existing Black & Red, Black & Gold and Dyslexic-friendly themes, all in Settings.
+
+## What I deliberately did not attempt this round, and why
+
+A few things in the original spec I'm not implementing, because I can't do them honestly from this environment:
+
+- **Full text of JSP 830 (Manual of Service Law), the complete SPCoP document, and JSP 913** — these are genuinely public on gov.uk (I was wrong earlier in our conversation when I said otherwise), but ingesting them properly — correctly transcribed, chunked, and indexed so passage-level search actually works — is a large, careful content project on its own. Rushing it risks embedding wrong or garbled legal text into something used operationally, which is worse than not having it yet.
+- **The official CJS Offence Index dataset** — this is a real, publicly published dataset (maintained by PNLD, updated quarterly), but importing and correctly parsing it wasn't done this round. Ask MP Guide will honestly tell you "NO VERIFIED CJS CODE FOUND" rather than invent one.
+- **A genuine on-device LLM** (LiteRT-LM, Gemma Nano, or similar) — this needs native Android development, bundling large model files, and testing on physical hardware, none of which I can do from a sandboxed text environment with no device and no way to run an Android build myself.
+- **Full text of the Armed Forces Act 2006** — the existing curated set of Part 1 offences remains as before; I did not attempt to add further sections this round, since guessing at section content I'm not fully confident of would break the "never invent" principle you were explicit about.
+
 ## Content accuracy — what still needs your input
 
 I did not invent legislation, powers, thresholds or procedures. Where
