@@ -12,6 +12,7 @@ permissions:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,6 +36,11 @@ jobs:
           mkdir -p capacitor-project/www
           cp index.html manifest.json service-worker.js icon-192.png icon-512.png capacitor-project/www/
 
+      - name: Copy app assets
+        run: |
+          mkdir -p capacitor-project/assets
+          cp -r capacitor-project/assets/* capacitor-project/assets/ 2>/dev/null || true
+
       - name: Install Capacitor dependencies
         working-directory: capacitor-project
         run: npm install
@@ -51,7 +57,7 @@ jobs:
         working-directory: capacitor-project
         run: npx cap sync android
 
-      - name: Build debug APK
+      - name: Build release APK
         working-directory: capacitor-project/android
         run: |
           chmod +x gradlew
