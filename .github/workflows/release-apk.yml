@@ -12,6 +12,7 @@ permissions:
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,6 +33,7 @@ jobs:
 
       - name: Copy web app into Capacitor project
         run: |
+          rm -rf capacitor-project/www
           mkdir -p capacitor-project/www
           cp index.html manifest.json service-worker.js icon-192.png icon-512.png capacitor-project/www/
 
@@ -43,9 +45,9 @@ jobs:
         working-directory: capacitor-project
         run: npx cap add android
 
-      - name: Generate Android app icons and splash screen
+      - name: Copy MP Policing Guide app icon into Android resources
         working-directory: capacitor-project
-        run: npx capacitor-assets generate --android
+        run: npm run copy-icons
 
       - name: Sync Capacitor
         working-directory: capacitor-project
@@ -65,3 +67,6 @@ jobs:
         with:
           files: mp-policing-guide.apk
           generate_release_notes: true
+
+
+
