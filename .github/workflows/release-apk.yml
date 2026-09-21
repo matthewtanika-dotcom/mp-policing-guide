@@ -15,12 +15,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v5
@@ -28,14 +28,31 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # NOTE: "Set up Android SDK" step removed. ubuntu-latest already ships
+      # with the Android SDK (ANDROID_HOME is set), and that step was the one
+      # failing. Gradle uses the preinstalled SDK.
 
       - name: Copy web app into Capacitor project
         run: |
           rm -rf capacitor-project/www
           mkdir -p capacitor-project/www
-          cp index.html manifest.json service-worker.js icon-192.png icon-512.png capacitor-project/www/
+          # Copy everything the web app needs (not just a fixed file list),
+          # so any new JS/CSS/data/image files end up inside the APK too.
+          tar -cf - \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='capacitor-project' \
+            --exclude='node_modules' \
+            --exclude='download.html' \
+            --exclude='README.md' \
+            --exclude='BUILD_APK.txt' \
+            --exclude='.gitignore' \
+            --exclude='*.zip' \
+            --exclude='*.apk' \
+            . | tar -xf - -C capacitor-project/www
+          test -f capacitor-project/www/index.html || { echo "index.html missing from www"; exit 1; }
+          echo "Files bundled into the app:"
+          ls -la capacitor-project/www
 
       - name: Install Capacitor dependencies
         working-directory: capacitor-project
@@ -56,12 +73,12 @@ jobs:
           ./gradlew assembleDebug
 
       - name: Rename APK for release
-        run: cp capacitor-project/android/app/build/outputs/apk/debug/app-debug.apk mp-policing-guide.apk
+        run: |
+          test -f capacitor-project/android/app/build/outputs/apk/debug/app-debug.apk || { echo "APK not found"; exit 1; }
+          cp capacitor-project/android/app/build/outputs/apk/debug/app-debug.apk mp-policing-guide.apk
 
       - name: Create GitHub Release with APK attached
         uses: softprops/action-gh-release@v2
         with:
           files: mp-policing-guide.apk
-          generate_release_notes: true
-
-
+          generate_release_notes: tru
