@@ -517,6 +517,10 @@
   .home-row .ring{ flex:none; width:44px; height:44px; border-radius:50%; border:2px solid var(--red); color:var(--text); display:flex; align-items:center; justify-content:center; box-shadow:0 0 10px rgba(var(--red-rgb),0.35); }
   .home-row .lbl{ flex:1; font-size:1rem; font-weight:600; }
   .home-row .chev-r{ font-size:1.5rem; color:var(--muted); line-height:1; }
+  .home-banner{ text-align:center; margin:14px 0 18px; padding:14px 12px; border-radius:16px; border:1px solid var(--line); background:linear-gradient(180deg,rgba(var(--red-rgb),.16),rgba(var(--red-rgb),.03)); }
+  .hb-title{ font-size:1.05rem; font-weight:800; letter-spacing:.5px; color:var(--text); }
+  .hb-tag{ display:flex; justify-content:center; align-items:center; gap:10px; margin-top:6px; font-size:.6875rem; font-weight:700; letter-spacing:3px; color:var(--muted); }
+  .hb-tag i{ width:1px; height:12px; background:var(--red); display:inline-block; }
   .home-tagline{ display:flex; justify-content:center; align-items:center; gap:12px; margin:26px 0 8px; font-size:0.6875rem; font-weight:700; letter-spacing:4px; color:var(--muted); }
   .home-tagline i{ width:1px; height:14px; background:var(--red); display:inline-block; }
   html[data-motion="reduced"] .home-row{ transition:none; }
@@ -560,7 +564,7 @@
   <!-- HOME -->
   <div class="panel-view active" id="view-home">
     <div class="errbox" id="jsErrBox"></div>
-    <div class="status-row"><span class="status-dot" id="onlineDot"></span><span id="onlineText">Checking…</span></div>
+    <div class="home-banner"><div class="hb-title">Service Police Pocket Guide</div><div class="hb-tag">INFORM <i></i> REFER <i></i> PROTECT</div></div>
 
     <div class="home-search-row home-searchbar">
       <button id="homeSearchBtn" class="home-search-btn" aria-label="Search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.35-4.35"/></svg></button>
@@ -584,7 +588,6 @@
     <div class="home-sub">Recently Viewed</div>
     <div id="recentList"></div>
 
-    <div class="home-tagline">INFORM <i></i> REFER <i></i> PROTECT</div>
   </div>
 
   <!-- AFA 2006 -->
@@ -2071,7 +2074,7 @@ var EVIDENCE_TYPES = [
 /* Single source of truth for the app's own version — kept in sync with
    capacitor-project/package.json by hand on each update, since the running
    web app has no runtime access to that build-time file. */
-var APP_VERSION = '4.4.3';
+var APP_VERSION = '4.4.5';
 var GITHUB_REPO = 'matthewtanika-dotcom/mp-policing-guide';
 
 window.addEventListener('error', function(e){
@@ -3049,7 +3052,7 @@ document.getElementById('checkUpdateBtn').addEventListener('click', function(){
    connection; it does not mean any online feature has actually been
    confirmed reachable. */
 function updateOnlineStatus(){
-  var dot = document.getElementById('onlineDot');
+  var dot = document.getElementById('onlineDot'); /* removed from UI */
   var text = document.getElementById('onlineText');
   if(!dot) return;
   var online = navigator.onLine;
