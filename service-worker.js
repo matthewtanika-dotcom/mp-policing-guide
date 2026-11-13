@@ -1,10 +1,9 @@
-const CACHE_NAME = 'mp-policing-guide-v23';
+const CACHE_NAME = 'mp-policing-guide-v25';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+  './logo.png'
 ];
 
 self.addEventListener('install', function(event){
