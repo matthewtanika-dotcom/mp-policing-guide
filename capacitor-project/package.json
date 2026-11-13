@@ -1,6 +1,6 @@
 {
   "name": "mp-policing-guide",
-  "version": "4.4.3",
+  "version": "4.4.5",
   "description": "MP Policing Guide — Android app shell (Capacitor)",
   "scripts": {
     "copy-web": "mkdir -p www && cp ../index.html ../manifest.json ../service-worker.js ../logo.png www/",
