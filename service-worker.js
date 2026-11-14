@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mp-policing-guide-v28';
+const CACHE_NAME = 'mp-policing-guide-v30';
 const ASSETS = [
   './',
   './index.html',
