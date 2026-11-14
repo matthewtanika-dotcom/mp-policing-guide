@@ -523,6 +523,8 @@
   .sx-back{ background:none; border:0; color:var(--text); font-size:.95rem; font-weight:700; padding:6px 0 10px; cursor:pointer; }
   .sx-title{ font-size:1.25rem; font-weight:800; color:var(--text); margin:2px 0 8px; }
   .sx-sec{ font-size:.72rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--muted); margin:14px 2px 8px; }
+  .ask-answer-actions a{ display:inline-block; padding:11px 18px; border-radius:999px; background:var(--red); color:#fff !important; font-weight:700; text-decoration:none; }
+  .ask-answer-card .note a{ color:#7db4ff; }
   .sx-card{ background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:12px; }
   .sx-card h3{ text-transform:none; margin:0 0 6px; font-size:1.02rem; color:var(--text); }
   .sx-card p, .sx-card li{ font-size:.9rem; line-height:1.5; color:var(--muted); margin:6px 0; }
@@ -968,7 +970,7 @@
         <button class="settings-btn" id="checkUpdateBtn" style="margin-bottom:0;">Check for update</button>
         <div id="updateResult" style="margin-top:12px; text-align:left;"></div>
       </div>
-      <div class="note">Checks the official GitHub release for this app. For the installed Android app, updating means downloading and installing a new APK yourself — it will not update automatically. The web version always reflects the latest code and doesn't need this check.</div>
+      <div class="note">Checks the official GitHub release for the latest version. If you installed from Google Play, Update opens the Play Store page and Play does the update. An APK install has to be replaced by hand. The web version always reflects the latest code and doesn't need this check.</div>
     </div>
 
     <div class="setting-block">
@@ -2195,7 +2197,7 @@ var EVIDENCE_TYPES = [
 /* Single source of truth for the app's own version — kept in sync with
    capacitor-project/package.json by hand on each update, since the running
    web app has no runtime access to that build-time file. */
-var APP_VERSION = '5.0.2';
+var APP_VERSION = '5.0.3';
 var GITHUB_REPO = 'matthewtanika-dotcom/mp-policing-guide';
 
 window.addEventListener('error', function(e){
@@ -3116,6 +3118,8 @@ applySettings();
 /* ===================== APP UPDATE CHECKER ===================== */
 document.getElementById('currentVersionText').textContent = 'Version ' + APP_VERSION;
 
+var PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.matthewtanika.mppolicingguide';
+var IS_NATIVE_APP = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
 function compareVersions(a, b){
   var pa = a.split('.').map(Number), pb = b.split('.').map(Number);
   for(var i=0; i<Math.max(pa.length, pb.length); i++){
@@ -3157,16 +3161,23 @@ document.getElementById('checkUpdateBtn').addEventListener('click', function(){
       card.innerHTML =
         '<div class="ask-answer-title">\uD83C\uDD95 Update available</div>' +
         '<div class="ask-field"><div class="k">MP Policing Guide</div><div class="v">v' + latestTag + '</div></div>' +
-        '<div class="note" style="margin-top:0;">A newer version is available. For the installed Android app, this downloads a new APK — you\u2019ll need to install it yourself, it will not update automatically.</div>';
+        '<div class="note" style="margin-top:0;">' + (IS_NATIVE_APP
+          ? 'A newer version is available. Tap <b>Update on Google Play</b>, then tap <b>Update</b> on the Play Store page. Your favourites and settings are kept.'
+          : 'A newer version is available. For the web version, close and reopen the page to refresh. For Android, use the APK link below.') + '</div>';
       var actions = document.createElement('div'); actions.className = 'ask-answer-actions';
       var updateBtn = document.createElement('a');
-      updateBtn.href = downloadUrl; updateBtn.target = '_blank'; updateBtn.rel = 'noopener';
-      updateBtn.textContent = 'Update now'; updateBtn.style.textDecoration = 'none';
+      updateBtn.href = IS_NATIVE_APP ? PLAY_STORE_URL : downloadUrl; updateBtn.target = '_blank'; updateBtn.rel = 'noopener';
+      updateBtn.textContent = IS_NATIVE_APP ? 'Update on Google Play' : 'Download APK'; updateBtn.style.textDecoration = 'none';
       var laterBtn = document.createElement('button');
       laterBtn.textContent = 'Later';
       laterBtn.addEventListener('click', function(){ resultEl.innerHTML = ''; });
       actions.appendChild(updateBtn); actions.appendChild(laterBtn);
       card.appendChild(actions);
+      if(IS_NATIVE_APP){
+        var alt = document.createElement('div'); alt.className='note'; alt.style.marginTop='10px';
+        alt.innerHTML = 'Installed from an APK and not from Google Play? <a href="' + downloadUrl + '" target="_blank" rel="noopener">Download the APK instead</a>. You will need to uninstall the old app first.';
+        card.appendChild(alt);
+      }
       resultEl.appendChild(card);
     })
     .catch(function(err){
