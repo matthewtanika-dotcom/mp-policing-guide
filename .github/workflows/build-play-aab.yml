@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  TARGET_SDK: "35"
+  TARGET_SDK: "36"
 
 jobs:
   build:
