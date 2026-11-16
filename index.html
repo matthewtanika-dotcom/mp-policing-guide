@@ -582,9 +582,7 @@
   html[data-theme] .home-row,
   html[data-theme] .card,
   html[data-theme] .sx-card,
-  html[data-theme] .ask-hero,
-  html[data-theme] .ask-answer-card,
-  html[data-theme] .home-banner{
+  html[data-theme] .ask-answer-card{
     background:linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03) 55%, rgba(255,255,255,0.05));
     background-color:rgba(26,34,50,0.55);
     background-color:color-mix(in srgb, var(--panel2) 52%, transparent);
@@ -628,6 +626,21 @@
   html[data-theme] .bottom-nav{ background:rgba(10,10,14,0.62); -webkit-backdrop-filter:blur(22px) saturate(170%); backdrop-filter:blur(22px) saturate(170%); border-top:1px solid rgba(255,255,255,0.12); }
   html[data-theme] .topbar{ background:rgba(10,10,14,0.55); -webkit-backdrop-filter:blur(20px) saturate(170%); backdrop-filter:blur(20px) saturate(170%); }
   html[data-theme] .theme-swatch{ background:linear-gradient(145deg, rgba(255,255,255,0.11), rgba(255,255,255,0.03)); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); border-color:rgba(255,255,255,0.14); border-radius:18px; box-shadow:0 6px 18px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.10); }
+  /* standout option rows and cards: cool blue tint, brighter edge, red accent bar */
+  html[data-theme] .home-row,
+  html[data-theme] .card,
+  html[data-theme] .sx-card{
+    background:linear-gradient(145deg, rgba(110,160,255,0.22), rgba(110,160,255,0.06) 60%, rgba(255,255,255,0.06));
+    background-color:rgba(30,46,76,0.62);
+    background-color:color-mix(in srgb, var(--panel2) 40%, rgb(40,74,140) 30%);
+    border:1px solid rgba(150,185,255,0.30); border-top-color:rgba(190,215,255,0.46);
+    box-shadow:inset 4px 0 0 var(--red), 0 10px 26px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.16);
+  }
+  html[data-theme] .home-row .ring{ background:rgba(255,255,255,0.10); border-color:var(--red-l); box-shadow:0 0 14px rgba(var(--red-rgb),0.5); }
+  html[data-theme] .home-row .lbl, html[data-theme] .card-title{ color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.35); }
+  html[data-theme] .home-row .chev-r{ color:#cfe0ff; }
+  html[data-theme] .civ-count{ background:rgba(150,185,255,0.22); color:#fff; border-color:rgba(150,185,255,0.3); }
+  html[data-theme] .card.open{ border-color:rgba(var(--red-rgb),0.75); }
 </style>
 </head>
 <body>
@@ -2247,7 +2260,7 @@ var EVIDENCE_TYPES = [
 /* Single source of truth for the app's own version — kept in sync with
    capacitor-project/package.json by hand on each update, since the running
    web app has no runtime access to that build-time file. */
-var APP_VERSION = '5.1.2';
+var APP_VERSION = '5.1.3';
 var GITHUB_REPO = 'matthewtanika-dotcom/mp-policing-guide';
 
 window.addEventListener('error', function(e){
