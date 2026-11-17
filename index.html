@@ -181,10 +181,10 @@
   .ui-btn.primary{ background:var(--red); border-color:var(--red); color:#fff; }
   @keyframes ovFade{ from{opacity:0} to{opacity:1} }
   @keyframes sheetUp{ from{transform:translateY(100%)} to{transform:none} }
-  @keyframes viewInL{ from{transform:translateX(26px);opacity:.35} to{transform:none;opacity:1} }
-  @keyframes viewInR{ from{transform:translateX(-26px);opacity:.35} to{transform:none;opacity:1} }
-  html[data-dir="l"] .panel-view.active{ animation:viewInL .22s ease; }
-  html[data-dir="r"] .panel-view.active{ animation:viewInR .22s ease; }
+  @keyframes viewInL{ from{transform:translateX(44px);opacity:0} 60%{opacity:1} to{transform:none;opacity:1} }
+  @keyframes viewInR{ from{transform:translateX(-44px);opacity:0} 60%{opacity:1} to{transform:none;opacity:1} }
+  html[data-dir="l"] .panel-view.active{ animation:viewInL .34s cubic-bezier(.22,.8,.24,1); }
+  html[data-dir="r"] .panel-view.active{ animation:viewInR .34s cubic-bezier(.22,.8,.24,1); }
   html[data-motion="reduced"] .panel-view.active, html[data-motion="reduced"] .modal-box, html[data-motion="reduced"] .modal-overlay.open{ animation:none !important; }
   .modal-head{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
   .modal-title{ font-family:var(--headfont); text-transform:uppercase; font-size:1.15rem; font-weight:700; }
@@ -569,7 +569,7 @@
   html[data-theme="red"] .home-row{ background:linear-gradient(135deg,#1C2B43,#121B2C); border-color:#2B3C58; }
   html[data-theme="red"] .home-searchbar{ background:#18253A; border-color:#2B3C58; }
   .home-row{ border-radius:18px; min-height:64px; }
-  .crest{ border-radius:0 !important; clip-path:none !important; background:var(--crest-img) center/contain no-repeat !important; border:0 !important; box-shadow:none !important; color:transparent !important; font-size:0 !important; width:50px; height:50px; }
+  .crest{ border-radius:0 !important; clip-path:none !important; background:var(--crest-img) center/contain no-repeat !important; border:0 !important; box-shadow:none !important; color:transparent !important; font-size:0 !important; width:64px; height:64px; }
 
 
   /* ===================================================================
@@ -785,7 +785,7 @@
     <input class="search" id="investSearch" placeholder="Search offences to start an investigation">
     <div id="investList"></div>
     <div class="home-sub">Case file check</div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">Potential gaps to consider</div></div>
       <div class="card-body"><ul class="cl" id="cl-casefile"></ul></div>
     </div>
@@ -805,31 +805,31 @@
 
     <div class="note" style="margin:8px 0 10px"><b>Related Service Police Codes</b><div style="margin-top:8px"><button class="add-btn" style="margin:0 6px 8px 0" onclick="openSpcop('Code G')">Code G: Arrest</button><button class="add-btn" style="margin:0 6px 8px 0" onclick="openSpcop('Code C')">Code C: Detention and questioning</button><button class="add-btn" style="margin:0 6px 8px 0" onclick="openSpcop('Code E')">Code E: Audio recording</button></div></div>
     <div class="cl-title" style="margin-top:0;">Power to arrest — necessity</div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">Before you arrest</div></div>
       <div class="card-body"><ul class="cl" id="cl-necessity"></ul></div>
     </div>
 
     <div class="cl-title">Necessity / procedural requirements</div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">At the point of arrest — legally required disclosures</div></div>
       <div class="card-body">
         <div class="note">Under Code G, at the time of arrest (or as soon as practicable after) you must make clear to the person: the fact that they are under arrest, and the grounds and reason for the arrest, even if these seem obvious. Failure to do this may make the arrest unlawful.</div>
         <ul class="cl" id="cl-atarrest"></ul>
       </div>
     </div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">On arrival at service custody — entitlements to explain</div></div>
       <div class="card-body"><ul class="cl" id="cl-custody"></ul></div>
     </div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">Time limits and reviews</div></div>
       <div class="card-body">
         <div class="note">Section 98 AFA 2006: a person arrested under section 67 must not be kept in service custody without charge except in accordance with the further provisions of the Act. Confirm current review periods and authorisation levels with your custody officer/SOPs.</div>
         <ul class="cl" id="cl-timelimits"></ul>
       </div>
     </div>
-    <div class="card open">
+    <div class="card">
       <div class="card-head"><div class="card-title">Vulnerable suspects</div></div>
       <div class="card-body"><ul class="cl" id="cl-vulnerable"></ul></div>
     </div>
@@ -1005,7 +1005,7 @@
     <div class="chipbar" id="ndmSubChips"></div>
 
     <div class="ndm-subview" id="ndmsub-stages">
-      <div class="card-hero ndm-hub">
+      <div class="card-hero ndm-hub" style="display:none">
         <div class="lbl">Code of Ethics</div>
         <div class="sub">Accountability &middot; Fairness &middot; Honesty &middot; Integrity &middot; Leadership &middot; Objectivity &middot; Openness &middot; Respect &middot; Selflessness</div>
       </div>
@@ -2071,7 +2071,129 @@ var NDM_EXAMPLES = [
     alternatives:'Considered taking no further action beyond the immediate incident — rejected as it would not address the safeguarding concern for the child.',
     decision:'Made an immediate welfare check of the child and a referral to British Forces Social Work Service.',
     rationale:'Child\u2019s presence during the incident meets the threshold for a safeguarding referral under current policy; referral details and reference number recorded.'
-  }}
+  }},
+
+ {
+  "tool": "Arrest",
+  "scenario": "Arrest to protect a vulnerable person",
+  "fields": {
+   "objective": "To keep a vulnerable adult safe and stop the offending continuing.",
+   "facts": "A neighbour reports a named person repeatedly taking money from an elderly resident's purse at the resident's home; the resident is confused and frightened.",
+   "power": "Section 67 AFA 2006, arrest on reasonable suspicion of an offence, with the necessity criterion to protect a child or vulnerable person (Code G).",
+   "necessity": "Necessary to protect a vulnerable person from further loss and harm, and to allow prompt investigation.",
+   "proportionality": "Proportionate: the vulnerability and repeated offending outweigh the intrusion, and lesser steps would leave the resident exposed.",
+   "risk": "Risk of continued exploitation and distress to the resident if the suspect is left at liberty.",
+   "alternatives": "Considered a voluntary interview later and a safeguarding referral alone. Rejected as sole measures because the risk was ongoing and immediate.",
+   "decision": "Arrested the suspect, cautioned them and made a safeguarding referral for the resident.",
+   "rationale": "Both limbs of the arrest test met and the necessity reason recorded in the notebook at the time."
+  }
+ },
+ {
+  "tool": "Premises Search",
+  "scenario": "Judge Advocate warrant for stolen equipment in accommodation",
+  "fields": {
+   "objective": "To recover stolen equipment reported to be stored in a named room in service living accommodation.",
+   "facts": "Reliable information, checked for accuracy and recency, says the equipment is in the room. A unit stocktake confirms it is missing.",
+   "power": "Section 83 AFA 2006: search warrant from a Judge Advocate, with authority first obtained from an Authorising Service Policeman (Code B, section 3).",
+   "necessity": "Necessary because the equipment is valuable evidence and could be moved or sold if consent were sought.",
+   "proportionality": "Proportionate: one room, specified articles and a single entry, against the value and seriousness of the theft.",
+   "risk": "Risk of the occupier being present and obstructive; risk to evidence if there is delay.",
+   "alternatives": "Considered a consent search (Code B section 6) but rejected because the occupier is a suspect and may refuse or remove the items.",
+   "decision": "Applied in writing for the s.83 warrant, stating grounds, articles sought and premises, and executed it once granted.",
+   "rationale": "Warrant conditions in Code B para 3.7 considered one by one, and the search kept to the premises and items specified."
+  }
+ },
+ {
+  "tool": "Seizure",
+  "scenario": "Phone seized as evidence after arrest",
+  "fields": {
+   "objective": "To secure the suspect's phone as evidence of the offence they have been arrested for.",
+   "facts": "Messages on the phone are reasonably believed to contain evidence. The suspect has been arrested and is in custody.",
+   "power": "Section 93 AFA 2006 seizure, with Code B section 8: seize only what is reasonably believed to be evidence and seizure is necessary to prevent loss.",
+   "necessity": "Necessary to prevent the messages being deleted or the device remotely wiped.",
+   "proportionality": "Proportionate: the single device is seized, not wider property, and copying was considered.",
+   "risk": "Risk of loss of evidence; risk that the phone holds legally privileged material.",
+   "alternatives": "Considered taking a copy only. Seizure chosen because a copy could not be made safely on scene.",
+   "decision": "Seized the phone, kept it secure and separate, and gave the person a notice of seizure.",
+   "rationale": "Items reasonably believed to be legally privileged were excluded; the seizure and the reason were recorded."
+  }
+ },
+ {
+  "tool": "Entry",
+  "scenario": "Entry to service accommodation to arrest",
+  "fields": {
+   "objective": "To arrest a named person for an offence who is believed to be inside their accommodation.",
+   "facts": "The person is wanted for a service offence and a colleague saw them enter the room an hour ago.",
+   "power": "Section 90 AFA 2006, entry to arrest, within Code B section 5.",
+   "necessity": "Necessary because the person would not answer the door and could leave or destroy evidence.",
+   "proportionality": "Proportionate: a search of only those parts of the accommodation needed to find the person.",
+   "risk": "Risk of resistance or of the person self-harming; risk to other occupants.",
+   "alternatives": "Considered waiting outside, rejected because the person would be able to leave unseen.",
+   "decision": "Asked for entry, identified themselves and the purpose, then entered and arrested the person.",
+   "rationale": "Reasonable grounds that the person was present were recorded, and the search was limited to finding them."
+  }
+ },
+ {
+  "tool": "Identification",
+  "scenario": "Suspect disputes being the person seen",
+  "fields": {
+   "objective": "To test the witness's ability to identify the suspect fairly.",
+   "facts": "A witness describes the person they saw. The suspect is known and available and says it was not them.",
+   "power": "Code D section 3: a video identification, parade or group identification must be held where identification is disputed, with video preferred.",
+   "necessity": "Necessary to produce reliable evidence and guard against mistaken identification.",
+   "proportionality": "Proportionate: video identification is quicker and fairer than the alternatives and gives the suspect protection.",
+   "risk": "Risk of a mistaken identification if the witness sees the suspect first or sees photographs.",
+   "alternatives": "Considered a confrontation, rejected as it is only used if no other method is practicable.",
+   "decision": "Offered a video identification and arranged an Identification Supervisor not involved in the case.",
+   "rationale": "First description recorded before the procedure, written notice given, and the suspect reminded of free legal advice."
+  }
+ },
+ {
+  "tool": "Vehicle Search",
+  "scenario": "Service vehicle leaving camp with suspected stolen stores",
+  "fields": {
+   "objective": "To establish whether stolen HM stores are in a vehicle leaving site.",
+   "facts": "Intelligence says a named driver is removing equipment in a service van. The vehicle is leaving through the main gate.",
+   "power": "Section 75 AFA 2006 and Code A: reasonable grounds for suspicion based on specific information.",
+   "necessity": "Necessary to resolve the suspicion before the vehicle leaves and any items are lost.",
+   "proportionality": "Proportionate: a vehicle search at the gate, brief and recorded, with no search of the person unless separately justified.",
+   "risk": "Risk of the driver driving off; officer safety at a live vehicle gate.",
+   "alternatives": "Considered observing only, rejected because the van would leave site.",
+   "decision": "Stopped the vehicle, explained the power, object and grounds, then searched it.",
+   "rationale": "Name, unit, power, object and grounds were all given and the search was recorded."
+  }
+ },
+ {
+  "tool": "Property Search",
+  "scenario": "Consent search of a personal locker",
+  "fields": {
+   "objective": "To check a locker with the owner's agreement for items linked to a theft.",
+   "facts": "A colleague reports seeing stolen equipment in the locker. The owner is present and not under arrest.",
+   "power": "Code B section 6: search with consent, in writing on MOD Form 1755 where practicable. No power is claimed.",
+   "necessity": "Necessary to resolve the report quickly and fairly if the owner agrees.",
+   "proportionality": "Proportionate: only the locker is searched, with the owner present and able to stop it.",
+   "risk": "Risk that consent is later disputed; risk of the owner removing items if refused.",
+   "alternatives": "Considered a warrant, held in reserve if consent is refused.",
+   "decision": "Explained the purpose and extent, told the owner they need not agree, and obtained signed consent.",
+   "rationale": "Only the owner could consent; the search stops at once if consent is withdrawn."
+  }
+ },
+ {
+  "tool": "Release / Bail",
+  "scenario": "Release pending further enquiries",
+  "fields": {
+   "objective": "To release an arrested person safely while further enquiries are completed.",
+   "facts": "Initial account taken. CCTV and a witness statement are outstanding. The necessity for detention has passed.",
+   "power": "NEEDS VERIFICATION: confirm the exact release and bail provisions and any conditions in the current AFA 2006 and SPCoP before use.",
+   "necessity": "Detention is no longer necessary once the immediate reasons for arrest no longer apply.",
+   "proportionality": "Proportionate: release avoids unnecessary detention while enquiries continue.",
+   "risk": "Risk of the person contacting witnesses or interfering with evidence.",
+   "alternatives": "Considered continued detention, rejected as no longer necessary.",
+   "decision": "Released the person with their commanding officer informed and conditions considered.",
+   "rationale": "Reasons for release and the review of necessity recorded on the custody record."
+  }
+ }
+
 ];
 
 /* ===================== ASK MP GUIDE — LOCAL QUESTION ENGINE ===================== */
@@ -2278,7 +2400,7 @@ var EVIDENCE_TYPES = [
 /* Single source of truth for the app's own version — kept in sync with
    capacitor-project/package.json by hand on each update, since the running
    web app has no runtime access to that build-time file. */
-var APP_VERSION = '5.1.4';
+var APP_VERSION = '5.1.5';
 var GITHUB_REPO = 'matthewtanika-dotcom/mp-policing-guide';
 
 window.addEventListener('error', function(e){
@@ -2836,14 +2958,19 @@ function renderChecklistHub(query){
 
 /* ===================== SAFEGUARDING ===================== */
 function sgCard(s){
-  var card = document.createElement('div'); card.className='sg-card';
+  var card = document.createElement('div'); card.className='card';
   var tel = s.phone ? s.phone.replace(/\s+/g,'') : '';
-  var html = '<div class="sg-name">'+s.name+'</div><div class="sg-role">'+s.role+'</div>';
-  if(s.note) html += '<div class="note">'+s.note+'</div>';
+  var head = document.createElement('div'); head.className='card-head';
+  head.innerHTML = '<div><div class="card-title">'+s.name+'</div><div class="card-sub">'+s.role+'</div></div><div class="headctrls"><div class="chev">v</div></div>';
+  var body = document.createElement('div'); body.className='card-body';
+  var html = '';
+  if(s.note) html += '<div class="note" style="margin-top:0">'+s.note+'</div>';
   html += '<div class="sg-contact">';
   if(s.phone){ html += '<a class="sg-btn primary" href="tel:'+tel+'">Call '+s.phone+'</a><a class="sg-btn" href="https://wa.me/'+tel.replace('+','')+'" target="_blank">WhatsApp</a>'; }
   html += '</div>';
-  card.innerHTML = html;
+  body.innerHTML = html;
+  card.appendChild(head); card.appendChild(body);
+  head.addEventListener('click', function(){ card.classList.toggle('open'); });
   return card;
 }
 function renderSafeguard(filterCat){
@@ -3060,13 +3187,13 @@ function svgIcon(key, size){
   return '<svg width="'+(size||22)+'" height="'+(size||22)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+HOME_ICON_PATHS[key]+'</svg>';
 }
 var HOME_SECTIONS = [
-  ['afa','AFA 2006','afa'],['civ','Civilian Offences','civ'],['powers','MP Powers','powers'],
+  ['afa','AFA 2006','afa'],['civ','Civilian Offences','civ'],['ndm','National Decision Model','ndm'],['powers','MP Powers','powers'],
   ['ident','Identification','ident'],['checklists','Checklists','checklists'],
   ['safeguard','Safeguarding','safeguard'],['offline','Offline & Searchable','search']
 ];
 var HOME_MORE = [
   ['invest','Investigation','invest'],['evidence','Evidence','evidence'],['arrest','Arrest & Custody','arrest'],
-  ['reference','Service Police Codes (SPCoP)','reference'],['ndm','National Decision Model','ndm']
+  ['reference','Service Police Codes (SPCoP)','reference']
 ];
 function homeRow(s){
   var row = document.createElement('div'); row.className='home-row'; row.setAttribute('role','button'); row.tabIndex = 0;
@@ -3139,16 +3266,40 @@ document.getElementById('importFile').addEventListener('change', function(e){
 });
 
 /* ===================== NDM RENDER ===================== */
+function compactCard(title, sub){
+  var card=document.createElement('div'); card.className='card';
+  var head=document.createElement('div'); head.className='card-head';
+  head.innerHTML='<div><div class="card-title">'+title+'</div>'+(sub?'<div class="card-sub">'+sub+'</div>':'')+'</div><div class="headctrls"><div class="chev">v</div></div>';
+  var body=document.createElement('div'); body.className='card-body';
+  card.appendChild(head); card.appendChild(body);
+  head.addEventListener('click', function(){ card.classList.toggle('open'); });
+  return {card:card, body:body};
+}
+var NDM_ETHICS = [
+  ['Accountability','You are answerable for your decisions, actions and omissions.'],
+  ['Fairness','You treat people fairly.'],
+  ['Honesty','You are truthful and trustworthy.'],
+  ['Integrity','You always do the right thing.'],
+  ['Leadership','You lead by good example.'],
+  ['Objectivity','You make choices on evidence and your professional judgement.'],
+  ['Openness','You are open and transparent in your actions and decisions.'],
+  ['Respect','You treat everyone with respect.'],
+  ['Selflessness','You act in the public interest.']
+];
 function renderNdm(){
   var list = document.getElementById('ndmList');
   list.innerHTML = '';
+  var eth = compactCard('Code of Ethics','The constant reference point at every stage');
+  var ul0 = document.createElement('ul'); ul0.className='points';
+  NDM_ETHICS.forEach(function(e){ var li=document.createElement('li'); li.innerHTML='<b>'+e[0]+'</b>: '+e[1]; ul0.appendChild(li); });
+  eth.body.appendChild(ul0);
+  var nt=document.createElement('div'); nt.className='note'; nt.textContent='Summarised from the College of Policing Code of Ethics. Check the current published wording.'; eth.body.appendChild(nt);
+  list.appendChild(eth.card);
   NDM_STAGES.forEach(function(s){
-    var div = document.createElement('div');
-    div.className = 'ndm-stage';
-    div.innerHTML = '<div class="n">'+s.n+'</div><div class="t">'+s.t+'</div>';
-    var ul = document.createElement('ul'); ul.className = 'cl'; div.appendChild(ul);
+    var c = compactCard(s.t, s.n);
+    var ul = document.createElement('ul'); ul.className = 'cl'; c.body.appendChild(ul);
     buildChecklist(ul, s.items);
-    list.appendChild(div);
+    list.appendChild(c.card);
   });
 }
 
@@ -3195,12 +3346,12 @@ function renderNdmSaved(){
   list.innerHTML = '';
   if(ndmRecords.length===0){ list.innerHTML = '<div class="empty-row">No saved decision records yet.</div>'; return; }
   ndmRecords.forEach(function(r){
-    var card = document.createElement('div'); card.className='ndm-saved-card';
-    var html = '<div class="h"><div class="t">'+r.tool+'</div><div class="d">'+r.time+'</div></div>';
+    var c = compactCard(r.tool, r.time); var card=c.card;
+    var html = '';
     NDM_FIELDS.forEach(function(f){
       if(r.fields[f[0]]) html += '<div class="field-row"><div class="field-label">'+f[1]+'</div><div class="field-val">'+r.fields[f[0]]+'</div></div>';
     });
-    card.innerHTML = html;
+    c.body.innerHTML = html;
     var btnRow = document.createElement('div'); btnRow.style.display='flex'; btnRow.style.gap='8px'; btnRow.style.marginTop='8px';
     var copyBtn = document.createElement('button');
     copyBtn.className = 'settings-btn'; copyBtn.style.flex='1'; copyBtn.textContent = 'Copy record';
@@ -3212,7 +3363,7 @@ function renderNdmSaved(){
       saveNdmRecords(); renderNdmSaved();
     });
     btnRow.appendChild(copyBtn); btnRow.appendChild(delBtn);
-    card.appendChild(btnRow);
+    c.body.appendChild(btnRow);
     list.appendChild(card);
   });
 }
@@ -3220,18 +3371,17 @@ function renderNdmExamples(){
   var list = document.getElementById('ndmExamplesList');
   list.innerHTML = '';
   NDM_EXAMPLES.forEach(function(ex){
-    var card = document.createElement('div'); card.className='ndm-saved-card';
-    var html = '<div class="h"><div class="t">'+ex.tool+'<span class="custom-badge" style="background:var(--amber);color:#241a05;">Example</span></div></div>';
-    html += '<div class="note" style="margin-top:0;">'+ex.scenario+' — fictional scenario for illustration only.</div>';
+    var c = compactCard(ex.tool+': '+ex.scenario, 'Fictional example');
+    var html = '<div class="note" style="margin-top:0;">Fictional scenario for illustration only.</div>';
     NDM_FIELDS.forEach(function(f){
       html += '<div class="field-row"><div class="field-label">'+f[1]+'</div><div class="field-val">'+ex.fields[f[0]]+'</div></div>';
     });
-    card.innerHTML = html;
+    c.body.innerHTML = html;
     var copyBtn = document.createElement('button');
     copyBtn.className = 'settings-btn'; copyBtn.style.marginTop='8px'; copyBtn.textContent = 'Copy example text';
-    copyBtn.addEventListener('click', function(){ copyTextToClipboard(ndmRecordToText(ex.tool, ex.fields, ex.scenario), copyBtn); });
-    card.appendChild(copyBtn);
-    list.appendChild(card);
+    copyBtn.addEventListener('click', function(e){ e.stopPropagation(); copyTextToClipboard(ndmRecordToText(ex.tool, ex.fields, ex.scenario), copyBtn); });
+    c.body.appendChild(copyBtn);
+    list.appendChild(c.card);
   });
 }
 
@@ -3654,6 +3804,30 @@ var SG_CATS = uniqueCats(SAFEGUARD);
 renderChips(document.getElementById('sgChips'), SG_CATS, function(cat){ renderSafeguard(cat); });
 renderSafeguard('All');
 
+
+function compactSexualAndSettings(){
+  var LABELS = { 'In outline, a person consents':'What counts as consent (s.74)', 'Section 1: Rape':'The four offences (ss.1 to 4)', 'For (a) and (b)':'Note on (a) and (b)', 'Examples given in the Explanatory':'Examples from the Explanatory Notes', 'Check SPCoP and current':'Service Police handling' };
+  document.querySelectorAll('#view-sexual .sx-card, #view-sexual .sx-case').forEach(function(el){
+    if(el.getAttribute('data-compact')) return; el.setAttribute('data-compact','1');
+    var title='', sub='';
+    var h=el.querySelector('h3'); if(h){ title=h.textContent; h.parentNode.removeChild(h); }
+    else if(el.classList.contains('sx-case')){ var hh=el.querySelector('.sx-case-h'); var bb=el.querySelector('b'); sub=hh?hh.textContent:'Case law'; title=bb?bb.textContent:'Case law'; if(hh) hh.parentNode.removeChild(hh); }
+    else { var tx=(el.textContent||'').trim(); Object.keys(LABELS).forEach(function(k){ if(!title && tx.indexOf(k)===0) title=LABELS[k]; }); if(!title) title=tx.slice(0,48)+'...'; }
+    var c=compactCard(title, sub);
+    while(el.firstChild) c.body.appendChild(el.firstChild);
+    c.body.querySelectorAll('.sx-case-h').forEach(function(x){ x.parentNode.removeChild(x); });
+    el.parentNode.replaceChild(c.card, el);
+  });
+  document.querySelectorAll('#view-settings .setting-block').forEach(function(blk){
+    if(blk.getAttribute('data-compact')) return; blk.setAttribute('data-compact','1');
+    var lab=blk.querySelector('.setting-label'); var title=lab?lab.textContent:'Setting';
+    if(lab) lab.parentNode.removeChild(lab);
+    var c=compactCard(title,''); 
+    while(blk.firstChild) c.body.appendChild(blk.firstChild);
+    blk.appendChild(c.card);
+  });
+}
+compactSexualAndSettings();
 buildSpHub();
 document.getElementById('spBack').addEventListener('click', spShowHub);
 document.getElementById('spcopSearch').addEventListener('input', function(e){
