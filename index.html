@@ -659,6 +659,29 @@
   html[data-theme] ul.cl li.done::before, html[data-theme] li.done::before{ animation:tickPop .22s ease; }
   html.theme-anim *{ transition:background-color .35s ease, border-color .35s ease, color .35s ease, box-shadow .35s ease !important; }
   html[data-motion="reduced"] *, html[data-motion="reduced"] *::before, html[data-motion="reduced"] *::after{ animation:none !important; transition:none !important; }
+
+  .job-tl-row{ display:flex; gap:10px; align-items:center; padding:7px 0; border-bottom:1px solid var(--line); font-size:0.84375rem; }
+  .job-tl-t{ color:var(--red-l); font-weight:700; font-variant-numeric:tabular-nums; flex:none; }
+  .job-tl-x{ flex:1; }
+  .job-tl-del{ background:none; border:0; color:var(--muted); font-size:1rem; padding:4px 8px; }
+  .job-handover{ white-space:pre-wrap; font:12px/1.5 ui-monospace,monospace; background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:10px; margin:6px 0 0; color:var(--text); }
+
+  .fd-opt{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:14px; margin-bottom:10px; background:var(--panel); border:1px solid var(--line); border-radius:var(--r-card,14px); cursor:pointer; }
+  .fd-opt b{ display:block; font-size:0.9375rem; font-weight:600; }
+  .fd-opt small{ display:block; color:var(--muted); font-size:0.75rem; margin-top:2px; line-height:1.4; }
+  .fd-q{ font-size:1.25rem; font-weight:700; margin:4px 0 6px; line-height:1.25; }
+  .fd-help{ font-size:0.78125rem; color:var(--muted); margin:0 0 12px; line-height:1.5; }
+  .fd-crumbs{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
+  .fd-crumbs span{ font-size:0.6875rem; padding:4px 10px; border-radius:99px; border:1px solid var(--line); color:var(--muted); background:var(--panel2); }
+  .fd-back{ display:inline-block; color:var(--muted); font-size:0.875rem; padding:4px 0 10px; cursor:pointer; }
+  .fd-fit{ display:inline-block; font-size:0.625rem; font-weight:700; letter-spacing:.4px; padding:3px 9px; border-radius:99px; margin-bottom:6px; background:rgba(62,220,122,.16); color:#3EDC7A; }
+  .fd-fit.consider{ background:rgba(var(--red-rgb),.14); color:var(--red-l); }
+  .fd-ref{ color:var(--red-l); font-size:0.6875rem; font-weight:700; text-transform:uppercase; margin:2px 0 6px; }
+  .fd-src{ font-size:0.6875rem; color:var(--muted); margin-top:8px; }
+  .fd-tip{ font-size:0.78125rem; padding:9px 10px; border-radius:10px; margin-top:8px; background:var(--panel2); line-height:1.5; }
+  .fd-ver{ font-size:0.75rem; padding:9px 10px; border-radius:10px; margin-top:8px; background:rgba(216,161,58,.14); color:var(--amber,#d8a13a); line-height:1.5; }
+  .fd-btns{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  .fd-btns .settings-btn{ flex:1; min-width:30%; margin:0; padding:10px 6px; font-size:0.8125rem; }
 </style>
 </head>
 <body>
@@ -686,6 +709,7 @@
     <div class="tab" data-tab="reference">Reference</div>
     <div class="tab" data-tab="search">Search</div>
     <div class="tab" data-tab="ndm">NDM</div>
+    <div class="tab" data-tab="finder">Offence Finder</div>
     <div class="tab" data-tab="settings">Settings</div>
   </div>
 </div>
@@ -995,6 +1019,13 @@
       <button id="globalSearchBtn" style="padding:0 18px; border-radius:10px; border:none; background:var(--red); color:#fff; font-weight:600; cursor:pointer;">Go</button>
     </div>
     <div id="globalSearchResults"></div>
+  </div>
+
+  <!-- OFFENCE FINDER -->
+  <div class="panel-view" id="view-finder">
+    <div class="section-h">Offence Finder</div>
+    <div class="section-p">Answer a few plain questions to see which offences to consider. It suggests, it does not decide. Always check the Act and current CPS and Service Prosecuting Authority guidance.</div>
+    <div id="finderBody"></div>
   </div>
 
   <!-- NATIONAL DECISION MODEL -->
@@ -1454,6 +1485,10 @@ var CIV = [
     def:'Unlawfully causing the death of another person without the intent required for murder, for example through an unlawful and dangerous act, gross negligence, or loss of control.',
     points:['The defendant caused the death of another person', 'Either the death resulted from an unlawful and dangerous act, without the intent required for murder, or the defendant owed a duty of care, breached it through gross negligence, and that breach caused the death'],
     checklist:['Preserve the scene and restrict access immediately','Notify Defence Serious Crime Command without delay','Obtain full medical and forensic evidence on cause of death','Secure witness accounts as early as possible'] },
+  { cat:'Violence', title:'Non-fatal strangulation or suffocation', ref:'Serious Crime Act 2015 s.75A',
+    def:'Intentionally strangling another person, or doing any other act that affects their ability to breathe and amounts to a battery. Applies to all cases, not only domestic abuse. Either way offence.',
+    points:['The defendant intentionally strangled the victim (no particular force, injury or intent to kill needed), OR did another act affecting the victim\u2019s ability to breathe that amounts to a battery','For suffocation, the act can be intentional or reckless','Consent is a defence only where the victim did not suffer serious harm (GBH, wounding or ABH) and the defendant neither intended nor was reckless as to serious harm'],
+    checklist:['Ask about symptoms: breathing difficulty, throat or neck pain, voice or hearing changes, dizziness, headaches, blurred vision, incontinence, memory loss','Photograph any marks and arrange a repeat set later, as injuries may appear after a delay','Seek medical evidence, for example low oxygen saturation readings or petechiae (small burst blood vessels in the eyes, ears or scalp)','Preserve the 999 call, body-worn footage and any disclosures to others','Absence of visible injury does not mean insufficient evidence','Consider additional offences such as ABH, s.18, rape or controlling or coercive behaviour; NEEDS VERIFICATION: check the current CPS strangulation and suffocation guidance before deciding the charge'] },
   { cat:'Violence', title:'Threats to kill', ref:'Offences Against the Person Act 1861 s.16',
     def:'Making a threat, without lawful excuse, to kill another person, intending that person to fear the threat would be carried out.',
     points:['The defendant made a threat to kill another person', 'The threat was made without lawful excuse', 'The defendant intended the person threatened to fear it would be carried out'],
@@ -2400,7 +2435,7 @@ var EVIDENCE_TYPES = [
 /* Single source of truth for the app's own version — kept in sync with
    capacitor-project/package.json by hand on each update, since the running
    web app has no runtime access to that build-time file. */
-var APP_VERSION = '5.1.5';
+var APP_VERSION = '5.1.6';
 var GITHUB_REPO = 'matthewtanika-dotcom/mp-policing-guide';
 
 window.addEventListener('error', function(e){
@@ -2773,6 +2808,73 @@ function jobSectionCounts(type, section, items){
   items.forEach(function(item, i){ if(checklistState['job:'+type+':'+section+'|'+i]) done++; });
   return { done:done, total:total };
 }
+/* ---- Job Mode: timeline + handover ---- */
+var JOB_TL_KEY='mpgJobTimeline_v1';
+function loadJobTl(){ try{ return JSON.parse(localStorage.getItem(JOB_TL_KEY))||{}; }catch(e){ return {}; } }
+var jobTl = loadJobTl();
+function saveJobTl(){ try{ localStorage.setItem(JOB_TL_KEY, JSON.stringify(jobTl)); }catch(e){} }
+var JOB_STAMPS=['Arrived','Scene made safe','Victim spoken to','Suspect identified','Caution given','Arrest made','Evidence seized','Handed over'];
+function jobClock(ts){ var d=new Date(ts); return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
+function jobHandoverText(type){
+  var extras=JOB_EXTRAS[type]||{}, out=[];
+  var tl=jobTl[type]||[];
+  var started=tl.length?new Date(tl[0].t):new Date();
+  out.push('JOB: '+type+' - '+started.toLocaleDateString('en-GB')+' '+jobClock(started.getTime()));
+  out.push('');
+  out.push('TIMELINE:');
+  if(!tl.length) out.push('(no entries)');
+  tl.forEach(function(e){ out.push(jobClock(e.t)+' '+e.x); });
+  out.push('');
+  out.push('SAFETY QUESTIONS:');
+  SAFETY_QUESTIONS.forEach(function(q){ var a=jobSafety['job:'+type+':safetyq:'+q[0]]; out.push('- '+q[1]+' '+(a?a.toUpperCase():'not answered')); });
+  out.push('');
+  out.push('CHECKLIST PROGRESS:');
+  var gaps=[];
+  JOB_STAGE_ORDER.forEach(function(sec){
+    var items=JOB_BASE[sec].slice(); if(extras[sec]) items=items.concat(extras[sec]);
+    var c=jobSectionCounts(type,sec,items);
+    out.push('- '+sec+': '+c.done+'/'+c.total);
+    if(c.done<c.total) gaps.push(sec+' ('+(c.total-c.done)+' outstanding)');
+  });
+  out.push('');
+  out.push('OUTSTANDING: '+(gaps.length?gaps.join('; '):'none'));
+  out.push('');
+  out.push('Unofficial aid. Verify legislation and SPCoP before relying on this.');
+  return out.join('\n');
+}
+function jobModeBlocks(type, list, afterEl){
+  var tlCard=compactCard('Job timeline','One tap to stamp an event');
+  var chips=document.createElement('div'); chips.className='chipbar'; chips.style.flexWrap='wrap';
+  var log=document.createElement('div'); log.className='job-tl';
+  function drawLog(){
+    var tl=jobTl[type]||[]; log.innerHTML='';
+    if(!tl.length){ log.innerHTML='<div class="note" style="margin-top:6px">No entries yet. Tap an event above.</div>'; return; }
+    tl.forEach(function(e,i){
+      var r=document.createElement('div'); r.className='job-tl-row';
+      r.innerHTML='<span class="job-tl-t">'+jobClock(e.t)+'</span><span class="job-tl-x"></span><button class="job-tl-del" aria-label="Remove entry">x</button>';
+      r.querySelector('.job-tl-x').textContent=e.x;
+      r.querySelector('.job-tl-del').addEventListener('click',function(){ jobTl[type].splice(i,1); saveJobTl(); drawLog(); });
+      log.appendChild(r);
+    });
+  }
+  function stamp(txt){ (jobTl[type]=jobTl[type]||[]).push({t:Date.now(),x:txt}); saveJobTl(); drawLog(); }
+  JOB_STAMPS.forEach(function(n){ var c=document.createElement('button'); c.className='chip'; c.textContent=n; c.addEventListener('click',function(e){ e.stopPropagation(); stamp(n); }); chips.appendChild(c); });
+  var row=document.createElement('div'); row.style.cssText='display:flex;gap:8px;margin-top:8px';
+  var inp=document.createElement('input'); inp.className='search'; inp.placeholder='Add a note'; inp.style.margin='0'; inp.style.flex='1';
+  var add=document.createElement('button'); add.className='settings-btn'; add.style.cssText='width:auto;margin:0;padding:0 16px'; add.textContent='Add';
+  add.addEventListener('click',function(){ var v=inp.value.trim(); if(v){ stamp(v); inp.value=''; } });
+  row.appendChild(inp); row.appendChild(add);
+  tlCard.body.appendChild(chips); tlCard.body.appendChild(row); tlCard.body.appendChild(log); drawLog();
+  var hv=compactCard('Handover summary','Built from your timeline, answers and ticks');
+  var pre=document.createElement('pre'); pre.className='job-handover';
+  var cp=document.createElement('button'); cp.className='settings-btn'; cp.style.marginTop='8px'; cp.textContent='Copy handover';
+  cp.addEventListener('click',function(e){ e.stopPropagation(); copyTextToClipboard(jobHandoverText(type),cp); });
+  hv.body.appendChild(pre); hv.body.appendChild(cp);
+  hv.card.querySelector('.card-head').addEventListener('click',function(){ pre.textContent=jobHandoverText(type); });
+  var sh=document.createElement('div'); sh.className='home-sub'; sh.textContent='Job tools';
+  list.insertBefore(sh,afterEl); list.insertBefore(tlCard.card,afterEl); list.insertBefore(hv.card,afterEl);
+  var sh2=document.createElement('div'); sh2.className='home-sub'; sh2.textContent='Stages'; list.insertBefore(sh2,afterEl);
+}
 function renderJob(type){
   var list = document.getElementById('jobList'); list.innerHTML='';
   var extras = JOB_EXTRAS[type] || {};
@@ -2793,6 +2895,7 @@ function renderJob(type){
     }, 'Reset');
   });
   list.appendChild(resetBtn);
+  jobModeBlocks(type, list, resetBtn);
 
   function updateOverall(){
     var totalDone = 0, totalAll = 0;
@@ -2835,6 +2938,11 @@ function renderJob(type){
       else { badge.textContent=newOutstanding+' outstanding'; badge.className='job-stage-badge outstanding'; }
       updateOverall();
     });
+    if(idx<JOB_STAGE_ORDER.length-1){
+      var nx=document.createElement('button'); nx.className='settings-btn'; nx.style.marginTop='10px'; nx.textContent='Next: '+JOB_STAGE_ORDER[idx+1];
+      nx.addEventListener('click',function(){ card.classList.remove('open'); var n=card.nextElementSibling; if(n){ n.classList.add('open'); n.scrollIntoView({block:'start',behavior:'smooth'}); } });
+      body.appendChild(nx);
+    }
     card.appendChild(head); card.appendChild(body);
     head.addEventListener('click', function(){ card.classList.toggle('open'); });
     list.appendChild(card);
@@ -3181,13 +3289,14 @@ var HOME_ICON_PATHS = {
   sx_cmp: '<path d="M12 4v16M5 8h14M5 8l-2 6h4L5 8Zm14 0-2 6h4l-2-6Z"/>',
   sx_svc: '<path d="M12 3 4 6v6c0 4.5 3.2 7.6 8 9 4.8-1.4 8-4.5 8-9V6l-8-3Z"/>',
   sexual: '<circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/>',
+  finder: '<circle cx="6" cy="5" r="2.2"/><circle cx="18" cy="12" r="2.2"/><circle cx="6" cy="19" r="2.2"/><path d="M6 7.2v9.6M8 5c6 0 8 2 8 5M8 19c6 0 8-2 8-5"/>',
   ndm: '<circle cx="12" cy="12" r="9"/><path d="m14.5 9.5-5 2 2-5 5-2-2 5Z"/>'
 };
 function svgIcon(key, size){
   return '<svg width="'+(size||22)+'" height="'+(size||22)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+HOME_ICON_PATHS[key]+'</svg>';
 }
 var HOME_SECTIONS = [
-  ['afa','AFA 2006','afa'],['civ','Civilian Offences','civ'],['ndm','National Decision Model','ndm'],['powers','MP Powers','powers'],
+  ['afa','AFA 2006','afa'],['civ','Civilian Offences','civ'],['ndm','National Decision Model','ndm'],['finder','Offence Finder','finder'],['powers','MP Powers','powers'],
   ['ident','Identification','ident'],['checklists','Checklists','checklists'],
   ['safeguard','Safeguarding','safeguard'],['offline','Offline & Searchable','search']
 ];
@@ -3805,6 +3914,234 @@ renderChips(document.getElementById('sgChips'), SG_CATS, function(cat){ renderSa
 renderSafeguard('All');
 
 
+
+/* ===================== OFFENCE FINDER ===================== */
+var FD_SRC = {
+  oapa:'CPS: Offences against the Person, incorporating the Charging Standard',
+  strang:'CPS: Strangulation and suffocation',
+  fraud:'CPS: Fraud Act 2006 legal guidance',
+  ccb:'CPS: Controlling or coercive behaviour in an intimate or family relationship',
+  stat:'Statute: check legislation.gov.uk for the current wording'
+};
+/* Results. app:[category,title] links to the offence entry in Civilian Offences. */
+var FD_R = {
+  common:{t:'Common assault or battery',ref:'Criminal Justice Act 1988 s.39',app:['Violence','Common assault'],jt:'Assault',src:'oapa',
+    why:'Intentionally or recklessly causing someone to fear, or to suffer, immediate unlawful force. Typical injuries per the CPS: grazes, scratches, abrasions, minor bruising, swelling, reddened skin and superficial cuts. Summary only.',
+    tips:['If marks worsen or new injuries appear later, revisit ABH.','If the victim is an emergency worker, consider the specific emergency worker offence.','If hostility based on race or religion was shown, the CPS says to consider the aggravated offence under s.28 Crime and Disorder Act 1998.'],also:['emerg']},
+  abh:{t:'Assault occasioning actual bodily harm',ref:'Offences Against the Person Act 1861 s.47',app:['Violence','Assault occasioning actual bodily harm (ABH)'],jt:'Assault',src:'oapa',
+    why:'An assault that causes harm that is more than transient or trifling. CPS typical examples: damaged teeth or bones, extensive or severe bruising, cuts needing stitches, loss of consciousness. Psychological harm counts only if it is a recognised psychiatric illness, supported by medical evidence.',
+    tips:['Obtain medical evidence or clear photographs of the harm.','Level of injury is not the only factor: weapons, a vulnerable victim, repeated conduct, threats and domestic abuse context all matter.','If there is clear evidence of strangulation or suffocation, the CPS says to charge that offence rather than ABH.'],also:['strang','emerg']},
+  s20:{t:'Unlawful wounding or inflicting grievous bodily harm',ref:'Offences Against the Person Act 1861 s.20',app:['Violence','Wounding or grievous bodily harm (GBH)'],jt:'Assault',src:'oapa',
+    why:'A wound (a break in the continuity of the skin) or really serious harm, where the person intended or foresaw that some harm might result. Really serious harm is judged in the victim’s real context, including age, health and vulnerability.',
+    tips:['CPS: where a knife is used to wound, s.20 or s.18 is almost always the appropriate charge.','Take medical evidence describing the injury and treatment.'],also:['s18']},
+  s18:{t:'Wounding or GBH with intent',ref:'Offences Against the Person Act 1861 s.18',app:['Violence','Wounding or GBH with intent'],jt:'Assault',src:'oapa',
+    why:'As s.20 but the person intended to cause really serious harm. CPS: evidence of intent can include weapon selection, the severity or duration of the attack, previous threats or planning, and admissions in interview. Indictable only.',
+    tips:['Record anything said before, during and after the attack.','Section 20 is often considered as an alternative.']},
+  strang:{t:'Non-fatal strangulation or suffocation',ref:'Serious Crime Act 2015 s.75A',app:['Violence','Non-fatal strangulation or suffocation'],jt:'Domestic abuse',src:'strang',
+    why:'Intentionally strangling someone (no particular force, injury or intent to kill is needed), or another act that affects their ability to breathe and is a battery. Applies to all cases, not only domestic abuse.',
+    tips:['CPS: where there is clear and credible evidence, charge this rather than ABH or common assault, even with little or no visible injury.','Ask about breathing, throat and neck pain, voice changes, dizziness, headaches and memory loss. Injuries can appear later.','Consider other offences too, such as rape, s.18 or controlling or coercive behaviour.']},
+  emerg:{t:'Assault of an emergency worker',ref:'Assault on Emergency Workers (Offences) Act 2018',app:['Violence','Assault of an emergency worker'],jt:'Assault',src:'stat',why:'Applies where the victim was acting as an emergency worker, such as police, fire, ambulance or NHS staff, in the exercise of their functions.',tips:[]},
+  murder:{t:'Murder or manslaughter',ref:'Common law',app:['Violence','Murder'],jt:'Assault',src:'stat',why:'Where a person has died or is in danger of dying, treat as critical. Declare the incident, secure the scene and follow Service Police serious crime procedures.',tips:['NEEDS VERIFICATION: confirm the notification route for your service and current Schedule 2 procedures.'],also:['mansl']},
+  mansl:{t:'Manslaughter',ref:'Common law',app:['Violence','Manslaughter'],jt:'Assault',src:'stat',why:'Unlawful killing without the intent required for murder.',tips:[]},
+  threat:{t:'Threats to kill',ref:'Offences Against the Person Act 1861 s.16',app:['Violence','Threats to kill'],jt:'Domestic abuse',src:'stat',why:'A threat, without lawful excuse, to kill, intending the person to fear it would be carried out.',tips:['Record the exact words and preserve any messages or voice notes.','Assess immediate risk to the person threatened.']},
+  ccb:{t:'Controlling or coercive behaviour',ref:'Serious Crime Act 2015 s.76',app:['Domestic Abuse','Controlling or coercive behaviour'],jt:'Domestic abuse',src:'ccb',
+    why:'Repeated or continuous controlling or coercive behaviour towards a personally connected person, which has a serious effect, where the suspect knew or ought to have known it would. A single incident is not enough. The people need not live together, and former partners can be covered. Maximum five years.',
+    tips:['CPS: consider stalking (s.4A) first where there is sufficient evidence, then harassment where fear of violence is shown (s.4), and controlling or coercive behaviour where those cannot be proved.','Other serious offences, such as sexual or serious violence offences, should usually be charged separately.','Build a timeline of incidents, with dates, from the victim and from messages, social media and financial records.'],also:['stalk','harass']},
+  stalk:{t:'Stalking',ref:'Protection from Harassment Act 1997 s.2A / s.4A',app:['Harassment & Stalking','Stalking'],jt:'Domestic abuse',src:'ccb',
+    why:'A course of conduct amounting to harassment that is associated with stalking behaviours such as following, contacting, watching or spying, loitering, or monitoring online. Section 4A applies where it causes fear of violence or serious alarm or distress with a substantial adverse effect. CPS lists a 10 year maximum for s.4A.',
+    tips:['Record every incident with date, time and method, and preserve digital evidence.','Complete a stalking risk assessment and consider protective measures with the victim.','NEEDS VERIFICATION: confirm the current stalking protection order and risk assessment process for Service Police use.']},
+  harass:{t:'Harassment',ref:'Protection from Harassment Act 1997 s.2 / s.4',app:['Harassment & Stalking','Harassment'],jt:'Domestic abuse',src:'ccb',
+    why:'A course of conduct (two or more occasions) that amounts to harassment of another person. Where it puts the person in fear of violence on at least two occasions, s.4 applies and carries a higher maximum (the CPS lists 10 years).',
+    tips:['Check whether stalking behaviours are present, in which case stalking may be the better fit.','Preserve messages, call logs and witness accounts for each occasion.']},
+  comms:{t:'Malicious or offensive communications',ref:'Malicious Communications Act 1988 s.1 / Communications Act 2003 s.127',app:['Communications','Malicious communications'],jt:'Other',src:'stat',why:'Sending messages that are indecent, grossly offensive, threatening or false, intending to cause distress or anxiety, or improper use of a public electronic communications network.',tips:['Screenshot with date and time, and record the sender account details before anything is deleted.','If it is part of repeated behaviour, consider harassment or stalking.'],also:['harass']},
+  robbery:{t:'Robbery',ref:'Theft Act 1968 s.8',app:['Property','Robbery'],jt:'Theft',src:'stat',why:'Theft where force, or the threat of force, was used on any person immediately before or at the time of the theft, in order to steal.',tips:['Both the theft and the force or threat must be proved.','Consider whether a weapon was used and whether injuries bring in a further offence.'],also:['theft']},
+  aggburg:{t:'Aggravated burglary',ref:'Theft Act 1968 s.10',app:['Property','Aggravated burglary'],jt:'Theft',src:'stat',why:'Burglary where the person had with them a firearm or imitation firearm, a weapon of offence, or an explosive at the time.',tips:['Secure and exhibit any weapon safely and consider armed support.']},
+  burglary:{t:'Burglary',ref:'Theft Act 1968 s.9',app:['Property','Burglary'],jt:'Theft',src:'stat',why:'Entering a building or part of one as a trespasser with intent to steal, inflict grievous bodily harm or do unlawful damage, or, having entered as a trespasser, stealing or attempting to inflict GBH.',tips:['NEEDS VERIFICATION: confirm the current wording of s.9 before use.']},
+  theft:{t:'Theft',ref:'Theft Act 1968 s.1',app:['Property','Theft'],jt:'Theft',src:'stat',why:'Dishonestly appropriating property belonging to another with the intention of permanently depriving them of it.',tips:['Establish ownership, value, and any claim of right the suspect may raise.','If deception was used to get the property or money, fraud may be the better fit. The CPS notes fraud does not need an intent to permanently deprive and carries a higher maximum.'],also:['fraud2']},
+  damage:{t:'Criminal damage',ref:'Criminal Damage Act 1971 s.1',app:['Property','Criminal damage'],jt:'Criminal damage',src:'stat',why:'Without lawful excuse, destroying or damaging property belonging to another, intending to or being reckless as to damage.',tips:['Photograph before repair and obtain a valuation.']},
+  arson:{t:'Arson',ref:'Criminal Damage Act 1971 s.1(3)',app:['Property','Arson'],jt:'Criminal damage',src:'stat',why:'Criminal damage by fire.',tips:['Preserve the scene for fire investigators and consider risk to life.']},
+  handling:{t:'Handling stolen goods',ref:'Theft Act 1968 s.22',app:['Property','Handling stolen goods'],jt:'Theft',src:'stat',why:'Dishonestly receiving, or arranging to receive or dispose of, goods knowing or believing them to be stolen.',tips:['Evidence of knowledge or belief is key: price paid, circumstances, explanations.']},
+  blackmail:{t:'Blackmail',ref:'Theft Act 1968 s.21',app:['Property','Blackmail'],jt:'Theft',src:'stat',why:'Making an unwarranted demand with menaces, with a view to gain for yourself or another, or intending loss to another.',tips:['Preserve the demand and the evidence of menaces.']},
+  makeoff:{t:'Making off without payment',ref:'Theft Act 1978 s.3',app:['Fraud','Making off without payment'],jt:'Theft',src:'stat',why:'Knowing payment on the spot is required, dishonestly making off without paying, intending to avoid payment.',tips:['CCTV and till records are usually decisive.']},
+  equipped:{t:'Going equipped',ref:'Theft Act 1968 s.25',app:['Property','Going equipped'],jt:'Theft',src:'stat',why:'Having with you, away from home, any article for use in connection with burglary, theft or cheating.',tips:['Record the location, the article and what was said about its purpose.']},
+  fraud2:{t:'Fraud by false representation',ref:'Fraud Act 2006 s.2',app:['Fraud','Fraud by false representation'],jt:'Other',src:'fraud',
+    why:'Dishonestly making a false representation, knowing it was or might be untrue or misleading, intending to make a gain or cause a loss or risk of loss. The representation can be express, implied or by conduct, and can be made to a machine.',
+    tips:['CPS: the offence is complete without any actual gain or loss. Do not put the gain or loss in the charge.','CPS: many cases could be fraud or theft. Choose the offence that reflects what actually happened.','Evidence must show the representation was communicated to a person or a machine.'],also:['cma']},
+  fraud3:{t:'Fraud by failing to disclose information',ref:'Fraud Act 2006 s.3',app:['Fraud','Fraud by failing to disclose information'],jt:'Other',src:'fraud',why:'Dishonestly failing to disclose information you are under a legal duty to disclose, intending a gain or loss. Complete on the failure, with no deception or actual gain or loss needed. The duty can arise from statute, contract, a fiduciary relationship, trade custom or utmost good faith.',tips:['Identify exactly where the legal duty comes from before charging.']},
+  fraud4:{t:'Fraud by abuse of position',ref:'Fraud Act 2006 s.4',app:['Fraud','Fraud by abuse of position'],jt:'Other',src:'fraud',why:'Dishonestly abusing a position in which you are expected to safeguard, or not act against, another’s financial interests, intending a gain or loss. The abuse can be an omission. Examples: employees, directors, trustees, carers and attorneys.',tips:['Document the position held, what was expected of the person, and what was done or not done.']},
+  services:{t:'Obtaining services dishonestly',ref:'Fraud Act 2006 s.11',app:['Fraud','Obtaining services dishonestly'],jt:'Other',src:'fraud',why:'Dishonestly obtaining services that are made available on the basis of payment, knowing payment is required, and avoiding payment in whole or part. The intention must exist when the service is obtained.',tips:['Services must be chargeable. Free services do not qualify.']},
+  articles:{t:'Possession or making of articles for use in fraud',ref:'Fraud Act 2006 s.6 / s.7',app:['Fraud','Possession of articles for use in frauds'],jt:'Other',src:'fraud',why:'Section 6: possessing or controlling an article intending it to be used in fraud, including electronic programs and data. There is no reasonable excuse defence. Section 7: making, adapting, supplying or offering to supply such an article.',tips:['Examples: card skimmers, cloned cards, phishing kits.'],also:['articles7']},
+  articles7:{t:'Making or supplying articles for use in frauds',ref:'Fraud Act 2006 s.7',app:['Fraud','Making or supplying articles for use in frauds'],jt:'Other',src:'fraud',why:'Making, adapting, supplying or offering to supply an article knowing it is designed or adapted for fraud, or intending it to be used for fraud.',tips:[]},
+  falseacc:{t:'False accounting',ref:'Theft Act 1968 s.17',app:['Fraud','False accounting'],jt:'Other',src:'stat',why:'Dishonestly destroying, falsifying or concealing an account or record for gain or to cause loss, or using a false or misleading record.',tips:['NEEDS VERIFICATION: confirm the current wording of s.17.']},
+  forge:{t:'Forgery and use of false instruments',ref:'Forgery and Counterfeiting Act 1981 ss.1 to 5',app:['Fraud','Forgery, counterfeiting and use of false instruments'],jt:'Other',src:'stat',why:'Making, copying or using a false instrument, such as a forged document or card, intending it to be accepted as genuine.',tips:['Exhibit the instrument carefully and record who handled it.']},
+  cma:{t:'Unauthorised access to computer material',ref:'Computer Misuse Act 1990 s.1',app:['Cyber & Data','Unauthorised access to computer material'],jt:'Other',src:'stat',why:'Causing a computer to perform a function to secure unauthorised access to a program or data, knowing the access is unauthorised. Relevant where accounts are taken over.',tips:['Preserve IP logs, device details and account access records quickly.']},
+  laundering:{t:'Money laundering',ref:'Proceeds of Crime Act 2002 ss.327 to 329',app:['Financial Crime','Money laundering'],jt:'Other',src:'stat',why:'Concealing, disguising, converting, transferring or acquiring criminal property, or being concerned in an arrangement relating to it.',tips:['Seek financial investigator support early.']},
+  rape:{t:'Rape',ref:'Sexual Offences Act 2003 s.1',app:['Sexual Offences','Rape'],jt:'Sexual offence',src:'stat',why:'Intentional penetration of the vagina, anus or mouth with a penis, where the other person does not consent and the suspect does not reasonably believe they consent.',tips:['Specialist-led handling and early evidence capture are essential. See the Sexual Offences section for consent and the s.75 and s.76 presumptions.','NEEDS VERIFICATION: confirm Service Police notification routes and Schedule 2 procedures.'],also:['abp']},
+  abp:{t:'Assault by penetration',ref:'Sexual Offences Act 2003 s.2',app:['Sexual Offences','Assault by penetration'],jt:'Sexual offence',src:'stat',why:'Intentional sexual penetration of the vagina or anus with a part of the body or anything else, without consent and without reasonable belief in consent.',tips:['See the Sexual Offences section for consent and presumptions.']},
+  sexassault:{t:'Sexual assault',ref:'Sexual Offences Act 2003 s.3',app:['Sexual Offences','Sexual assault'],jt:'Sexual offence',src:'stat',why:'Intentional sexual touching without consent and without reasonable belief in consent.',tips:['See the Sexual Offences section for consent and presumptions.']},
+  causing:{t:'Causing a person to engage in sexual activity without consent',ref:'Sexual Offences Act 2003 s.4',app:['Sexual Offences','Causing a person to engage in sexual activity without consent'],jt:'Sexual offence',src:'stat',why:'Intentionally causing another person to engage in sexual activity without their consent and without reasonable belief in consent.',tips:[]},
+  child13:{t:'Rape of a child under 13',ref:'Sexual Offences Act 2003 s.5',app:['Sexual Offences','Rape of a child under 13'],jt:'Sexual offence',src:'stat',why:'Intentional penetration with a penis of a child under 13. Consent is not a defence.',tips:['Treat as a safeguarding priority and follow specialist child protection procedures.'],also:['child13b']},
+  child13b:{t:'Sexual assault of a child under 13',ref:'Sexual Offences Act 2003 s.7',app:['Sexual Offences','Sexual assault of a child under 13'],jt:'Sexual offence',src:'stat',why:'Intentional sexual touching of a child under 13.',tips:['Treat as a safeguarding priority and follow specialist child protection procedures.']},
+  child16:{t:'Sexual activity with a child',ref:'Sexual Offences Act 2003 s.9',app:['Sexual Offences','Sexual activity with a child'],jt:'Sexual offence',src:'stat',why:'Sexual activity involving a child aged under 16.',tips:['Consider grooming offences and safeguarding referrals.'],also:['groom']},
+  groom:{t:'Meeting a child following sexual grooming',ref:'Sexual Offences Act 2003 s.15',app:['Sexual Offences','Meeting a child following sexual grooming'],jt:'Sexual offence',src:'stat',why:'Meeting, or travelling to meet, a child under 16 following earlier contact, with intent to commit a sexual offence.',tips:[]},
+  affray:{t:'Affray',ref:'Public Order Act 1986 s.3',app:['Public Order','Affray'],jt:'Public order',src:'stat',why:'Using or threatening unlawful violence towards another in a way that would cause a person of reasonable firmness present at the scene to fear for their personal safety.',tips:['Identify witnesses and CCTV early, as these incidents are often contested.']},
+  vd:{t:'Violent disorder',ref:'Public Order Act 1986 s.2',app:['Public Order','Violent disorder'],jt:'Public order',src:'stat',why:'Three or more people present together using or threatening unlawful violence, in a way that would cause a person of reasonable firmness to fear for their safety.',tips:['Where twelve or more are involved, riot (s.1) may apply. NEEDS VERIFICATION: confirm the thresholds in the Act.']},
+  had:{t:'Threatening or abusive behaviour causing harassment, alarm or distress',ref:'Public Order Act 1986 s.4A / s.5',app:['Public Order','Causing harassment, alarm or distress'],jt:'Public order',src:'stat',why:'Threatening or abusive words or behaviour, within the hearing or sight of a person likely to be caused harassment, alarm or distress.',tips:['Record the exact words and who was affected.']},
+  bladed:{t:'Possession of a bladed article',ref:'Criminal Justice Act 1988 s.139',app:['Weapons','Possession of a bladed article'],jt:'Weapons',src:'stat',why:'Having a bladed or sharply pointed article with you in a public place without good reason or lawful authority.',tips:['NEEDS VERIFICATION: confirm current exceptions and wording.']},
+  offweap:{t:'Possession of an offensive weapon',ref:'Prevention of Crime Act 1953 s.1',app:['Weapons','Possession of an offensive weapon'],jt:'Weapons',src:'stat',why:'Having an offensive weapon in a public place without lawful authority or reasonable excuse. Offensive means made or adapted to cause injury, or intended by the person to be used for that.',tips:['NEEDS VERIFICATION: confirm current provisions, including any recent changes to offensive weapons law.']},
+  firearm:{t:'Possession of a firearm without a certificate',ref:'Firearms Act 1968 s.1',app:['Weapons','Possession of a firearm without a certificate'],jt:'Weapons',src:'stat',why:'Possessing a firearm or ammunition that needs a certificate without holding one.',tips:['Make the weapon safe first and seize it following current handling procedures.']},
+  firearm16:{t:'Possession of a firearm with intent to endanger life',ref:'Firearms Act 1968 s.16',app:['Weapons','Possession of a firearm with intent to endanger life'],jt:'Weapons',src:'stat',why:'Possessing a firearm or ammunition with intent to endanger life, or enabling another to do so.',tips:['Seek specialist support immediately.']},
+  drug5:{t:'Possession of a controlled drug',ref:'Misuse of Drugs Act 1971 s.5(2)',app:['Drugs','Possession of a controlled drug'],jt:'Drugs',src:'stat',why:'Having a controlled drug in your possession.',tips:['Seize and exhibit following current packaging procedures.'],also:['drug53']},
+  drug53:{t:'Possession with intent to supply',ref:'Misuse of Drugs Act 1971 s.5(3)',app:['Drugs','Possession with intent to supply'],jt:'Drugs',src:'stat',why:'Possession together with intent to supply. Look for scales, multiple wraps, cash, or messages referring to sales.',tips:[]},
+  drug4:{t:'Supply of a controlled drug',ref:'Misuse of Drugs Act 1971 s.4(3)',app:['Drugs','Supply of a controlled drug'],jt:'Drugs',src:'stat',why:'Supplying or offering to supply a controlled drug.',tips:[]}
+};
+/* Questions. Option: [label, sub-text, next]. Next starting with "R:" lists result keys. */
+var FD_Q = {
+  start:{q:'What is the main thing that happened?',help:'Pick the closest match. You can go back at any time.',o:[
+    ['Violence or injury','Assault, wounding, strangulation','vio'],
+    ['Domestic abuse or control','Partners, ex-partners, family','dom'],
+    ['Threats, harassment or stalking','Repeated contact, following, messages','har'],
+    ['Property taken or damaged','Theft, robbery, burglary, damage','pr1'],
+    ['Fraud or dishonesty','Lying, false documents, abuse of trust','fr1'],
+    ['Sexual conduct','Consent and presumptions','sx1'],
+    ['Weapons','Knives, offensive weapons, firearms','wp1'],
+    ['Drugs','Possession and supply','dr1'],
+    ['Disorder in public','Fights, groups, abusive behaviour','po1']]},
+  vio:{q:'What best describes the contact and any injury?',help:'Based on the CPS charging standard. Pick the most serious thing the evidence supports. Level of injury is not the only factor.',src:'oapa',o:[
+    ['Fear of force only, no contact','Threatened to hit, raised a fist','R:common'],
+    ['Contact with no injury or only minor marks','Grazes, scratches, light bruising, redness','R:common'],
+    ['Hands on the neck, or anything affecting breathing','Strangling, smothering, covering mouth and nose','R:strang'],
+    ['Injury more than minor','Teeth or bone damage, extensive bruising, cuts needing stitches, loss of consciousness','R:abh'],
+    ['A wound or really serious harm','Break in the skin, significant or sustained treatment, life-changing harm','vio2'],
+    ['The person has died or may die','Critical incident','R:murder']]},
+  vio2:{q:'What is the evidence about intent?',help:'Section 18 needs intent to cause really serious harm or wounding. Section 20 needs intent or foresight that some harm might result.',src:'oapa',o:[
+    ['Evidence of intent to cause serious harm','Weapon chosen, sustained attack, prior threats or planning, admissions','R:s18'],
+    ['No clear intent for serious harm, but harm was foreseeable','Reckless as to some harm','R:s20']]},
+  dom:{q:'Is it a single incident or a pattern of behaviour?',help:'Domestic abuse covers physical, sexual, emotional, financial and controlling behaviour between people who are personally connected.',src:'ccb',o:[
+    ['A single violent incident','Hitting, injury, strangulation','vio'],
+    ['A threat to kill','Words or messages','R:threat'],
+    ['Repeated control, isolation, monitoring or financial control','Pattern over time','dom2'],
+    ['Following, watching or constant contact after separation','Stalking type behaviour','har2']]},
+  dom2:{q:'Are the people personally connected?',help:'CPS: partners or former partners, those engaged, relatives, or parents of the same child. Living together is not required.',src:'ccb',o:[
+    ['Yes','Partner, ex-partner, family or parent of the same child','dom3'],
+    ['No','Neighbour, acquaintance, stranger','har2']]},
+  dom3:{q:'What effect has the behaviour had on the victim?',help:'Serious effect means the victim feared violence on at least two occasions, or serious alarm or distress had a substantial adverse effect on their usual day-to-day activities. The suspect must know or ought to know the behaviour would have that effect.',src:'ccb',o:[
+    ['Feared violence on at least two occasions','Or serious alarm or distress affecting daily life','R:ccb'],
+    ['Distressed, but not at that level, or evidence is thin','Keep building the timeline','R:harass,ccb']]},
+  har:{q:'What is the behaviour?',help:'',o:[
+    ['Repeated unwanted contact, following, monitoring or turning up','Two or more occasions','har2'],
+    ['A threat to kill','Words or messages','R:threat'],
+    ['Abusive or threatening messages or posts','Phone, social media, email','R:comms'],
+    ['Abusive or threatening behaviour in public','Words or actions','po1']]},
+  har2:{q:'Which describes the behaviour best?',help:'CPS: stalking is harassment associated with behaviours such as following, contacting, watching or spying, loitering and monitoring online.',src:'ccb',o:[
+    ['Stalking behaviours with fear of violence, or serious alarm or distress','Following, watching, loitering, monitoring','R:stalk,harass'],
+    ['Repeated harassing conduct, not stalking behaviours','Calls, messages, visits','R:harass,stalk'],
+    ['Intimate or family relationship with controlling behaviour','Consider coercive control','R:ccb,stalk']]},
+  pr1:{q:'Was force or the threat of force used to take it?',help:'Robbery is theft where force, or the threat of force, is used immediately before or at the time of the theft.',o:[
+    ['Yes','Force or a threat used on a person','R:robbery'],
+    ['No force','','pr2']]},
+  pr2:{q:'Did the person enter a building or part of one?',help:'',o:[
+    ['Yes','House, shop, outbuilding, a room','pr3'],
+    ['No','Taken from the open, from a person, from a shop floor','pr4']]},
+  pr3:{q:'Did they enter as a trespasser with intent to steal, cause serious harm or damage, or steal once inside?',help:'Burglary requires entry as a trespasser.',o:[
+    ['Yes, and they had a weapon, firearm or explosive','Aggravated','R:aggburg,burglary'],
+    ['Yes','','R:burglary'],
+    ['No, they were lawfully there','Consider theft','R:theft']]},
+  pr4:{q:'What happened to the property?',help:'',o:[
+    ['Taken dishonestly, owner deprived','','R:theft'],
+    ['Damaged or destroyed','','pr5'],
+    ['Received or sold knowing it was stolen','','R:handling'],
+    ['Demanded with menaces, for gain','','R:blackmail'],
+    ['Left without paying after a meal, fuel or a service','','R:makeoff'],
+    ['Carrying tools or items for burglary or theft','','R:equipped'],
+    ['Obtained by lying or false documents','','fr1']]},
+  pr5:{q:'Was the damage caused by fire?',help:'',o:[
+    ['Yes','','R:arson'],['No','','R:damage']]},
+  fr1:{q:'How was the dishonesty carried out?',help:'CPS: fraud is committed under s.2, s.3 or s.4 of the Fraud Act 2006. The conduct must be dishonest, with intent to gain or cause loss. No actual gain or loss is needed for the offence to be complete.',src:'fraud',o:[
+    ['A false statement or act','Lying, false identity, using a card or account falsely','R:fraud2,theft'],
+    ['Failing to tell someone what they had a legal duty to tell','Concealing information','R:fraud3'],
+    ['Abusing a trusted financial position','Employee, director, carer, attorney','R:fraud4'],
+    ['Obtaining a paid service without paying','','R:services'],
+    ['Equipment or data for fraud','Skimmers, cloned cards, phishing kits','R:articles'],
+    ['Falsified accounts or records','','R:falseacc'],
+    ['Forged documents or cards','','R:forge'],
+    ['Taking over an account without permission','','R:cma,fraud2'],
+    ['Moving or hiding criminal money','','R:laundering'],
+    ['Left without paying for goods or a meal','','R:makeoff']]},
+  sx1:{q:'Was the person under 13?',help:'Consent is not a defence for offences against a child under 13. Specialist handling and safeguarding apply. See the Sexual Offences section for consent and the s.75 and s.76 presumptions.',src:'stat',o:[
+    ['Yes, under 13','','sx3'],
+    ['No, a child aged 13 to 15','','R:child16'],
+    ['No, an adult or 16 and over','','sx2']]},
+  sx2:{q:'What was the nature of the act?',help:'For the first four, the person must not consent and the suspect must not reasonably believe they consent.',src:'stat',o:[
+    ['Penetration with a penis (vagina, anus or mouth)','','R:rape'],
+    ['Penetration with a body part or object (vagina or anus)','','R:abp'],
+    ['Sexual touching','','R:sexassault'],
+    ['Made someone engage in sexual activity','','R:causing']]},
+  sx3:{q:'What was the nature of the act?',help:'',o:[
+    ['Penetration with a penis','','R:child13'],
+    ['Sexual touching or other sexual act','','R:child13b']]},
+  wp1:{q:'What was the item?',help:'Confirm current provisions on legislation.gov.uk, as weapons law has changed in recent years.',o:[
+    ['A knife or sharply pointed article','','R:bladed,offweap'],
+    ['Another item made, adapted or intended to cause injury','','R:offweap'],
+    ['A firearm or ammunition, no certificate','','wp2']]},
+  wp2:{q:'Was there intent to endanger life?',help:'',o:[
+    ['Yes','','R:firearm16'],['No evidence of that','','R:firearm']]},
+  dr1:{q:'What was the person doing with the drug?',help:'',o:[
+    ['Only possessing it for personal use','','R:drug5'],
+    ['Possessing it with signs of supply','Scales, multiple wraps, cash, messages','R:drug53'],
+    ['Supplying or offering it to others','','R:drug4']]},
+  po1:{q:'What best describes it?',help:'',o:[
+    ['Violence or threats that would make a bystander fear for their safety','','R:affray'],
+    ['Three or more people using or threatening violence together','','R:vd'],
+    ['Threatening or abusive words or behaviour causing harassment, alarm or distress','','R:had']]}
+};
+var finderPath = [], finderNode = 'start';
+function finderReset(){ finderPath=[]; finderNode='start'; finderDraw(); }
+function finderBack(){ var p=finderPath.slice(0,-1); finderPath=[]; finderNode='start'; p.forEach(function(l){ var q=FD_Q[finderNode]; if(!q) return; for(var i=0;i<q.o.length;i++){ if(q.o[i][0]===l){ finderPath.push(l); finderNode=q.o[i][2]; break; } } }); finderDraw(); window.scrollTo(0,0); }
+function finderResultCard(key, main){
+  var r=FD_R[key]; if(!r) return null;
+  var c=compactCard(r.t, r.ref); if(main) c.card.classList.add('open');
+  var b=c.body;
+  var fit=document.createElement('div'); fit.className='fd-fit'+(main?'':' consider'); fit.textContent=main?'LIKELY FIT':'ALSO CONSIDER'; b.appendChild(fit);
+  var w=document.createElement('p'); w.style.cssText='margin:0;font-size:0.84375rem;line-height:1.55'; w.textContent=r.why; b.appendChild(w);
+  (r.tips||[]).forEach(function(t){ var d=document.createElement('div'); d.className = t.indexOf('NEEDS VERIFICATION')===0 ? 'fd-ver' : 'fd-tip'; d.textContent=t; b.appendChild(d); });
+  var src=document.createElement('div'); src.className='fd-src'; src.textContent='Source: '+(FD_SRC[r.src]||FD_SRC.stat); b.appendChild(src);
+  var row=document.createElement('div'); row.className='fd-btns';
+  var o=document.createElement('button'); o.className='settings-btn'; o.textContent='Points to prove'; o.addEventListener('click',function(e){ e.stopPropagation(); if(r.app) openOffence('civ', r.app[1], r.app[0]); });
+  var inv=document.createElement('button'); inv.className='settings-btn'; inv.textContent='Investigate'; inv.addEventListener('click',function(e){ e.stopPropagation(); goToTab('invest'); var si=document.getElementById('investSearch'); if(si){ si.value=r.app?r.app[1]:r.t; renderInvestList(si.value); } });
+  var add=document.createElement('button'); add.className='settings-btn'; add.textContent='Add to job'; add.addEventListener('click',function(e){ e.stopPropagation(); var t=r.jt||'Other'; (jobTl[t]=jobTl[t]||[]).push({t:Date.now(),x:'Offence considered: '+r.t+' ('+r.ref+')'}); saveJobTl(); add.textContent='Added to '+t; });
+  row.appendChild(o); row.appendChild(inv); row.appendChild(add); b.appendChild(row);
+  return c.card;
+}
+function finderDraw(){
+  var body=document.getElementById('finderBody'); if(!body) return; body.innerHTML='';
+  if(finderPath.length){ var bk=document.createElement('div'); bk.className='fd-back'; bk.textContent='‹ Back'; bk.addEventListener('click',finderBack); body.appendChild(bk); }
+  if(finderPath.length){ var cr=document.createElement('div'); cr.className='fd-crumbs'; finderPath.forEach(function(p){ var sp=document.createElement('span'); sp.textContent=p; cr.appendChild(sp); }); body.appendChild(cr); }
+  if(finderNode.indexOf('R:')===0){
+    var keys=finderNode.slice(2).split(',');
+    var h=document.createElement('div'); h.className='fd-q'; h.textContent='Offences to consider'; body.appendChild(h);
+    var hp=document.createElement('p'); hp.className='fd-help'; hp.textContent='Based on your answers. Confirm against the Act and current CPS and Service Prosecuting Authority guidance. The right charge depends on all the facts.'; body.appendChild(hp);
+    var shown={};
+    keys.forEach(function(k,i){ var cc=finderResultCard(k,i===0); if(cc){ body.appendChild(cc); shown[k]=1; } });
+    var more=[]; keys.forEach(function(k){ ((FD_R[k]||{}).also||[]).forEach(function(a){ if(!shown[a] && more.indexOf(a)<0) more.push(a); }); });
+    if(more.length){ var ah=document.createElement('div'); ah.className='home-sub'; ah.textContent='Also worth checking'; body.appendChild(ah); more.forEach(function(k){ var cc=finderResultCard(k,false); if(cc) body.appendChild(cc); }); }
+    var rs=document.createElement('button'); rs.className='settings-btn'; rs.style.marginTop='12px'; rs.textContent='Start again'; rs.addEventListener('click',finderReset); body.appendChild(rs);
+    return;
+  }
+  var q=FD_Q[finderNode];
+  var qe=document.createElement('div'); qe.className='fd-q'; qe.textContent=q.q; body.appendChild(qe);
+  if(q.help){ var he=document.createElement('p'); he.className='fd-help'; he.textContent=q.help+(q.src?' ('+FD_SRC[q.src]+')':''); body.appendChild(he); }
+  q.o.forEach(function(o){
+    var d=document.createElement('div'); d.className='fd-opt'; d.setAttribute('role','button'); d.tabIndex=0;
+    d.innerHTML='<div><b></b>'+(o[1]?'<small></small>':'')+'</div><div class="chev">›</div>';
+    d.querySelector('b').textContent=o[0]; if(o[1]) d.querySelector('small').textContent=o[1];
+    function pick(){ finderPath.push(o[0]); finderNode=o[2]; finderDraw(); window.scrollTo(0,0); }
+    d.addEventListener('click',pick); d.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } });
+    body.appendChild(d);
+  });
+}
+finderDraw();
+
 function compactSexualAndSettings(){
   var LABELS = { 'In outline, a person consents':'What counts as consent (s.74)', 'Section 1: Rape':'The four offences (ss.1 to 4)', 'For (a) and (b)':'Note on (a) and (b)', 'Examples given in the Explanatory':'Examples from the Explanatory Notes', 'Check SPCoP and current':'Service Police handling' };
   document.querySelectorAll('#view-sexual .sx-card, #view-sexual .sx-case').forEach(function(el){
@@ -3878,6 +4215,7 @@ function openSheet(){ return document.querySelector('.modal-overlay.open'); }
 function subLevelClose(){
   var c=document.getElementById('civCatPage'); if(c && c.style.display!=='none' && currentTab()==='civ') return civShowHub;
   var sx=document.querySelector('#view-sexual .sx-sub.active'); if(sx && sx.id!=='sxsub-hub' && currentTab()==='sexual') return function(){ sxShow('hub'); };
+  if(currentTab()==='finder' && typeof finderPath!=='undefined' && finderPath.length) return finderBack;
   var sp=document.getElementById('spCodePage'); if(sp && sp.style.display!=='none' && currentTab()==='reference') return spShowHub;
   if(currentTab()==='checklists' && typeof __clGroup!=='undefined' && __clGroup) return function(){ __clGroup=null; renderChecklistHub(''); window.scrollTo(0,0); };
   return null;
@@ -3939,6 +4277,7 @@ function activateTab(tabName){
   for(var v=0;v<views.length;v++) views[v].classList.remove('active');
   var target = document.getElementById('view-'+tabName);
   if(target) target.classList.add('active');
+  if(tabName==='finder' && typeof finderReset==='function'){ finderReset(); }
   if(tabName==='checklists'){ __clGroup=null; renderChecklistHub(document.getElementById('checklistSearch').value); }
   if(tabName==='reference' && !window.__spKeep){ spShowHub(); } if(tabName==='reference'){ window.__spKeep=false; }
   if(tabName==='sexual' && typeof sxShow==='function') sxShow('hub');
