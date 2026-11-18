@@ -1,14 +1,17 @@
-const CACHE_NAME = 'mp-policing-guide-v46';
+const CACHE_NAME = 'mp-policing-guide-v49';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './logo.png'
+  './logo.png',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png'
 ];
 
 self.addEventListener('install', function(event){
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache){ return cache.addAll(ASSETS); })
+    caches.open(CACHE_NAME).then(function(cache){ return Promise.all(ASSETS.map(function(a){ return cache.add(a).catch(function(){}); })); })
   );
   self.skipWaiting();
 });
@@ -31,7 +34,7 @@ self.addEventListener('fetch', function(event){
           if(event.request.method === 'GET' && response.status === 200){ cache.put(event.request, response.clone()); }
           return response;
         });
-      }).catch(function(){ return cached; });
+      }).catch(function(){ return cached || caches.match('./index.html'); });
     })
   );
 });
